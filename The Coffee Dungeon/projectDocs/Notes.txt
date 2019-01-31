@@ -1,0 +1,91 @@
+The Dungeon 3.0 - Coffee Edition
+
+GameGUI
+    Only controls graphical stuff, do last?
+    
+Monster
+    Monster stats
+    Spawn percentage?
+        Put same percentage monsters in an array, weighted random select an array even random a monster from within
+        
+        weights = double array of weights (Adding to 1.0)
+        
+        for(int i = 0; i < weights.length; i++)
+        {
+            sum += weights[i];
+            if(num <= sum)
+            {
+                output = i;
+            }
+        }
+        
+Horde
+    Handles monsters and weights?
+        
+Player
+    Player stats and inventory
+    
+Dungeon
+    Handles Rooms?
+    weights, rewards?
+    
+Room
+    Room stats?
+    Figure out room reward implementation
+        Deprecated
+            Rooms have weights for different items!!!!!
+        
+        Room classes implement Room interface
+            An array of Room can access interface funcs even if different classes
+            giveLoot(Player player)
+        
+Action
+    Controls gameplay, rand gens, and player
+
+
+DONE
+1) Room reward implementation
+
+2) Player/ Monster
+    Monster initialization
+        .CSV
+
+3) Room/ Dungeon        
+        
+TO-DO        
+
+TEST IMPLEMENTS/EXTEND CAPABILITIES
+    implements gives ability to call same function even if different class?
+
+        
+4) Action
+    Combat actions
+    
+5) GameGUI
+    Player interaction
+    Tutorial?
+    
+6) Monster/Room lists
+7) Boss?
+
+
+////////////////
+Get next 3 rooms
+stick in array, pass names to GUI
+get index from GUI
+set room as active
+get monster
+pass stats to GUI
+combat
+get loot weights from active room
+give loot
+repeat
+
+//////
+COMBAT
+get action
+do action
+check resolve
+    1 change to new rooms
+    0 continue combat
+    -1 lose
