@@ -232,7 +232,7 @@ public class GameGUI extends JFrame implements ActionListener
         String[] stats = action.getPlayerStats();
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
-        playPots.setText(stats[2]);   
+        //TODO playPots.setText(stats[2]);   
     }
     
     /**
@@ -262,9 +262,9 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setCombatBtn()
     {
-        btnOne.setText("ATK");
-        btnTwo.setText("MAG");
-        btnThree.setText("POT");
+        btnOne.setText("ATTACK");
+        btnTwo.setText("MAGIC");
+        btnThree.setText("ITEM");
     }
     
     /**

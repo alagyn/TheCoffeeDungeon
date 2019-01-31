@@ -49,6 +49,17 @@ public class Inventory
     {
         this.items = items;
     }
+
+    //Gold
+    public int getGold()
+    {
+        return gold;
+    }
+
+    public void addGold(int gold)
+    {
+        this.gold += gold;
+    }
     
     
 }
