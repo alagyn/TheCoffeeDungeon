@@ -8,9 +8,16 @@ import java.awt.*;
 import java.awt.event.*;
 //import java.util.*;
 
+/**
+ * The main Game GUI
+ * @author benki
+ *
+ */
 public class GameGUI extends JFrame implements ActionListener
 {
+    /**Reference to action*/
     private Action action;
+    /**True if room text needs to be shown*/
     private boolean rooms;
     
     private JPanel top;
@@ -29,13 +36,13 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextField playMana;
     private JTextField playPots;
     
+    /**Background color*/
     private static final Color backcolor = new Color(220, 220, 220);
+    /**Text color*/
     private static final Color textColor = new Color(20, 20, 20);
     
-    private static final int 
-        WIDTH = 400,
-        HEIGHT = 400,
-        X = 20, Y = 20;
+    /**Window size and location*/
+    private static final int X = 50, Y = 50, WIN_WIDTH = 500, WIN_HEIGHT = 500;
     
     public static void main(String[] args)
     {
@@ -46,7 +53,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     public GameGUI()
     {
-        setSize(WIDTH, HEIGHT);
+        setSize(WIN_WIDTH, WIN_HEIGHT);
         setLocation(X, Y);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 1));
@@ -123,7 +130,16 @@ public class GameGUI extends JFrame implements ActionListener
         
         ////
         rooms = true;
-        action = new Action();
+        
+        try
+        {
+            action = new Action();
+        }
+        catch(IllegalArgumentException e)
+        {
+            critErrorMessage(e.getMessage());
+        }
+        
         setPlayerStats();
         setRoomBtn();
     }
@@ -140,6 +156,7 @@ public class GameGUI extends JFrame implements ActionListener
             else
             {
                 //action
+                //TODO
                 resolve();
             }
         }
@@ -151,7 +168,8 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //action
+                //action2
+                //TODO
                 resolve();
             }
         }
@@ -163,12 +181,17 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //action
+                //action3
+                //TODO
                 resolve();
             }
         }
     }
     
+    /**
+     * Sets the room at index to the current rooms
+     * @param index The room index
+     */
     private void newRoom(int index)
     {
         action.setIndex(index);
@@ -178,6 +201,9 @@ public class GameGUI extends JFrame implements ActionListener
         setMonsterStats();
     }
     
+    /**
+     * Resolves a combat turn
+     */
     private void resolve()
     {
         int status = action.combatResolve();
@@ -186,6 +212,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
         case -1:
             //lose
+            //TODO
             break;
             
         case 0:
@@ -200,6 +227,9 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
+    /**
+     * sets the player stats text
+     */
     public void setPlayerStats()
     {
         String[] stats = action.getPlayerStats();
@@ -208,6 +238,9 @@ public class GameGUI extends JFrame implements ActionListener
         playPots.setText(stats[2]);   
     }
     
+    /**
+     * Sets the monster stat text
+     */
     public void setMonsterStats()
     {
         String[] stats = action.getMonsterStats();
@@ -215,6 +248,9 @@ public class GameGUI extends JFrame implements ActionListener
         monHealth.setText(stats[1]);
     }
     
+    /**
+     * Sets the btn text to the next room names
+     */
     private void setRoomBtn()
     {
         String[] names = action.getRooms();
@@ -224,6 +260,9 @@ public class GameGUI extends JFrame implements ActionListener
         btnThree.setText(names[2]);
     }
     
+    /**
+     * Sets the btn text to combat titles
+     */
     private void setCombatBtn()
     {
         btnOne.setText("ATK");
@@ -231,8 +270,22 @@ public class GameGUI extends JFrame implements ActionListener
         btnThree.setText("POT");
     }
     
+    /**
+     * Adds a log entry to the combat log
+     * @param entry The new entry
+     */
     public void addLog(String entry)
     {
         log.append(entry);
+    }
+
+    /**
+     * Shows a message and then guits the program
+     * @param message the message
+     */
+    public void critErrorMessage(String message)
+    {
+        JOptionPane.showMessageDialog(null, message);
+        System.exit(1);
     }
 }

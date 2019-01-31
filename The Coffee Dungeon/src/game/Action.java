@@ -8,7 +8,6 @@ public class Action
     private Player player;
 
     private Dungeon dungeon;
-    private String[] rooms;
     private int index;
     private Horde horde;
     private Monster monster;
@@ -16,23 +15,17 @@ public class Action
     public Action()
     {
         player = new Player();
-        rooms = new String[NUM_ROOMS];
 
         try
         {
             horde = new Horde("data/mon.csv", -1);
         } catch (IllegalArgumentException e)
         {
-            //
+            throw new IllegalArgumentException("Critical error, file not found");
         }
-
-        try
-        {
-            dungeon = new Dungeon(-1);
-        } catch (IllegalArgumentException e)
-        {
-            //
-        }
+        
+        dungeon = new Dungeon(-1);
+        
     }
 
     public Monster nextMonster()
@@ -60,7 +53,7 @@ public class Action
             output = 1;
             monster.reset();
             getLoot();
-            rooms = dungeon.nextRooms();
+            dungeon.nextRooms();
             monster.reset();
             nextMonster();
         } 
@@ -94,7 +87,7 @@ public class Action
 
     public String[] getRooms()
     {
-        return rooms;
+        return dungeon.getRoomNames();
     }
 
 }
