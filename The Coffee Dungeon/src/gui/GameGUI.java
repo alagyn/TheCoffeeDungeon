@@ -127,8 +127,8 @@ public class GameGUI extends JFrame implements ActionListener
         add(playStats);
         
         setVisible(true);
-        
         ////
+        
         rooms = true;
         
         try
@@ -155,8 +155,7 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //action
-                //TODO
+                action.attack();
                 resolve();
             }
         }
@@ -168,8 +167,7 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //action2
-                //TODO
+                //TODO action magic
                 resolve();
             }
         }
@@ -181,8 +179,7 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //action3
-                //TODO
+                //TODO action Item
                 resolve();
             }
         }

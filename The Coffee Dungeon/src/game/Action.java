@@ -90,4 +90,18 @@ public class Action
         return dungeon.getRoomNames();
     }
 
+    public void attack()
+    {
+        //TODO action 1
+    }
+    
+    public void magic()
+    {
+        //TODO action 2
+    }
+    
+    public void item()
+    {
+        //TODO action 3
+    }
 }
