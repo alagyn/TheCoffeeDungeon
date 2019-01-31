@@ -51,6 +51,10 @@ public class Dungeon
         } 
     }
    
+    /**
+     * Returns the current room names
+     * @return the current room names
+     */
     public String[] getRoomNames()
     {
         String[] output = new String[index.length];
