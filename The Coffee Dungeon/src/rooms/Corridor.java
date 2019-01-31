@@ -5,7 +5,7 @@ import interfaces.*;
 public class Corridor implements Room
 {
     private static final String name = "Corridor";
-    private static final int MAX_GOLD = 15;
+    //private static final int MAX_GOLD = 15;
     
     public Corridor()
     {
@@ -15,7 +15,9 @@ public class Corridor implements Room
     @Override
     public void giveLoot(Player player)
     {
+        /*TODO
         player.addGold(Room.rand(MAX_GOLD));
+        */
     }
     
     @Override

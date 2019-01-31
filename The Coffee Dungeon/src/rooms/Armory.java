@@ -16,8 +16,10 @@ public class Armory implements Room
     @Override
     public void giveLoot(Player player)
     {
+        /* TODO
         player.addArmor();
         player.addGold(Room.rand(MAX_GOLD));
+        */
     }
     
     @Override

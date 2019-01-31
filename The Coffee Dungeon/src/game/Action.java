@@ -70,10 +70,9 @@ public class Action
 
     public String[] getPlayerStats()
     {
-        String[] output = new String[3];
+        String[] output = new String[2];
         output[0] = "" + player.getHealth();
         output[1] = "" + player.getMana();
-        output[2] = "" + player.getPotions();
 
         return output;
     }
