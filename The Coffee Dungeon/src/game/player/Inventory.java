@@ -8,6 +8,15 @@ public class Inventory
     private Magic[] magics;
     private Item[] items;
     
+    private int gold;
+    
+    public Inventory(Weapon weapon, Magic[] magics, Item[] items)
+    {
+        this.weapon = weapon;
+        this.magics = magics;
+        this.items = items;
+    }
+    
     //Weapon
     public Weapon getWeapon()
     {
