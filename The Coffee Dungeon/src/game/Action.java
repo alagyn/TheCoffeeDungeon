@@ -1,6 +1,8 @@
 package game;
 //import gui.*;
 
+import game.player.Player;
+
 public class Action
 {
     public static final int NUM_ROOMS = 3;

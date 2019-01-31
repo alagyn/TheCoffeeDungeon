@@ -1,7 +1,7 @@
 package rooms;
 
+import game.player.Player;
 import interfaces.Room;
-import game.Player;
 
 public class Library implements Room
 {

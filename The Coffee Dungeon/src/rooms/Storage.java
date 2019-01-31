@@ -1,6 +1,6 @@
 package rooms;
 
-import game.Player;
+import game.player.Player;
 import interfaces.Room;
 
 public class Storage implements Room

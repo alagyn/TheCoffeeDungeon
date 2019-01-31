@@ -1,7 +1,8 @@
 package interfaces;
 
-import game.Player;
 import java.util.Random;
+
+import game.player.Player;
 
 public interface Room
 {
