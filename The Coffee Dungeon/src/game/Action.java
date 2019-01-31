@@ -1,14 +1,14 @@
 package game;
-//import gui.*;
 
-import game.player.Player;
+import game.player.*;
 
 public class Action
 {
     public static final int NUM_ROOMS = 3;
 
     private Player player;
-
+    private Inventory inventory;
+    
     private Dungeon dungeon;
     private int index;
     private Horde horde;
@@ -17,7 +17,7 @@ public class Action
     public Action()
     {
         player = new Player();
-
+        inventory = new Inventory();
         try
         {
             horde = new Horde("data/mon.csv", -1);
@@ -93,7 +93,8 @@ public class Action
 
     public void attack()
     {
-        //TODO action 1
+       int damage = inventory.getWeapon().attack();
+       monster.damage(damage);
     }
     
     public void magic()

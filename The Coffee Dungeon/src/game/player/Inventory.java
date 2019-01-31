@@ -1,20 +1,32 @@
 package game.player;
 
 import interfaces.player.*;
+import items.weapons.*;
+import items.items.*;
+import items.magics.*;
 
 public class Inventory
 {
+    /**Default weapon*/
+    private static final Weapon DEF_WEP = new Sword1();
+    /**Default Magics*/
+    private static final Magic[] DEF_MAG = {new FireBall(), null, null};
+    /**Default Items*/
+    private static final Item[] DEF_ITM = {new HealPotion(), null, null};
+    
+    public static final int INV_LENGTH = 3;
+    
     private Weapon weapon;
     private Magic[] magics;
     private Item[] items;
     
     private int gold;
     
-    public Inventory(Weapon weapon, Magic[] magics, Item[] items)
+    public Inventory()
     {
-        this.weapon = weapon;
-        this.magics = magics;
-        this.items = items;
+        this.weapon = DEF_WEP;
+        this.magics = DEF_MAG;
+        this.items = DEF_ITM;
     }
     
     //Weapon
@@ -29,25 +41,25 @@ public class Inventory
     }
     
     //Magic
-    public Magic[] getMagics()
+    public Magic getMagic(int idx)
     {
-        return magics;
+        return magics[idx];
     }
     
-    public void setMagics(Magic[] magics)
+    public void setMagics(int idx, Magic magic)
     {
-        this.magics = magics;
+        this.magics[idx] = magic;
     }
     
     //Items
-    public Item[] getItems()
+    public Item getItems(int idx)
     {
-        return items;
+        return items[idx];
     }
     
-    public void setItems(Item[] items)
+    public void setItems(int idx, Item item)
     {
-        this.items = items;
+        this.items[idx] = item;
     }
 
     //Gold

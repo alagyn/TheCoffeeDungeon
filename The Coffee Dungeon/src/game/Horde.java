@@ -70,6 +70,8 @@ public class Horde
         {
             weights[i] = monsters[i].getWeight();
         }
+        
+        nextMonster();
     }
     
     public Monster nextMonster()
