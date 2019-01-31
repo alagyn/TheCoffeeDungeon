@@ -40,6 +40,9 @@ public class Dungeon
         nextRooms();
     }
    
+    /**
+     * Generates the next 3 rooms
+     */
     public void nextRooms()
     {
         for(int i = 0; i < index.length; i++)
