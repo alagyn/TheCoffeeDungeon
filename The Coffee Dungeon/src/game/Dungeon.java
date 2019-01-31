@@ -19,6 +19,9 @@ public class Dungeon
      * The indexes of the current rooms in the rooms array
      */
     private int[] index;
+    /**
+     * Random generator
+     */
     private Random rand;
     
     public Dungeon(int seed)
