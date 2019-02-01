@@ -1,15 +1,21 @@
 package items.weapons;
 
 import interfaces.player.Weapon;
+import java.util.Random;
 
 public class Sword1 implements Weapon
 {
+    Random rand;
+
+    public Sword1()
+    {
+        rand = new Random();
+    }
 
     @Override
     public int attack()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return rand.nextInt(5);
     }
 
 }

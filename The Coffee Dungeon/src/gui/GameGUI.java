@@ -6,6 +6,7 @@ import javax.swing.*;
 //import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 //import java.util.*;
 
 /**
@@ -26,6 +27,8 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextField monHealth;
     private JTextField monName;
     private JTextArea log;
+    private JScrollPane scroll;
+    
     
     private JPanel playStats;
     private JButton btnOne;
@@ -40,15 +43,18 @@ public class GameGUI extends JFrame implements ActionListener
     private static final Color backcolor = new Color(220, 220, 220);
     /**Text color*/
     private static final Color textColor = new Color(20, 20, 20);
-    
+    /**Lines allowed in log*/
+    private static final int LOG_LINES = 10;
     /**Window size and location*/
     private static final int X = 50, Y = 50, WIN_WIDTH = 500, WIN_HEIGHT = 500;
+    
+    private ArrayList<String> logText;
     
     public static void main(String[] args)
     {
         GameGUI gui = new GameGUI();
-        gui.addLog("Hello\n");
-        gui.addLog("World\n");
+        gui.addLog("Hello");
+        gui.addLog("World");
     }
     
     public GameGUI()
@@ -67,6 +73,7 @@ public class GameGUI extends JFrame implements ActionListener
         right.setLayout(new BorderLayout());
         
         log = new JTextArea();
+        scroll = new JScrollPane();
         monHealth = new JTextField();
         monName = new JTextField();
         
@@ -88,8 +95,10 @@ public class GameGUI extends JFrame implements ActionListener
         
         log.setEditable(false);
         
+        
         top.add(left);
-        top.add(log);
+        top.add(scroll);
+        scroll.setViewportView(log);
         
         //Buttons
         playStats = new JPanel();
@@ -140,6 +149,9 @@ public class GameGUI extends JFrame implements ActionListener
             critErrorMessage(e.getMessage());
         }
         
+        logText = new ArrayList<String>();
+        
+        
         setPlayerStats();
         setRoomBtn();
     }
@@ -156,7 +168,6 @@ public class GameGUI extends JFrame implements ActionListener
             else
             {
                 int dmg = action.attack();
-                //TODO fix log
                 addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
                 //TODO monster attack
                 resolve();
@@ -276,9 +287,44 @@ public class GameGUI extends JFrame implements ActionListener
      */
     public void addLog(String entry)
     {
-        log.append(entry + "\n");
+        if(logText.size() < LOG_LINES)
+        {
+            logText.add(entry);
+        }
+        else
+        {
+            logText.remove(0);
+            logText.add(entry);
+        }
+        
+        setLog();
+        
+    }
+    
+    /**
+     * Pulls the log text from the stored data
+     */
+    public void setLog()
+    {
+        String output = "";
+        
+        for(int i = 0; i < logText.size(); i++)
+        {
+            output += logText.get(i) + "\n";
+        }
+        
+        setLog(output);
     }
 
+    /**
+     * Sets the entire log to the text
+     * @param logText the text
+     */
+    public void setLog(String logText)
+    {
+        log.setText(logText);
+    }
+    
     /**
      * Shows a message and then guits the program
      * @param message the message
