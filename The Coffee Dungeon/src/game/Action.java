@@ -18,13 +18,8 @@ public class Action
     {
         player = new Player();
         inventory = new Inventory();
-        try
-        {
-            horde = new Horde("data/mon.csv", -1);
-        } catch (IllegalArgumentException e)
-        {
-            throw new IllegalArgumentException("Critical error, file not found");
-        }
+        horde = new Horde("data/mon.csv", -1);
+        
         
         dungeon = new Dungeon(-1);
         

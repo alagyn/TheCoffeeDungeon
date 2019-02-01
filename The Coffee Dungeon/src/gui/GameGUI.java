@@ -46,7 +46,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Lines allowed in log*/
     private static final int LOG_LINES = 10;
     /**Window size and location*/
-    private static final int X = 50, Y = 50, WIN_WIDTH = 500, WIN_HEIGHT = 500;
+    private static final int X = 50, Y = 50, WIN_WIDTH = 600, WIN_HEIGHT = 500;
     
     private ArrayList<String> logText;
     
@@ -94,7 +94,6 @@ public class GameGUI extends JFrame implements ActionListener
         log.setDisabledTextColor(textColor);
         
         log.setEditable(false);
-        
         
         top.add(left);
         top.add(scroll);
