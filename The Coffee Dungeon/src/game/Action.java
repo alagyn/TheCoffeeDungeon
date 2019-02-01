@@ -20,6 +20,7 @@ public class Action
         inventory = new Inventory();
         horde = new Horde("data/mon.csv", -1);
         
+        nextMonster();
         
         dungeon = new Dungeon(-1);
         
@@ -52,7 +53,6 @@ public class Action
             getLoot();
             dungeon.nextRooms();
             monster.reset();
-            nextMonster();
         } 
         else if (!player.isAlive())
         {

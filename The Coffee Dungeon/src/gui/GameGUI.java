@@ -29,6 +29,7 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextArea log;
     private JScrollPane scroll;
     
+    //TODO Inventory panel?
     
     private JPanel playStats;
     private JButton btnOne;
@@ -37,6 +38,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     private JTextField playHealth;
     private JTextField playMana;
+    //TODO Pot!
     private JTextField playPots;
     
     /**Background color*/
@@ -44,7 +46,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Text color*/
     private static final Color textColor = new Color(20, 20, 20);
     /**Lines allowed in log*/
-    private static final int LOG_LINES = 10;
+    private static final int LOG_LINES = 6;
     /**Window size and location*/
     private static final int X = 50, Y = 50, WIN_WIDTH = 600, WIN_HEIGHT = 500;
     
@@ -181,6 +183,7 @@ public class GameGUI extends JFrame implements ActionListener
             else
             {
                 //TODO action magic
+                //TODO magic selection
                 resolve();
             }
         }
@@ -193,6 +196,7 @@ public class GameGUI extends JFrame implements ActionListener
             else
             {
                 //TODO action Item
+                //TODO item selection
                 resolve();
             }
         }
@@ -207,7 +211,6 @@ public class GameGUI extends JFrame implements ActionListener
         action.setIndex(index);
         rooms = false;
         setCombatBtn();
-        action.nextMonster();
         setMonsterStats();
     }
     
@@ -231,6 +234,9 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
+            //TODO item loot
+            addLog("You defeated the " + action.getMonsterStats()[0]);
+            action.nextMonster();
             action.getLoot();
             setRoomBtn();
             break;
@@ -246,6 +252,7 @@ public class GameGUI extends JFrame implements ActionListener
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
         //TODO playPots.setText(stats[2]);   
+        
     }
     
     /**
@@ -309,7 +316,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         for(int i = 0; i < logText.size(); i++)
         {
-            output += logText.get(i) + "\n";
+            output += logText.get(i) + "\n\n";
         }
         
         setLog(output);

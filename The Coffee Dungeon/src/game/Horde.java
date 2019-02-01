@@ -85,6 +85,7 @@ public class Horde
             catch(IllegalArgumentException e)
             {
                 System.out.println("Monster data error at line " + i);
+                System.out.println("\t" + e.getMessage());
                 continue;
             }
             
@@ -115,6 +116,8 @@ public class Horde
         
         Scanner lineScan = new Scanner(line);
 
+        lineScan.useDelimiter(",");
+        
         String name;
         double weight;
         int health, minAtk, maxAtk;
@@ -126,7 +129,7 @@ public class Horde
         else
         {
             lineScan.close();
-            throw new IllegalArgumentException("Invalid input");
+            throw new IllegalArgumentException("Invalid name");
         }
 
         if(lineScan.hasNextDouble())
@@ -136,7 +139,7 @@ public class Horde
         else
         {
             lineScan.close();
-            throw new IllegalArgumentException("Invalid input");
+            throw new IllegalArgumentException("Invalid weight");
         }
         
         if(lineScan.hasNextInt())
@@ -146,7 +149,7 @@ public class Horde
         else
         {
             lineScan.close();
-            throw new IllegalArgumentException("Invalid input");
+            throw new IllegalArgumentException("Invalid health");
         }
         
         if(lineScan.hasNextInt())
@@ -156,7 +159,7 @@ public class Horde
         else
         {
             lineScan.close();
-            throw new IllegalArgumentException("Invalid input");
+            throw new IllegalArgumentException("Invalid minAtk");
         }
         
         if(lineScan.hasNextInt())
@@ -166,7 +169,7 @@ public class Horde
         else
         {
             lineScan.close();
-            throw new IllegalArgumentException("Invalid input");
+            throw new IllegalArgumentException("Invalid maxAtk");
         }
 
         output = new Monster(name, weight, health, minAtk, maxAtk);
