@@ -91,10 +91,11 @@ public class Action
         return dungeon.getRoomNames();
     }
 
-    public void attack()
+    public int attack()
     {
        int damage = inventory.getWeapon().attack();
        monster.damage(damage);
+       return damage;
     }
     
     public void magic()

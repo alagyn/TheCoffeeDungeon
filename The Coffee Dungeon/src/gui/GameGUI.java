@@ -155,7 +155,10 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                action.attack();
+                int dmg = action.attack();
+                //TODO fix log
+                addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
+                //TODO monster attack
                 resolve();
             }
         }
@@ -273,7 +276,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     public void addLog(String entry)
     {
-        log.append(entry);
+        log.append(entry + "\n");
     }
 
     /**
