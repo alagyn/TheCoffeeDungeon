@@ -9,6 +9,11 @@ public class Horde
     private double[] weights;
     private Random rand;
     
+    /**
+     * Default constructor
+     * @param fileName The filename for the input file
+     * @param seed the seed for random generation
+     */
     public Horde(String fileName, int seed)
     {
         if(seed > 0)
@@ -25,6 +30,10 @@ public class Horde
         nextMonster();
     }
     
+    /**
+     * Generates and returns the next random monster
+     * @return The next monster
+     */
     public Monster nextMonster()
     {
         double gen = rand.nextDouble();
@@ -45,6 +54,10 @@ public class Horde
         return output;
     }
     
+    /**
+     * Reads an input file of monster stats
+     * @param fileName The input filename
+     */
     private void readFile(String fileName)
     {
         Scanner in;
@@ -110,6 +123,12 @@ public class Horde
         
     }
     
+    /**
+     * Creates a monster object from a line of data
+     * @param line The data
+     * @return The constructed monster
+     * @throws IllegalArgumentException when invalid data
+     */
     private Monster readMonster(String line)
     {
         Monster output = null;
@@ -179,6 +198,11 @@ public class Horde
         return output;
     }
 
+    /**
+     * Generates the random damage of a monster attack
+     * @param monster The current monster
+     * @return The damage
+     */
     public int monsterAttack(Monster monster)
     {
         int output = 0;

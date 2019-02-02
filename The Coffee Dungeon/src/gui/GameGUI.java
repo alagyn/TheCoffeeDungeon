@@ -3,11 +3,11 @@ package gui;
 import game.Action;
 
 import javax.swing.*;
-//import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 //import java.util.*;
+//import javax.swing.event.*;
 
 /**
  * The main Game GUI
@@ -59,6 +59,9 @@ public class GameGUI extends JFrame implements ActionListener
         gui.addLog("World");
     }
     
+    /**
+     * Default constructor
+     */
     public GameGUI()
     {
         setSize(WIN_WIDTH, WIN_HEIGHT);
@@ -157,6 +160,9 @@ public class GameGUI extends JFrame implements ActionListener
         setRoomBtn();
     }
     
+    /**
+     * Called when buttons are activated
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -202,6 +208,7 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
+    /**Generates player damage and adds a log*/
     private void playerDamage()
     {
         int dmg = action.monsterAttack();
@@ -366,6 +373,9 @@ public class GameGUI extends JFrame implements ActionListener
         System.exit(1);
     }
 
+    /**
+     * Shows a game over message box
+     */
     private void gameOver()
     {
         int i = JOptionPane.showOptionDialog(null, "Game Over\nNew Game?", "Game", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, 
@@ -381,6 +391,9 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
+    /**
+     * Resets the game to beginning state
+     */
     private void newGame()
     {
         action.newGame();

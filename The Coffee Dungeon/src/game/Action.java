@@ -4,16 +4,20 @@ import game.player.*;
 
 public class Action
 {
+    /**
+     * Number of rooms per floor
+     */
     public static final int NUM_ROOMS = 3;
 
     private Player player;
     private Inventory inventory;
     
     private Dungeon dungeon;
-    private int index;
+    private int roomIdx;
     private Horde horde;
     private Monster monster;
 
+    /**Default Constructor*/
     public Action()
     {
         player = new Player();
@@ -26,22 +30,37 @@ public class Action
         
     }
 
+    /**
+     * Generates the next monster
+     * @return the next random monster
+     */
     public Monster nextMonster()
     {
         monster = horde.nextMonster();
         return monster;
     }
 
-    public void setIndex(int index)
+    /**
+     * Sets the current room index
+     * @param roomIdx The current room index
+     */
+    public void setIndex(int roomIdx)
     {
-        this.index = index;
+        this.roomIdx = roomIdx;
     }
 
+    /**
+     * Gives loot to the player
+     */
     public void getLoot()
     {
-        dungeon.giveLoot(index, player);
+        dungeon.giveLoot(roomIdx, player);
     }
 
+    /**
+     * Checks if the player and or monster is still alive
+     * @return 1 if player win. -1 if player lose, 0 if neither lose
+     */
     public int combatResolve()
     {
         int output = 0;
@@ -63,6 +82,10 @@ public class Action
         return output;
     }
 
+    /**
+     * Gets the current player stats
+     * @return An array of 0:Health, 1:Mana 
+     */
     public String[] getPlayerStats()
     {
         String[] output = new String[2];
@@ -72,6 +95,10 @@ public class Action
         return output;
     }
 
+    /**
+     * Gets the current monster stats
+     * @return An array of 0:Name, 1:Health
+     */
     public String[] getMonsterStats()
     {
         String[] output = new String[2];
@@ -81,11 +108,19 @@ public class Action
         return output;
     }
 
+    /**
+     * Gets the current room names
+     * @return An array of room names
+     */
     public String[] getRooms()
     {
         return dungeon.getRoomNames();
     }
 
+    /**
+     * Activates a primary attack on a monster and returns the damage done
+     * @return The damage done
+     */
     public int attack()
     {
        int damage = inventory.getWeapon().attack();
@@ -93,16 +128,26 @@ public class Action
        return damage;
     }
     
+    /**
+     * 
+     */
     public void magic()
     {
         //TODO Magic action
     }
     
+    /**
+     * 
+     */
     public void item()
     {
         //TODO Item action
     }
     
+    /**
+     * Activates a monster attack with the current monster
+     * @return The damage done to the player
+     */
     public int monsterAttack()
     {
         int dmg = horde.monsterAttack(monster);
@@ -110,6 +155,9 @@ public class Action
         return dmg;
     }
     
+    /**
+     * Resets action to the starting configuration
+     */
     public void newGame()
     {
         player = new Player();
@@ -117,7 +165,6 @@ public class Action
         horde = new Horde("data/mon.csv", -1);
         
         nextMonster();
-        
         
         dungeon = new Dungeon(-1);
     }

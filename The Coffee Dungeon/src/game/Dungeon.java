@@ -8,6 +8,9 @@ import interfaces.*;
 
 public class Dungeon
 {
+    /**
+     * All of the available rooms
+     */
     public static final Room[] rooms = 
         {
             new Corridor(),
@@ -26,6 +29,10 @@ public class Dungeon
      */
     private Random rand;
     
+    /**
+     * Default constructor
+     * @param seed The seed for random generation
+     */
     public Dungeon(int seed)
     {
         if(seed > 0)
@@ -69,6 +76,11 @@ public class Dungeon
         return output;
     }
     
+    /**
+     * Activates loot function of the room at the index
+     * @param index The rooms index
+     * @param player The current player
+     */
     public void giveLoot(int index, Player player)
     {
         //TODO Inventory loot

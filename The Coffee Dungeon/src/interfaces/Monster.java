@@ -2,5 +2,5 @@ package interfaces;
 
 public interface Monster
 {
-    //TODO Maybe?
+    //TODO Maybe? Refactor monster data structure
 }

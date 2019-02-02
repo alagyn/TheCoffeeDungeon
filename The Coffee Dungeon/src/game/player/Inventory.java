@@ -22,6 +22,9 @@ public class Inventory
     
     private int gold;
     
+    /**
+     * Default constructor
+     */
     public Inventory()
     {
         this.weapon = DEF_WEP;
@@ -30,48 +33,92 @@ public class Inventory
     }
     
     //Weapon
+    /**
+     * Returns the current weapon
+     * @return the current weapon
+     */
     public Weapon getWeapon()
     {
         return weapon;
     }
     
+    /**
+     * Sets the current weapon
+     * @param weapon the new weapon
+     */
     public void setWeapon(Weapon weapon)
     {
         this.weapon = weapon;
     }
     
     //Magic
+    /**
+     * Returns the magic at the index
+     * @param idx the index
+     * @return the magic
+     */
     public Magic getMagic(int idx)
     {
         return magics[idx];
     }
     
+    /**
+     * Sets the magic at the index
+     * @param idx the index
+     * @param magic the new magic
+     */
     public void setMagics(int idx, Magic magic)
     {
+        //TODO Duplicate checks?
         this.magics[idx] = magic;
     }
     
     //Items
+    /**
+     * Returns the item at the index
+     * @param idx the index
+     * @return the item
+     */
     public Item getItems(int idx)
     {
         return items[idx];
     }
     
+    /**
+     * Sets the item at the index
+     * @param idx the index
+     * @param item the item
+     */
     public void setItems(int idx, Item item)
     {
+        //TODO Duplicate checking
         this.items[idx] = item;
     }
 
     //Gold
+    /**
+     * Returns the player's gold
+     * @return the player's gold
+     */
     public int getGold()
     {
         return gold;
     }
 
+    /**
+     * Adds gold to the players inventory
+     * @param gold Amount to add
+     */
     public void addGold(int gold)
     {
-        this.gold += gold;
+        if(gold >= 0)
+        {
+            this.gold += gold;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid Gold");
+        }    
     }
-    
     
 }
