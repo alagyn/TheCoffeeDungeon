@@ -229,6 +229,9 @@ public class GameGUI extends JFrame implements ActionListener
         
         System.out.println("Status " + status);
         
+        setMonsterStats();
+        setPlayerStats();
+        
         switch(status)
         {
         case -1:
@@ -237,8 +240,6 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 0:
-            setMonsterStats();
-            setPlayerStats();
             break;
             
         case 1:
@@ -249,6 +250,9 @@ public class GameGUI extends JFrame implements ActionListener
             setRoomBtn();
             break;
         }
+        
+        setMonsterStats();
+        setPlayerStats();
     }
     
     /**
@@ -331,6 +335,19 @@ public class GameGUI extends JFrame implements ActionListener
     }
 
     /**
+     * Resets the log when true is passed
+     * @param x True to reset log
+     */
+    public void setLog(boolean x)
+    {
+        if(x)
+        {
+            setLog("");
+            logText.clear();
+        }
+    }
+    
+    /**
      * Sets the entire log to the text
      * @param logText the text
      */
@@ -356,11 +373,19 @@ public class GameGUI extends JFrame implements ActionListener
         
         if(i == JOptionPane.YES_OPTION)
         {
-            //TODO New game
+            newGame();
         }
         else
         {
             System.exit(1);
         }
+    }
+    
+    private void newGame()
+    {
+        action.newGame();
+        setLog(true);
+        setMonsterStats();
+        setPlayerStats();
     }
 }

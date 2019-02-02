@@ -109,4 +109,16 @@ public class Action
         player.damage(dmg);
         return dmg;
     }
+    
+    public void newGame()
+    {
+        player = new Player();
+        inventory = new Inventory();
+        horde = new Horde("data/mon.csv", -1);
+        
+        nextMonster();
+        
+        
+        dungeon = new Dungeon(-1);
+    }
 }
