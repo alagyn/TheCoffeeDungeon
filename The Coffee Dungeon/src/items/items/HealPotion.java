@@ -8,8 +8,7 @@ public class HealPotion implements Item
     @Override
     public void use()
     {
-        // TODO Auto-generated method stub
-
+        // TODO Implement items
     }
 
 }

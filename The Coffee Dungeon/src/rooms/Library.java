@@ -19,7 +19,7 @@ public class Library implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TODO
+        /*TODO loot
         player.addMagic();
         */
     }

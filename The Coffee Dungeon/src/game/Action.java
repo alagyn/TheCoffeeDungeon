@@ -95,11 +95,16 @@ public class Action
     
     public void magic()
     {
-        //TODO action 2
+        //TODO Magic action
     }
     
     public void item()
     {
-        //TODO action 3
+        //TODO Item action
+    }
+    
+    public void monsterAttack()
+    {
+        player.damage(horde.monsterAttack(monster));
     }
 }

@@ -178,4 +178,18 @@ public class Horde
         
         return output;
     }
+
+    public int monsterAttack(Monster monster)
+    {
+        int output = 0;
+        
+        int[] atk = monster.getAtk();
+        
+        int min = atk[0], max = atk[1];
+        
+        int range = max - min + 1;
+        output = rand.nextInt(range) + min;
+        
+        return output;
+    }
 }

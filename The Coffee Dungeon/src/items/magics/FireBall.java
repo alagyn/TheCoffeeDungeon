@@ -8,7 +8,7 @@ public class FireBall implements Magic
     @Override
     public void activate()
     {
-        // TODO Auto-generated method stub
+        // TODO Implement magic
 
     }
 

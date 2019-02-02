@@ -170,7 +170,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 int dmg = action.attack();
                 addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
-                //TODO monster attack
+                action.monsterAttack();
                 resolve();
             }
         }
@@ -182,8 +182,8 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //TODO action magic
-                //TODO magic selection
+                //TODO Magic action
+                //TODO Magic selection
                 resolve();
             }
         }
@@ -195,8 +195,8 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else
             {
-                //TODO action Item
-                //TODO item selection
+                //TODO Item action
+                //TODO Item selection
                 resolve();
             }
         }
@@ -224,8 +224,7 @@ public class GameGUI extends JFrame implements ActionListener
         switch(status)
         {
         case -1:
-            //lose
-            //TODO
+            //TODO lose
             break;
             
         case 0:
@@ -234,7 +233,7 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
-            //TODO item loot
+            //TODO Item loot
             addLog("You defeated the " + action.getMonsterStats()[0]);
             action.nextMonster();
             action.getLoot();
