@@ -12,7 +12,7 @@ with multiple weapons, spells, and items.
 * Totally awesome
 * Give me money!
 
-Copyright  
-###### totally  
+###### Copyright
+###### totally
 *BrainDead Development*  
 <img src="https://github.com/alagyn/TheCoffeeDungeon/blob/master/The%20Coffee%20Dungeon/projectDocs/BDD_Logo.png" alt="BDD Logo" width=150>
