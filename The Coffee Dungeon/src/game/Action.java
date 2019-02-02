@@ -103,8 +103,10 @@ public class Action
         //TODO Item action
     }
     
-    public void monsterAttack()
+    public int monsterAttack()
     {
-        player.damage(horde.monsterAttack(monster));
+        int dmg = horde.monsterAttack(monster);
+        player.damage(dmg);
+        return dmg;
     }
 }

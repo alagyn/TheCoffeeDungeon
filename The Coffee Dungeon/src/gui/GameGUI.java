@@ -170,7 +170,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 int dmg = action.attack();
                 addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
-                action.monsterAttack();
+                playerDamage();
                 resolve();
             }
         }
@@ -202,6 +202,12 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
+    private void playerDamage()
+    {
+        int dmg = action.monsterAttack();
+        addLog("You take " + dmg + " points of damage");
+    }
+    
     /**
      * Sets the room at index to the current rooms
      * @param index The room index
@@ -221,10 +227,13 @@ public class GameGUI extends JFrame implements ActionListener
     {
         int status = action.combatResolve();
         
+        System.out.println("Status " + status);
+        
         switch(status)
         {
         case -1:
             //TODO lose
+            gameOver();
             break;
             
         case 0:
@@ -315,7 +324,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         for(int i = 0; i < logText.size(); i++)
         {
-            output += logText.get(i) + "\n\n";
+            output += logText.get(i) + "\n";
         }
         
         setLog(output);
@@ -338,5 +347,20 @@ public class GameGUI extends JFrame implements ActionListener
     {
         JOptionPane.showMessageDialog(null, message);
         System.exit(1);
+    }
+
+    private void gameOver()
+    {
+        int i = JOptionPane.showOptionDialog(null, "Game Over\nNew Game?", "Game", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, 
+                null, null, null);
+        
+        if(i == JOptionPane.YES_OPTION)
+        {
+            //TODO New game
+        }
+        else
+        {
+            System.exit(1);
+        }
     }
 }
