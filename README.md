@@ -1,11 +1,8 @@
 # TheCoffeeDungeon
 The sequel to my hit game, The Dungeon
-  
-  Now with a GUI!
+---
+* Now with a GUI!
+* May or may not run at any given time  
+* Totally awesome
 
-
-May or may not run at any given time
-
-Totally awesome
-
-Copyright BrainDead Development
+Copyright *BrainDead Development*
