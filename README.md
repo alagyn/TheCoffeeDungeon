@@ -1,9 +1,9 @@
 TheCoffeeDungeon  
 ================
-The sequel to my hit game, The Dungeon a slightly  
+The sequel to my hit game, The Dungeon: a slightly  
 terrible console based text game written in C++, but now  
-resurrected in Java. It will include many improvements  
-including a (kinda crappy) GUI, and an inventory system  
+resurrected with dark magic in Java. It will include many
+improvements including a (kinda crappy) GUI, and an inventory system  
 with multiple weapons, spells, and items.
 
 ---
