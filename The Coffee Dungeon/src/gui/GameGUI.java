@@ -254,7 +254,6 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
-    
     /**Generates player damage and adds a log*/
     private void playerDamage()
     {
