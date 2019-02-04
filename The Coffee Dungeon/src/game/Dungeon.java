@@ -84,7 +84,7 @@ public class Dungeon
     public void giveLoot(int index, Player player)
     {
         //TODO Inventory loot
-        //TODO Make more items
+        //TOMAKE more items
         rooms[index].giveLoot(player);
     }
     

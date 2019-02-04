@@ -13,7 +13,7 @@ public class Pit implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TODO loot
+        /*TOMAKE loot
         player.addWeapon();
         */
     }

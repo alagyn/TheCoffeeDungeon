@@ -20,6 +20,9 @@ public class GameGUI extends JFrame implements ActionListener
     private Action action;
     /**True if room text needs to be shown*/
     private boolean rooms;
+    private boolean magics;
+    private boolean items;
+    private boolean select;
     
     private JPanel top;
     private JPanel left;
@@ -38,7 +41,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     private JTextField playHealth;
     private JTextField playMana;
-    //TODO Pot!
+    //MAYBE Pot!
     private JTextField playPots;
     
     /**Background color*/
@@ -143,6 +146,9 @@ public class GameGUI extends JFrame implements ActionListener
         ////
         
         rooms = true;
+        magics = false;
+        items = false;
+        select = false;
         
         try
         {
@@ -166,47 +172,89 @@ public class GameGUI extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        if(e.getSource() == btnOne)
+        boolean one = false, two = false, three = false;
+        
+        if(e.getSource().equals(btnOne))
         {
-            if(rooms)
-            {
-                newRoom(0);
-            }
-            else
+            one = true;
+        }
+        else if(e.getSource().equals(btnTwo))
+        {
+            two = true;
+        }
+        else if(e.getSource().equals(btnThree))
+        {
+            three = true;
+        }
+            
+        //Actions
+        if(select)
+        {
+            if(one)
             {
                 int dmg = action.attack();
                 addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
                 playerDamage();
                 resolve();
             }
+            else if(two)
+            {
+                //TOGUI magic selection
+            }
+            else if(three)
+            {
+                //TOGUI item selection
+            }
         }
-        else if(e.getSource() == btnTwo)
+        else if(rooms)
         {
-            if(rooms)
+            if(one)
+            {
+                newRoom(0);
+            }
+            else if(two)
             {
                 newRoom(1);
             }
-            else
-            {
-                //TODO Magic action
-                //TODO Magic selection
-                resolve();
-            }
-        }
-        else if(e.getSource() == btnThree)
-        {
-            if(rooms)
+            else if(three)
             {
                 newRoom(2);
             }
-            else
+                
+            select = true;
+        }
+        else if(magics)
+        {
+            if(one)
             {
-                //TODO Item action
-                //TODO Item selection
-                resolve();
+                
+            }
+            else if(two)
+            {
+                
+            }
+            else if(three)
+            {
+                
+            }
+        }
+        else if(items)
+        {
+            if(one)
+            {
+                
+            }
+            else if(two)
+            {
+                
+            }
+            else if(three)
+            {
+                
             }
         }
     }
+    
     
     /**Generates player damage and adds a log*/
     private void playerDamage()
@@ -242,7 +290,6 @@ public class GameGUI extends JFrame implements ActionListener
         switch(status)
         {
         case -1:
-            //TODO lose
             gameOver();
             break;
             
@@ -250,7 +297,7 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
-            //TODO Item loot
+            //TODO Item loot generation
             addLog("You defeated the " + action.getMonsterStats()[0]);
             action.nextMonster();
             action.getLoot();

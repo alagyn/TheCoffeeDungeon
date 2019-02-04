@@ -14,7 +14,7 @@ public class Storage implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TODO loot
+        /*TOMAKE loot
         player.addPotion();
         player.addGold(Room.rand(MAX_GOLD));
         */

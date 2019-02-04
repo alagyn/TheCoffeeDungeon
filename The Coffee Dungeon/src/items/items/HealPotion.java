@@ -8,7 +8,7 @@ public class HealPotion implements Item
     @Override
     public void use()
     {
-        // TODO Implement items
+        // TOMAKE Implement items
     }
 
 }
