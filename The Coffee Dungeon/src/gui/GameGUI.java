@@ -32,7 +32,7 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextArea log;
     private JScrollPane scroll;
     
-    //TODO Inventory panel?
+    //TOGUI Inventory panel?
     
     private JPanel playStats;
     private JButton btnOne;
@@ -58,8 +58,7 @@ public class GameGUI extends JFrame implements ActionListener
     public static void main(String[] args)
     {
         GameGUI gui = new GameGUI();
-        gui.addLog("Hello");
-        gui.addLog("World");
+        gui.toString();
     }
     
     /**
@@ -294,10 +293,11 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 0:
+            //Next Round, no action required
             break;
             
         case 1:
-            //TODO Item loot generation
+            action.getLoot();
             addLog("You defeated the " + action.getMonsterStats()[0]);
             action.nextMonster();
             action.getLoot();
@@ -312,19 +312,22 @@ public class GameGUI extends JFrame implements ActionListener
     /**
      * sets the player stats text
      */
-    public void setPlayerStats()
+    private void setPlayerStats()
     {
         String[] stats = action.getPlayerStats();
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
-        //TODO playPots.setText(stats[2]);   
+        /*
+         * TOGUI refactor potion display 
+         * playPots.setText(stats[2]);   
+         */
         
     }
     
     /**
-     * Sets the monster stat text
+     * Sets the monster stats text
      */
-    public void setMonsterStats()
+    private void setMonsterStats()
     {
         String[] stats = action.getMonsterStats();
         monName.setText(stats[0]);
@@ -357,7 +360,7 @@ public class GameGUI extends JFrame implements ActionListener
      * Adds a log entry to the combat log
      * @param entry The new entry
      */
-    public void addLog(String entry)
+    private void addLog(String entry)
     {
         if(logText.size() < LOG_LINES)
         {
@@ -370,13 +373,12 @@ public class GameGUI extends JFrame implements ActionListener
         }
         
         setLog();
-        
     }
     
     /**
      * Pulls the log text from the stored data
      */
-    public void setLog()
+    private void setLog()
     {
         String output = "";
         
@@ -392,7 +394,7 @@ public class GameGUI extends JFrame implements ActionListener
      * Resets the log when true is passed
      * @param x True to reset log
      */
-    public void setLog(boolean x)
+    private void resetLog(boolean x)
     {
         if(x)
         {
@@ -405,16 +407,16 @@ public class GameGUI extends JFrame implements ActionListener
      * Sets the entire log to the text
      * @param logText the text
      */
-    public void setLog(String logText)
+    private void setLog(String logText)
     {
         log.setText(logText);
     }
     
     /**
-     * Shows a message and then guits the program
+     * Shows a message and then quits the program
      * @param message the message
      */
-    public void critErrorMessage(String message)
+    private void critErrorMessage(String message)
     {
         JOptionPane.showMessageDialog(null, message);
         System.exit(1);
@@ -444,7 +446,7 @@ public class GameGUI extends JFrame implements ActionListener
     private void newGame()
     {
         action.newGame();
-        setLog(true);
+        resetLog(true);
         setMonsterStats();
         setPlayerStats();
     }

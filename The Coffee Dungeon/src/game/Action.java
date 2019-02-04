@@ -54,6 +54,7 @@ public class Action
      */
     public void getLoot()
     {
+        //TODO Item loot generation
         dungeon.giveLoot(roomIdx, player);
     }
 
