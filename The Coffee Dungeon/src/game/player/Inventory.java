@@ -69,7 +69,7 @@ public class Inventory
      */
     public void setMagics(int idx, Magic magic)
     {
-        //TODO Duplicate checking
+        //TODO Magic duplicate checking
         this.magics[idx] = magic;
     }
     
@@ -91,7 +91,7 @@ public class Inventory
      */
     public void setItems(int idx, Item item)
     {
-        //TODO Duplicate checking
+        //TODO Item duplicate checking
         this.items[idx] = item;
     }
 

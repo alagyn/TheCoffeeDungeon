@@ -1,6 +1,8 @@
 package interfaces.player;
 
+import game.player.Player;
+
 public interface Magic
 {
-    public void activate();
+    public boolean activate(Player player);
 }

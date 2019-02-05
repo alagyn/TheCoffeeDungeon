@@ -2,6 +2,7 @@ package items.weapons;
 
 import interfaces.player.Weapon;
 import java.util.Random;
+import game.player.*;
 
 public class Sword1 implements Weapon
 {
@@ -13,7 +14,7 @@ public class Sword1 implements Weapon
     }
 
     @Override
-    public int attack()
+    public int attack(Player player)
     {
         return rand.nextInt(5) + 1;
     }

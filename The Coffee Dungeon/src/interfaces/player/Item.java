@@ -1,6 +1,8 @@
 package interfaces.player;
 
+import game.player.Player;
+
 public interface Item
 {
-    public void use();
+    public boolean use(Player player);
 }

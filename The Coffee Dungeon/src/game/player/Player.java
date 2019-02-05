@@ -82,6 +82,24 @@ public class Player
     }
     
     /**
+     * Uses the passed amount of mana, returns true if possible
+     * @param mana The amount to use
+     * @return True if amount is available
+     */
+    public boolean useMana(int mana)
+    {
+        boolean output = false;
+        
+        if(this.mana - mana >= 0)
+        {
+            this.mana -= mana;
+            output = true;
+        }
+        
+        return output;
+    }
+    
+    /**
      * Adds to the current health
      * @param health the health to add
      */

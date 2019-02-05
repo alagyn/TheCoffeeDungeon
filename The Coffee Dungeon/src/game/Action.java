@@ -54,7 +54,10 @@ public class Action
      */
     public void getLoot()
     {
-        //TODO Item loot generation
+        /*
+         * TODO Item loot generation
+         * Loot gen up to the room?
+         */
         dungeon.giveLoot(roomIdx, player);
     }
 
@@ -124,25 +127,33 @@ public class Action
      */
     public int attack()
     {
-       int damage = inventory.getWeapon().attack();
+       int damage = inventory.getWeapon().attack(player);
        monster.damage(damage);
        return damage;
     }
     
-    /**
-     * 
+    /*
+     * TODO Return values for completed actions
+     * i.e. whether the action could be completed
+     * not enough mana/Cooldowns?
      */
-    public void magic()
+    
+    /**
+     * Activates the magic at the inventory index
+     * @param idx the index of the magic
+     */
+    public boolean magic(int idx)
     {
-        //TODO Magic action
+        return inventory.getMagic(idx).activate(player);
     }
     
     /**
-     * 
+     * Activates the item at the  inventory index
+     * @param idx the index
      */
-    public void item(int idx)
+    public boolean item(int idx)
     {
-        //TODO Item action
+        return inventory.getItems(idx).use(player);
     }
     
     /**

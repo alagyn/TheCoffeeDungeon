@@ -1,15 +1,16 @@
 package items.magics;
 
 import interfaces.player.Magic;
+import game.player.*;
 
 public class FireBall implements Magic
 {
 
     @Override
-    public void activate()
+    public boolean activate(Player player)
     {
-        // TODO Implement magic
-
+        // TOMAKE Implement magic
+        return false;
     }
 
 }

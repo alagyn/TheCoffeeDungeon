@@ -41,7 +41,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     private JTextField playHealth;
     private JTextField playMana;
-    //MAYBE Pot!
+    //MAYBE Remove potion text field
     private JTextField playPots;
     
     /**Background color*/
@@ -224,32 +224,36 @@ public class GameGUI extends JFrame implements ActionListener
         }
         else if(magics)
         {
+            /*
+             * TODO Implement multiple turn behavior
+             * return bool for another turn?
+             */
             if(one)
             {
-                
+                action.magic(0);
             }
             else if(two)
             {
-                
+                action.magic(1);
             }
             else if(three)
             {
-                
+                action.magic(2);
             }
         }
         else if(items)
         {
             if(one)
             {
-                
+                action.item(0);
             }
             else if(two)
             {
-                
+                action.item(1);
             }
             else if(three)
             {
-                
+                action.item(2);
             }
         }
     }
