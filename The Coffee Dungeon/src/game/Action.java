@@ -147,7 +147,14 @@ public class Action
      */
     public boolean magic(int idx)
     {
-        return inventory.getMagic(idx).activate(player);
+        if(idx >= 0)
+        {
+            return inventory.getMagic(idx).activate(player);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid index");
+        }
     }
     
     /**
@@ -156,7 +163,14 @@ public class Action
      */
     public boolean item(int idx)
     {
-        return inventory.getItems(idx).use(player);
+        if(idx >= 0)
+        {
+            return inventory.getItems(idx).use(player);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid index");
+        }
     }
     
     /**

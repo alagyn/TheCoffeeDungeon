@@ -178,18 +178,22 @@ public class GameGUI extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent event)
     {
         boolean one = false, two = false, three = false;
+        int idx = -1;
         
         if(event.getSource().equals(btnOne))
         {
             one = true;
+            idx = 0;
         }
         else if(event.getSource().equals(btnTwo))
         {
             two = true;
+            idx = 1;
         }
         else if(event.getSource().equals(btnThree))
         {
             three = true;
+            idx = 2;
         }
             
         //Actions
@@ -204,28 +208,22 @@ public class GameGUI extends JFrame implements ActionListener
             }
             else if(two)
             {
-                //TOGUI magic selection
+                /*
+                 * TOGUI magic selection
+                 * Display btns, magics = true
+                 */
             }
             else if(three)
             {
-                //TOGUI item selection
+                /*
+                 * TOGUI item selection
+                 * Display btns, items = true;
+                 */
             }
         }
         else if(rooms)
         {
-            if(one)
-            {
-                newRoom(0);
-            }
-            else if(two)
-            {
-                newRoom(1);
-            }
-            else if(three)
-            {
-                newRoom(2);
-            }
-                
+            newRoom(idx);
             select = true;
         }
         else 
@@ -238,20 +236,6 @@ public class GameGUI extends JFrame implements ActionListener
              */
             
             boolean anotherTurn = false;
-            int idx = -1;
-            
-            if(one)
-            {
-                idx = 0;
-            }
-            else if(two)
-            {
-                idx = 1;
-            }
-            else if(three)
-            {
-                idx = 2;
-            }
             
             if(magics)
             {
@@ -308,10 +292,18 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newRoom(int index)
     {
-        action.setIndex(index);
-        rooms = false;
-        setSelectionBtn();
-        setMonsterStats();
+        if(index >= 0)
+        {
+            action.setIndex(index);
+            rooms = false;
+            setSelectionBtn();
+            setMonsterStats();
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid index");
+        }
+        
     }
     
     /**
