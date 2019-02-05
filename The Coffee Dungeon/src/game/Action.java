@@ -142,6 +142,8 @@ public class Action
     /**
      * Activates the magic at the inventory index
      * @param idx the index of the magic
+     * @return true if another action is available
+     * @throws IllegalArgumentException when not enough mana
      */
     public boolean magic(int idx)
     {

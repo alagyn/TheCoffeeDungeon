@@ -26,6 +26,8 @@ public class GameGUI extends JFrame implements ActionListener
     private boolean items;
     /**True if action selection is shown*/
     private boolean select;
+    /**True if an action has already happened*/
+    private boolean secondAction;
     
     private JPanel top;
     private JPanel left;
@@ -151,6 +153,7 @@ public class GameGUI extends JFrame implements ActionListener
         magics = false;
         items = false;
         select = false;
+        secondAction = false;
         
         try
         {
@@ -172,19 +175,19 @@ public class GameGUI extends JFrame implements ActionListener
      * Called when buttons are activated
      */
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent event)
     {
         boolean one = false, two = false, three = false;
         
-        if(e.getSource().equals(btnOne))
+        if(event.getSource().equals(btnOne))
         {
             one = true;
         }
-        else if(e.getSource().equals(btnTwo))
+        else if(event.getSource().equals(btnTwo))
         {
             two = true;
         }
-        else if(e.getSource().equals(btnThree))
+        else if(event.getSource().equals(btnThree))
         {
             three = true;
         }
@@ -225,42 +228,70 @@ public class GameGUI extends JFrame implements ActionListener
                 
             select = true;
         }
-        else if(magics)
+        else 
         {
             /*
-             * TODO Implement multiple turn behavior
-             * return bool for another turn?
-             * 
              * TOGUI Return to main btn
              * new panel/window for selection?
+             * selection with description
+             * second turn capabilities
              */
+            
+            boolean anotherTurn = false;
+            int idx = -1;
+            
             if(one)
             {
-                action.magic(0);
+                idx = 0;
             }
             else if(two)
             {
-                action.magic(1);
+                idx = 1;
             }
             else if(three)
             {
-                action.magic(2);
+                idx = 2;
             }
-        }
-        else if(items)
-        {
-            if(one)
+            
+            if(magics)
             {
-                action.item(0);
+                try
+                {
+                    anotherTurn = action.magic(idx);
+                }
+                catch(IllegalArgumentException e)
+                {
+                    //TODO Insufficient mana behavior
+                }
             }
-            else if(two)
+            else if(items)
             {
-                action.item(1);
+                try
+                {
+                    anotherTurn = action.item(idx);
+                }
+                catch(IllegalArgumentException e)
+                {
+                    /*
+                     * MAYBE Item fail behavior
+                     * Cooldowns?
+                     */
+                }
             }
-            else if(three)
+            
+            if(anotherTurn && !secondAction)
             {
-                action.item(2);
+                secondAction = true;
+                select = true;
+                setSelectionBtn();
             }
+            else
+            {
+                secondAction = false;
+                playerDamage();
+            }
+                
+            resolve();
         }
     }
     
@@ -279,7 +310,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         action.setIndex(index);
         rooms = false;
-        setCombatBtn();
+        setSelectionBtn();
         setMonsterStats();
     }
     
@@ -310,7 +341,9 @@ public class GameGUI extends JFrame implements ActionListener
             addLog("You defeated the " + action.getMonsterStats()[0]);
             action.nextMonster();
             action.getLoot();
+            resetBools();
             setRoomBtn();
+            rooms = true;
             break;
         }
         
@@ -358,11 +391,22 @@ public class GameGUI extends JFrame implements ActionListener
     /**
      * Sets the btn text to combat titles
      */
-    private void setCombatBtn()
+    private void setSelectionBtn()
     {
         btnOne.setText("ATTACK");
         btnTwo.setText("MAGIC");
         btnThree.setText("ITEM");
+    }
+    
+    //TOGUI setMagicBtn, setItemBtn
+    
+    private void resetBools()
+    {
+        rooms = false;
+        magics = false;
+        items = false;
+        select = false;
+        secondAction = false;
     }
     
     /**
