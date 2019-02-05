@@ -20,6 +20,8 @@ public class Inventory
     private Magic[] magics;
     private Item[] items;
     
+    //MAYBE Armor?
+    
     private int gold;
     
     /**
@@ -67,13 +69,29 @@ public class Inventory
      * @param idx the index
      * @param magic the new magic
      */
-    public void setMagics(int idx, Magic magic)
+    public boolean setMagics(int idx, Magic magic)
     {
-        //TODO Magic duplicate checking
-        this.magics[idx] = magic;
+        boolean output = true;
+        
+        for(int i = 0; i < magics.length; i++)
+        {
+            if(magics[i].equals(magic))
+            {
+                output = false;
+                break;
+            }
+        }
+        
+        if(output)
+        {
+            this.magics[idx] = magic;
+        }
+        
+        return output;
     }
     
-    //Items
+    //Items////////
+    
     /**
      * Returns the item at the index
      * @param idx the index
@@ -89,10 +107,25 @@ public class Inventory
      * @param idx the index
      * @param item the item
      */
-    public void setItems(int idx, Item item)
+    public boolean setItems(int idx, Item item)
     {
-        //TODO Item duplicate checking
-        this.items[idx] = item;
+        boolean output = true;
+        
+        for(int i = 0; i < items.length; i++)
+        {
+            if(items[i].equals(item))
+            {
+                output = false;
+                break;
+            }
+        }
+        
+        if(output)
+        {
+            this.items[idx] = item;
+        }
+        
+        return output;
     }
 
     //Gold

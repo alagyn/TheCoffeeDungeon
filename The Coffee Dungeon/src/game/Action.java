@@ -136,6 +136,7 @@ public class Action
      * TODO Return values for completed actions
      * i.e. whether the action could be completed
      * not enough mana/Cooldowns?
+     * throw exceptions? gives a third return value
      */
     
     /**

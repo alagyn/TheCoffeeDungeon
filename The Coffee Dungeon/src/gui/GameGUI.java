@@ -20,8 +20,11 @@ public class GameGUI extends JFrame implements ActionListener
     private Action action;
     /**True if room text needs to be shown*/
     private boolean rooms;
+    /**True if magic selection is shown*/
     private boolean magics;
+    /**True if item selection is shown*/
     private boolean items;
+    /**True if action selection is shown*/
     private boolean select;
     
     private JPanel top;
@@ -227,6 +230,9 @@ public class GameGUI extends JFrame implements ActionListener
             /*
              * TODO Implement multiple turn behavior
              * return bool for another turn?
+             * 
+             * TOGUI Return to main btn
+             * new panel/window for selection?
              */
             if(one)
             {
