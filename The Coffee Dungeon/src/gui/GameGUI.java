@@ -333,6 +333,10 @@ public class GameGUI extends JFrame implements ActionListener
             addLog("You defeated the " + action.getMonsterStats()[0]);
             action.nextMonster();
             action.getLoot();
+            /*
+             * MAYBE Allow spells/items between rooms
+             * Be able to use healing actions without a monster
+             */
             resetBools();
             setRoomBtn();
             rooms = true;

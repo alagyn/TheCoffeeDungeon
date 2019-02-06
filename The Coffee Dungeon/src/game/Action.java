@@ -57,6 +57,7 @@ public class Action
         /*
          * TODO Item loot generation
          * Loot gen up to the room?
+         * Item rand weights?
          */
         dungeon.giveLoot(roomIdx, player);
     }
