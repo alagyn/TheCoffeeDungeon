@@ -2,7 +2,7 @@ package game;
 
 import game.player.*;
 
-public class Action
+public class Game
 {
     /**
      * Number of rooms per floor
@@ -18,7 +18,7 @@ public class Action
     private Monster monster;
 
     /**Default Constructor*/
-    public Action()
+    public Game()
     {
         player = new Player();
         inventory = new Inventory();

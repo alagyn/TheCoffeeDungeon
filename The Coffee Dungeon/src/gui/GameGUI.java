@@ -1,6 +1,6 @@
 package gui;
 
-import game.Action;
+import game.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 
 /**
  * The main Game GUI
- * @author benki
+ * @author alagyn
  *
  */
 public class GameGUI extends JFrame implements ActionListener
 {
     /**Reference to action*/
-    private Action action;
+    private Game game;
     /**True if room text needs to be shown*/
     private boolean rooms;
     /**True if magic selection is shown*/
@@ -157,7 +157,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         try
         {
-            action = new Action();
+            game = new Game();
         }
         catch(IllegalArgumentException e)
         {
@@ -201,8 +201,8 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(one)
             {
-                int dmg = action.attack();
-                addLog("You hit the " + action.getMonsterStats()[0] + " for " + dmg);
+                int dmg = game.attack();
+                addLog("You hit the " + game.getMonsterStats()[0] + " for " + dmg);
                 playerDamage();
                 resolve();
             }
@@ -241,7 +241,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 try
                 {
-                    anotherTurn = action.magic(idx);
+                    anotherTurn = game.magic(idx);
                 }
                 catch(IllegalArgumentException e)
                 {
@@ -252,7 +252,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 try
                 {
-                    anotherTurn = action.item(idx);
+                    anotherTurn = game.item(idx);
                 }
                 catch(IllegalArgumentException e)
                 {
@@ -282,7 +282,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Generates player damage and adds a log*/
     private void playerDamage()
     {
-        int dmg = action.monsterAttack();
+        int dmg = game.monsterAttack();
         addLog("You take " + dmg + " points of damage");
     }
     
@@ -294,7 +294,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            action.setIndex(index);
+            game.setIndex(index);
             rooms = false;
             setSelectionBtn();
             setMonsterStats();
@@ -311,7 +311,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        int status = action.combatResolve();
+        int status = game.combatResolve();
         
         System.out.println("Status " + status);
         
@@ -329,10 +329,10 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
-            action.getLoot();
-            addLog("You defeated the " + action.getMonsterStats()[0]);
-            action.nextMonster();
-            action.getLoot();
+            game.getLoot();
+            addLog("You defeated the " + game.getMonsterStats()[0]);
+            game.nextMonster();
+            game.getLoot();
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
@@ -352,7 +352,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setPlayerStats()
     {
-        String[] stats = action.getPlayerStats();
+        String[] stats = game.getPlayerStats();
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
         /*
@@ -367,7 +367,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setMonsterStats()
     {
-        String[] stats = action.getMonsterStats();
+        String[] stats = game.getMonsterStats();
         monName.setText(stats[0]);
         monHealth.setText(stats[1]);
     }
@@ -377,7 +377,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setRoomBtn()
     {
-        String[] names = action.getRooms();
+        String[] names = game.getRooms();
         
         btnOne.setText(names[0]);
         btnTwo.setText(names[1]);
@@ -494,7 +494,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newGame()
     {
-        action.newGame();
+        game.newGame();
         resetLog(true);
         setMonsterStats();
         setPlayerStats();
