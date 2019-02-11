@@ -16,7 +16,10 @@ import java.util.ArrayList;
  */
 public class GameGUI extends JFrame implements ActionListener
 {
-    /**Reference to action*/
+    //FIXME refactor GameGUI to use Item and MagicGUI
+    //FIXME pull GUI functions out into seperate class
+    
+    /**Reference to game*/
     private Game game;
     /**True if room text needs to be shown*/
     private boolean rooms;
@@ -28,6 +31,8 @@ public class GameGUI extends JFrame implements ActionListener
     private boolean select;
     /**True if an action has already happened*/
     private boolean secondAction;
+    
+    private static final int BTN1 = 0, BTN2 = 1, BTN3 = 2;
     
     private JPanel top;
     private JPanel left;
@@ -183,17 +188,17 @@ public class GameGUI extends JFrame implements ActionListener
         if(event.getSource().equals(btnOne))
         {
             one = true;
-            idx = 0;
+            idx = BTN1;
         }
         else if(event.getSource().equals(btnTwo))
         {
             two = true;
-            idx = 1;
+            idx = BTN2;
         }
         else if(event.getSource().equals(btnThree))
         {
             three = true;
-            idx = 2;
+            idx = BTN3;
         }
             
         //Actions
