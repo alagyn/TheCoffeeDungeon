@@ -7,8 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import game.player.Inventory;
+
+
 public abstract class SelectionGUI extends JFrame implements ActionListener
-{
+{   
     private int index;
     private boolean action;
     
@@ -43,7 +46,7 @@ public abstract class SelectionGUI extends JFrame implements ActionListener
     {
         if(e.getSource().equals(back))
         {
-            setIndex(-1);
+            index = -1;
         }
         else
         {
@@ -51,13 +54,13 @@ public abstract class SelectionGUI extends JFrame implements ActionListener
             {
                 if(e.getSource().equals(btns[i]))
                 {
-                    setIndex(i);
+                    index = i;
                     break;
                 }
             }
         }
         
-        setAction(true);
+        action = true;
     }
     
     public void setLabels(String[] info)
@@ -86,13 +89,5 @@ public abstract class SelectionGUI extends JFrame implements ActionListener
         return index;
     }
     
-    public void setAction(boolean action)
-    {
-        this.action = action;
-    }
-    
-    public void setIndex(int index)
-    {
-        this.index = index;
-    }
+    public abstract void setUp(Inventory inventory);
 }

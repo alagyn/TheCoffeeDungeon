@@ -1,6 +1,8 @@
 package gui;
 
 import game.Game;
+import game.player.Inventory;
+import gui.selection.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,15 +23,8 @@ public class GameGUI extends JFrame implements ActionListener
     
     /**Reference to game*/
     private Game game;
-    /**True if room text needs to be shown*/
-    private boolean rooms;
-    
-    /**True if action selection is shown*/
-    private boolean select;
     /**True if an action has already happened*/
     private boolean secondAction;
-    
-    private static final int BTN1 = 0, BTN2 = 1, BTN3 = 2;
     
     private JPanel top;
     private JPanel left;
@@ -39,7 +34,9 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextArea log;
     private JScrollPane scroll;
     
-    //TOGUI Inventory panel?
+    private ItemGUI itemG;
+    private MagicGUI magicG;
+    private RoomGUI roomG;
     
     private JPanel playStats;
     private JButton btnOne;
@@ -77,6 +74,10 @@ public class GameGUI extends JFrame implements ActionListener
         setLocation(X, Y);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 1));
+        
+        itemG = new ItemGUI();
+        magicG = new MagicGUI();
+        roomG = new RoomGUI();
         
         //Monster stats
         top = new JPanel();
@@ -151,8 +152,6 @@ public class GameGUI extends JFrame implements ActionListener
         setVisible(true);
         ////
         
-        rooms = true;
-        select = false;
         secondAction = false;
         
         try
@@ -176,55 +175,41 @@ public class GameGUI extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent event)
     {
-        boolean one = false, two = false, three = false;
-        int idx = -1;
+        boolean attack = false, magic = false, item = false;
         
         if(event.getSource().equals(btnOne))
         {
-            one = true;
-            idx = BTN1;
+            attack = true;
         }
         else if(event.getSource().equals(btnTwo))
         {
-            two = true;
-            idx = BTN2;
+            magic = true;
         }
         else if(event.getSource().equals(btnThree))
         {
-            three = true;
-            idx = BTN3;
+            item = true;
         }
         
-        if(one)
+        if(attack)
         {
             int dmg = game.attack();
             addLog("You hit the " + game.getMonsterStats()[0] + " for " + dmg);
             playerDamage();
             resolve();
         }
-        else if(two)
+        else if(magic)
         {
-            //TODO GUI get action
-            /*
-             * GameGUI sit in a while loop waiting for Input?
-             * Disable GameGUI butttons
-             * Set info/mana labels
-             */
+            int index = startGUI(magicG);
+            game.magic(index);
             //TODO Insufficient mana behavior
-            //FIXME Remove item/magic btn checks
-            /*
-             * TOGUI Return to main btn
-             * new panel/window for selection?
-             * selection with description
-             * second turn capabilities
-             */
             //TODO second turn functionality
             //TODO item use limits/cooldowns
             //TODO Resolve magic/items after use
         }
-        else if(three)
+        else if(item)
         {
-         
+            int index = startGUI(itemG);
+            game.item(index);
         }
     
         //TOGUI Room selection panel
@@ -247,7 +232,6 @@ public class GameGUI extends JFrame implements ActionListener
         if(index >= 0)
         {
             game.setIndex(index);
-            rooms = false;
             setSelectionBtn();
             setMonsterStats();
         }
@@ -290,8 +274,8 @@ public class GameGUI extends JFrame implements ActionListener
              * Be able to use healing actions without a monster
              */
             resetBools();
+            //FIXME remove setRoomBtn()
             setRoomBtn();
-            rooms = true;
             break;
         }
         
@@ -348,10 +332,9 @@ public class GameGUI extends JFrame implements ActionListener
     
     //TOGUI setMagicBtn, setItemBtn
     
+    //MAYBE remove resetBools()
     private void resetBools()
     {
-        rooms = false;
-        select = false;
         secondAction = false;
     }
     
@@ -448,5 +431,34 @@ public class GameGUI extends JFrame implements ActionListener
         resetLog(true);
         setMonsterStats();
         setPlayerStats();
+    }
+
+    private int startGUI(SelectionGUI gui)
+    {
+        int output = -1;
+        
+        enableBtns(false);
+        gui.setUp(game.getInventory());
+        
+        do
+        {
+            output = gui.getIndex();
+        }
+        while(!gui.hasSelected());
+        
+        enableBtns(true);
+        return output;
+    }
+    
+    private void enableBtns(boolean b)
+    {
+        btnOne.setEnabled(b);
+        btnTwo.setEnabled(b);
+        btnThree.setEnabled(b);
+    }
+    
+    public Game getGame()
+    {
+        return game;
     }
 }

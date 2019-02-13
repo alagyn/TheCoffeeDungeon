@@ -198,4 +198,9 @@ public class Game
         
         dungeon = new Dungeon(-1);
     }
+    
+    public Inventory getInventory()
+    {
+        return inventory;
+    }
 }

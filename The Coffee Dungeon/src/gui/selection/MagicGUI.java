@@ -2,6 +2,8 @@ package gui.selection;
 
 import javax.swing.*;
 
+import game.player.Inventory;
+
 public class MagicGUI extends SelectionGUI
 {
     //TOGUI MagicGUI
@@ -23,6 +25,13 @@ public class MagicGUI extends SelectionGUI
     public void setManaInfo(int amnt, int max)
     {
         mana.setText("Mana: " + amnt + "/" + max);
+    }
+
+    @Override
+    public void setUp(Inventory inventory)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
     
