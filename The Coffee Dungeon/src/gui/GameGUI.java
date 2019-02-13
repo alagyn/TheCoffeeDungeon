@@ -1,15 +1,12 @@
 package gui;
 
 import game.Game;
-import game.player.Inventory;
 import gui.selection.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-//import java.util.*;
-//import javax.swing.event.*;
 
 /**
  * The main Game GUI
@@ -34,9 +31,9 @@ public class GameGUI extends JFrame implements ActionListener
     private JTextArea log;
     private JScrollPane scroll;
     
-    private ItemGUI itemG;
-    private MagicGUI magicG;
-    private RoomGUI roomG;
+    private ItemGUI itemGUI;
+    private MagicGUI magicGUI;
+    private RoomGUI roomGUI;
     
     private JPanel playStats;
     private JButton btnOne;
@@ -75,9 +72,9 @@ public class GameGUI extends JFrame implements ActionListener
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 1));
         
-        itemG = new ItemGUI();
-        magicG = new MagicGUI();
-        roomG = new RoomGUI();
+        itemGUI = new ItemGUI();
+        magicGUI = new MagicGUI();
+        roomGUI = new RoomGUI();
         
         //Monster stats
         top = new JPanel();
@@ -118,11 +115,11 @@ public class GameGUI extends JFrame implements ActionListener
         playStats = new JPanel();
         playStats.setLayout(new GridLayout(3, 3, 20, 20));
         
-        btnOne = new JButton();
+        btnOne = new JButton("Attack");
         btnOne.addActionListener(this);
-        btnTwo = new JButton();
+        btnTwo = new JButton("Magic");
         btnTwo.addActionListener(this);
-        btnThree = new JButton();
+        btnThree = new JButton("Items");
         btnThree.addActionListener(this);
         
         //Stats
@@ -166,7 +163,7 @@ public class GameGUI extends JFrame implements ActionListener
         logText = new ArrayList<String>();
         
         setPlayerStats();
-        setRoomBtn();
+        //TODO Starting room select
     }
     
     /**
@@ -176,6 +173,7 @@ public class GameGUI extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent event)
     {
         boolean attack = false, magic = false, item = false;
+        boolean b = false;
         
         if(event.getSource().equals(btnOne))
         {
@@ -199,8 +197,12 @@ public class GameGUI extends JFrame implements ActionListener
         }
         else if(magic)
         {
-            int index = startGUI(magicG);
-            game.magic(index);
+            int index = startGUI(magicGUI);
+            
+            if(index >= 0)
+            {
+                b = game.magic(index);
+            }
             //TODO Insufficient mana behavior
             //TODO second turn functionality
             //TODO item use limits/cooldowns
@@ -208,10 +210,22 @@ public class GameGUI extends JFrame implements ActionListener
         }
         else if(item)
         {
-            int index = startGUI(itemG);
-            game.item(index);
+            int index = startGUI(itemGUI);
+            if(index >= 0)
+            {
+                b = game.item(index);
+            }
         }
     
+        if(secondAction) 
+        {
+            secondAction = false;
+            //TODO End round
+        }
+        else
+        {
+            secondAction = b;
+        }
         //TOGUI Room selection panel
         
     }
@@ -232,7 +246,6 @@ public class GameGUI extends JFrame implements ActionListener
         if(index >= 0)
         {
             game.setIndex(index);
-            setSelectionBtn();
             setMonsterStats();
         }
         else
@@ -273,9 +286,7 @@ public class GameGUI extends JFrame implements ActionListener
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
              */
-            resetBools();
-            //FIXME remove setRoomBtn()
-            setRoomBtn();
+            newRoom(startGUI(roomGUI));
             break;
         }
         
@@ -306,36 +317,6 @@ public class GameGUI extends JFrame implements ActionListener
         String[] stats = game.getMonsterStats();
         monName.setText(stats[0]);
         monHealth.setText(stats[1]);
-    }
-    
-    /**
-     * Sets the btn text to the next room names
-     */
-    private void setRoomBtn()
-    {
-        String[] names = game.getRooms();
-        
-        btnOne.setText(names[0]);
-        btnTwo.setText(names[1]);
-        btnThree.setText(names[2]);
-    }
-    
-    /**
-     * Sets the btn text to combat titles
-     */
-    private void setSelectionBtn()
-    {
-        btnOne.setText("ATTACK");
-        btnTwo.setText("MAGIC");
-        btnThree.setText("ITEM");
-    }
-    
-    //TOGUI setMagicBtn, setItemBtn
-    
-    //MAYBE remove resetBools()
-    private void resetBools()
-    {
-        secondAction = false;
     }
     
     /**
