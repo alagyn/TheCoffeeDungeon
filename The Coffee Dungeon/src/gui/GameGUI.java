@@ -16,17 +16,14 @@ import java.util.ArrayList;
  */
 public class GameGUI extends JFrame implements ActionListener
 {
-    //FIXME refactor GameGUI to use Item and MagicGUI
-    //FIXME pull GUI functions out into seperate class
+    //FIXME refactor GameGUI to use ItemGUI and MagicGUI
+    //MAYBE pull GUI functions out into seperate class
     
     /**Reference to game*/
     private Game game;
     /**True if room text needs to be shown*/
     private boolean rooms;
-    /**True if magic selection is shown*/
-    private boolean magics;
-    /**True if item selection is shown*/
-    private boolean items;
+    
     /**True if action selection is shown*/
     private boolean select;
     /**True if an action has already happened*/
@@ -155,8 +152,6 @@ public class GameGUI extends JFrame implements ActionListener
         ////
         
         rooms = true;
-        magics = false;
-        items = false;
         select = false;
         secondAction = false;
         
@@ -170,7 +165,6 @@ public class GameGUI extends JFrame implements ActionListener
         }
         
         logText = new ArrayList<String>();
-        
         
         setPlayerStats();
         setRoomBtn();
@@ -200,88 +194,41 @@ public class GameGUI extends JFrame implements ActionListener
             three = true;
             idx = BTN3;
         }
-            
-        //Actions
-        if(select)
+        
+        if(one)
         {
-            if(one)
-            {
-                int dmg = game.attack();
-                addLog("You hit the " + game.getMonsterStats()[0] + " for " + dmg);
-                playerDamage();
-                resolve();
-            }
-            else if(two)
-            {
-                /*
-                 * TOGUI magic selection
-                 * Display btns, magics = true
-                 */
-            }
-            else if(three)
-            {
-                /*
-                 * TOGUI item selection
-                 * Display btns, items = true;
-                 */
-            }
+            int dmg = game.attack();
+            addLog("You hit the " + game.getMonsterStats()[0] + " for " + dmg);
+            playerDamage();
+            resolve();
         }
-        else if(rooms)
+        else if(two)
         {
-            newRoom(idx);
-            select = true;
-        }
-        else 
-        {
+            //TODO GUI get action
+            /*
+             * GameGUI sit in a while loop waiting for Input?
+             * Disable GameGUI butttons
+             * Set info/mana labels
+             */
+            //TODO Insufficient mana behavior
+            //FIXME Remove item/magic btn checks
             /*
              * TOGUI Return to main btn
              * new panel/window for selection?
              * selection with description
              * second turn capabilities
              */
-            
-            boolean anotherTurn = false;
-            
-            if(magics)
-            {
-                try
-                {
-                    anotherTurn = game.magic(idx);
-                }
-                catch(IllegalArgumentException e)
-                {
-                    //TODO Insufficient mana behavior
-                }
-            }
-            else if(items)
-            {
-                try
-                {
-                    anotherTurn = game.item(idx);
-                }
-                catch(IllegalArgumentException e)
-                {
-                    /*
-                     * MAYBE Item fail behavior
-                     * Cooldowns?
-                     */
-                }
-            }
-            
-            if(anotherTurn && !secondAction)
-            {
-                secondAction = true;
-                select = true;
-                setSelectionBtn();
-            }
-            else
-            {
-                secondAction = false;
-                playerDamage();
-            }
-                
-            resolve();
+            //TODO second turn functionality
+            //TODO item use limits/cooldowns
+            //TODO Resolve magic/items after use
         }
+        else if(three)
+        {
+         
+        }
+    
+        //TOGUI Room selection panel
+        
     }
     
     /**Generates player damage and adds a log*/
@@ -404,8 +351,6 @@ public class GameGUI extends JFrame implements ActionListener
     private void resetBools()
     {
         rooms = false;
-        magics = false;
-        items = false;
         select = false;
         secondAction = false;
     }
