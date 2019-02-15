@@ -17,6 +17,7 @@ public class GameGUI extends JFrame implements ActionListener
 {
     //FIXME refactor GameGUI to use ItemGUI and MagicGUI
     //MAYBE pull GUI functions out into seperate class
+    //TODO put selectionGUIs as inner classes?
     
     /**Reference to game*/
     private Game game;
