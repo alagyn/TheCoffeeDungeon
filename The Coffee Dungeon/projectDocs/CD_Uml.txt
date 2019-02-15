@@ -1,0 +1,229 @@
+@startuml
+
+package game
+{
+    class Game
+    {
+        {static} +NUM_ROOMS: int
+        -roomIdx: int
+        --
+        .. Constructor ..
+        +Game()
+        .. Game Funcs ..
+        +newGame(): void
+        +nextMonster(): Monster
+        +setIndex(idx: int): void
+        +getLoot(): void
+        +combatResolve(): int
+        +getPlayerStats(): String[]
+        +getInventory(): Inventory
+        +getMonsterStats(): String[]
+        +getRooms(): String[]
+        .. Combat Funcs ..
+        +attack(): int
+        +magic(idx: int): boolean
+        +item(idx: int): boolean
+        +monsterAttack(): int
+    }
+    
+    class Dungeon
+    {
+        -index: int[]
+        -rand: Random
+        --
+        .. Constructor ..
+        Dungeon(seed: int)
+        .. Funcs ..
+        +nextRooms(): void
+        +getRoomNames(): String[]
+        +giveLoot(idx: int, player: Player): void
+    }
+    
+    class Horde
+    {
+        -weights: double[]
+        -rand: Random
+        --
+        .. Constructor ..
+        +Horde(filename: String, seed: int)
+        .. Funcs ..
+        +nextMonster(): Monster
+        +monsterAttack(monster: Monster): int
+        -readFile(fileName: String): void
+        -readMonster(line: String): Monster
+    }
+    
+    class Monster
+    {
+        -maxHealth: int
+        -health: int
+        -atk: int[]
+        -weight: double
+        -name: String
+        --
+        .. Constructor ..
+        Monster(name: String, weight: double,
+        health: int, minAtk: int, maxAtk: int)
+        .. Getters ..
+        +getHealth(): int
+        +getName(): String
+        +getAtk(): int[]
+        +damage(dmg: int): void
+        +isAlive(): boolean
+        +getWeight(): double
+        +reset(): void
+    }
+    
+    package game.player
+    {
+        class Inventory
+        {
+            .. Default Inventory ..
+            {static} -DEF_WEP: Weapon
+            {static} -DEF_MAG: Magic[]
+            {static} -DEF_ITM: Item[]
+            .. Data ..
+            -gold: int
+            --
+            .. Constructor ..
+            +Inventory()
+            .. Getters ..
+            +getWeapon(): Weapon
+            +getMagic(idx: int): Magic
+            +getMagics(): Magic[]
+            +getItem(idx: int): Item
+            +getItems(): Item[]
+            +getGold(): int
+            .. Setters ..
+            +setWeapon(weapon: Weapon): void
+            +setMagics(idx: int, magic: Magic): void
+            +setItems(idx: int, item: Items): void
+            .. Other ..
+            +addGold(gold: int): void
+        }
+        
+        class Player
+        {
+            {static} +START_HEALTH: int
+            {static} + START_MANA: int
+            
+            -maxHealth: int
+            -health: int
+            -mana: int
+            -maxMana: int
+            --
+            .. Constructor ..
+            +Player()
+            .. Getters ..
+            +getHealth(): int
+            +getMana(): int
+            .. Other ..
+            +isAlive(): boolean
+            +damage(dmg: int): void
+            +addMana(mana: int): void
+            +useMana(mana: int): boolean
+            +addHealth(health: int): void
+        }
+    }
+}
+
+package gui
+{
+
+}
+
+package interfaces
+{
+    interface Room
+    {
+        {static} +rand(max: int): int
+        {abstract} +giveLoot(player: Player): void
+        {abstract} +getName(): String
+    }
+    
+    package interfaces.usables
+    {
+        interface Item
+        {
+            {abstract} +use(player: Player): boolean
+        }
+        
+        interface Magic
+        {
+            {abstract} +activate(player: Player): boolean
+        }
+        
+        interface Weapon
+        {
+            {abstract} +attack(player: Player): int
+        }
+    }
+}
+
+package gui
+{
+    class GameGUI
+    {
+        
+    }
+    
+    package selection
+    {
+        abstract class SelectionGUI
+        class ItemGUI
+        class MagicGUI
+        class RoomGUI
+    }
+}
+
+package usables
+{
+    package usables.items
+    {
+        class Items
+        {
+            All Items
+        }
+    }
+    
+    package usables.magics
+    {
+        class Magics
+        {
+            All Magics
+        }
+    }
+    
+    package usables.weapons
+    {
+        class Weapons
+        {
+            All Weapons
+        }
+    }
+}
+
+Game "0..1" *-- Player : -player
+Game "0..1" *-- Inventory : -inventory
+Game "0..1" *-- Horde : -horde
+Game "0..1" *-- Dungeon: -dungeon
+
+Dungeon "0..*" <-- Room : -ROOMS
+
+Horde "0..*" *-- Monster : -monsters
+
+interfaces.usables -left-> Inventory
+
+GameGUI "0..1" <-- Game: -game
+
+ItemGUI --|> SelectionGUI
+MagicGUI --|> SelectionGUI
+RoomGUI --|> SelectionGUI
+
+Items -up-|> Item
+Magics -up-|> Magic
+Weapons -up-|> Weapon
+
+selection --> GameGUI
+
+@enduml

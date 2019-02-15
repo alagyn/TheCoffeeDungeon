@@ -15,6 +15,8 @@ public class Game
     private Dungeon dungeon;
     private int roomIdx;
     private Horde horde;
+    //FIXME Remove monster instance from Game
+    //Move to Horde
     private Monster monster;
 
     /**Default Constructor*/

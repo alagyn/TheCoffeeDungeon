@@ -1,9 +1,9 @@
 package game.player;
 
-import interfaces.player.*;
-import items.weapons.*;
-import items.items.*;
-import items.magics.*;
+import usables.items.*;
+import usables.magics.*;
+import usables.weapons.*;
+import interfaces.usables.*;
 
 public class Inventory
 {

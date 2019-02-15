@@ -11,7 +11,7 @@ public class Dungeon
     /**
      * All of the available rooms
      */
-    public static final Room[] rooms = 
+    private static final Room[] ROOMS = 
         {
             new Corridor(),
             new Storage(),
@@ -56,7 +56,7 @@ public class Dungeon
     {
         for(int i = 0; i < index.length; i++)
         {
-            index[i] = rand.nextInt(rooms.length);
+            index[i] = rand.nextInt(ROOMS.length);
         } 
     }
    
@@ -70,7 +70,7 @@ public class Dungeon
         
         for(int i = 0; i < index.length; i++)
         {
-            output[i] = rooms[index[i]].getName();
+            output[i] = ROOMS[index[i]].getName();
         }
         
         return output;
@@ -85,7 +85,7 @@ public class Dungeon
     {
         //TODO Inventory loot
         //TOMAKE more items
-        rooms[index].giveLoot(player);
+        ROOMS[index].giveLoot(player);
     }
     
 }

@@ -1,7 +1,7 @@
-package items.items;
+package usables.items;
 
-import interfaces.player.Item;
 import game.player.*;
+import interfaces.usables.Item;
 
 public class HealPotion implements Item
 {

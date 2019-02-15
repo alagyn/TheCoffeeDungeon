@@ -1,7 +1,7 @@
-package items.magics;
+package usables.magics;
 
-import interfaces.player.Magic;
 import game.player.*;
+import interfaces.usables.Magic;
 
 public class FireBall implements Magic
 {
