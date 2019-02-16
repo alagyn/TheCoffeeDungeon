@@ -17,6 +17,7 @@ public class Game
     private Horde horde;
     //FIXME Remove monster instance from Game
     //Move to Horde
+    //MAYBE Change Game to singleton
     private Monster monster;
 
     /**Default Constructor*/
