@@ -16,7 +16,8 @@ public class Game
     private int roomIdx;
     private Horde horde;
     //FIXME Remove monster instance from Game
-    //Move to Horde
+    //Move to Horde 
+    //FIXME move roomdIdx to Dungeon
     //MAYBE Change Game to singleton
     private Monster monster;
 

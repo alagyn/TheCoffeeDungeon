@@ -161,6 +161,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         setPlayerStats();
         //TODO Starting room select
+        startGUI(roomGUI);
     }
     
     /**
