@@ -1,7 +1,7 @@
 package gui;
 
 import game.Game;
-import gui.selection.*;
+import game.player.Inventory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,19 +10,15 @@ import java.util.ArrayList;
 
 /**
  * The main Game GUI
- * @author alagyn
- *
+ * @author alagyn *
  */
 public class GameGUI extends JFrame implements ActionListener
 {
-    //FIXME refactor GameGUI to use ItemGUI and MagicGUI
-    //MAYBE pull GUI functions out into seperate class
-    //TODO put selectionGUIs as inner classes?
-    
     /**Reference to game*/
     private Game game;
     /**True if an action has already happened*/
     private boolean secondAction;
+    private boolean canHaveSecond;
     
     private JPanel top;
     private JPanel left;
@@ -43,7 +39,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     private JTextField playHealth;
     private JTextField playMana;
-    //MAYBE Remove potion text field
+    //FIXME Remove potion text field
     private JTextField playPots;
     
     /**Background color*/
@@ -174,7 +170,7 @@ public class GameGUI extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent event)
     {
         boolean attack = false, magic = false, item = false;
-        boolean b = false;
+        canHaveSecond = false;
         
         if(event.getSource().equals(btnOne))
         {
@@ -198,12 +194,8 @@ public class GameGUI extends JFrame implements ActionListener
         }
         else if(magic)
         {
-            int index = startGUI(magicGUI);
+            startGUI(magicGUI);
             
-            if(index >= 0)
-            {
-                b = game.magic(index);
-            }
             //TODO Insufficient mana behavior
             //TODO second turn functionality
             //TODO item use limits/cooldowns
@@ -211,24 +203,28 @@ public class GameGUI extends JFrame implements ActionListener
         }
         else if(item)
         {
-            int index = startGUI(itemGUI);
-            if(index >= 0)
-            {
-                b = game.item(index);
-            }
+            startGUI(itemGUI);
         }
     
+        //TOGUI Room selection panel
+        
+    }
+    
+    private void endRound()
+    {
         if(secondAction) 
         {
             secondAction = false;
-            //TODO End round
         }
         else
         {
-            secondAction = b;
+            secondAction = canHaveSecond;
         }
-        //TOGUI Room selection panel
         
+        if(!secondAction)
+        {
+          resolve();
+        }
     }
     
     /**Generates player damage and adds a log*/
@@ -287,7 +283,8 @@ public class GameGUI extends JFrame implements ActionListener
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
              */
-            newRoom(startGUI(roomGUI));
+            //TODO after room selection
+            startGUI(roomGUI);
             break;
         }
         
@@ -415,21 +412,10 @@ public class GameGUI extends JFrame implements ActionListener
         setPlayerStats();
     }
 
-    private int startGUI(SelectionGUI gui)
+    private void startGUI(SelectionGUI gui)
     {
-        int output = -1;
-        
         enableBtns(false);
-        gui.setUp(game.getInventory());
-        
-        do
-        {
-            output = gui.getIndex();
-        }
-        while(!gui.hasSelected());
-        
-        enableBtns(true);
-        return output;
+        gui.setUp();   
     }
     
     private void enableBtns(boolean b)
@@ -442,5 +428,226 @@ public class GameGUI extends JFrame implements ActionListener
     public Game getGame()
     {
         return game;
+    }
+
+    private abstract class SelectionGUI extends JFrame implements ActionListener
+    {   
+        Inventory inventory;
+        private int index;
+        
+        public static final int SPACE = 3;
+        
+        private JButton[] btns;
+        private JButton back;
+        
+        private JLabel[] labels;
+        
+        public SelectionGUI(Inventory inventory)
+        {
+            this.inventory = inventory;
+            index = 0;
+            
+            btns = new JButton[SPACE];
+            
+            for(int i = 0; i < btns.length; i++)
+            {
+                btns[i].addActionListener(this);
+            }
+            
+            back = new JButton("Back");
+            back.addActionListener(this);
+            
+            labels = new JLabel[SPACE];
+        }
+        
+
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if(e.getSource().equals(back))
+            {
+                index = -1;
+            }
+            else
+            {
+                for(int i = 0; i < btns.length; i++)
+                {
+                    if(e.getSource().equals(btns[i]))
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            
+            activate(index);
+        }
+        
+        public abstract void activate(int i);
+        
+        public abstract void setUp();
+        
+        public void setDesc(String[] info)
+        {
+            if(info.length <= SPACE)
+            {
+                for(int i = 0; i < info.length; i++)
+                {
+                    labels[i].setText(info[i]);
+                }
+            }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
+        }
+        
+        public void setBtnLabels(String[] info)
+        {
+            if(info.length <= SPACE)
+            {
+                for(int i = 0; i < info.length; i++)
+                {
+                    btns[i].setText(info[i]);
+                }
+            }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
+        }
+        
+    }
+
+    private class ItemGUI extends SelectionGUI
+    {
+    
+        //TOGUI ItemGUI
+        public ItemGUI()
+        {
+            super(game.getInventory());
+        }
+    
+        @Override
+        public void setUp()
+        {
+            String[] desc = new String[Inventory.INV_LENGTH];
+            String[] btnLabel = new String[Inventory.INV_LENGTH];
+            
+            for(int i = 0; i < Inventory.INV_LENGTH; i++)
+            {
+                desc[i] = inventory.getItems(i).getDesc();
+                btnLabel[i] = inventory.getItems(i).getName();
+            }
+            
+            setBtnLabels(btnLabel);
+            setDesc(desc);
+            
+            //TODO Item use label
+            setVisible(true);
+        }
+
+        
+        @Override
+        public void activate(int i)
+        {
+            if(i >= 0)
+            {
+                game.item(i);
+                canHaveSecond = inventory.getItems(i).hasSecondAction();
+                endRound();
+            }
+            
+            enableBtns(true);
+            setVisible(false);
+        }
+        
+    }
+
+    private class MagicGUI extends SelectionGUI
+    {
+        //TOGUI MagicGUI
+        public static final int WIDTH = 500, HEIGHT = 500, X = 20, Y = 20;
+        
+        private JLabel mana;
+        
+        public MagicGUI()
+        {
+            super(game.getInventory());
+            
+            mana = new JLabel();
+            
+            setSize(WIDTH, HEIGHT);
+            setLocation(X, Y);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
+        
+        public void setManaInfo(int amnt, int max)
+        {
+            mana.setText("Mana: " + amnt + "/" + max);
+        }
+
+        @Override
+        public void setUp()
+        {
+            String[] desc = new String[Inventory.INV_LENGTH];
+            String[] btnLabel = new String[Inventory.INV_LENGTH];
+            
+            for(int i = 0; i < Inventory.INV_LENGTH; i++)
+            {
+                desc[i] = inventory.getMagic(i).getDesc();
+                btnLabel[i] = inventory.getMagic(i).getName();
+            }
+            
+            setManaInfo(inventory.getMana(), inventory.getMaxMana());
+            setBtnLabels(btnLabel);
+            setDesc(desc);
+            
+            setVisible(true);
+        }
+
+        
+        @Override
+        public void activate(int i)
+        {
+            if(i >= 0)
+            {
+                game.magic(i);
+                canHaveSecond = inventory.getMagic(i).hasSecondAction();
+                endRound();
+            }
+            
+            enableBtns(true);
+            setVisible(false);
+        }
+
+        
+    }
+    
+    
+
+    private class RoomGUI extends SelectionGUI
+    {
+        //TOGUI RoomGUI
+        
+        public RoomGUI()
+        {
+            super(game.getInventory());
+        }
+        
+        @Override
+        public void setUp()
+        {
+            setBtnLabels(game.getRooms());
+            setDesc(game.getRoomDescs());
+        }
+
+        
+        @Override
+        public void activate(int i)
+        {
+            // TODO room activate
+            
+        }
     }
 }

@@ -6,12 +6,12 @@ public class Player
      * Beginning stats
      */
     public static final int 
-        START_HEALTH = 20,
-        START_MANA = 3;
+        START_HEALTH = 20;
+        
     
     private int 
-        maxHealth, health, 
-        mana, maxMana;
+        maxHealth, health; 
+        
     
     /**
      * Defualt constructor
@@ -20,9 +20,6 @@ public class Player
     {
         maxHealth = START_HEALTH;
         health = START_HEALTH;
-        
-        maxMana = START_MANA;
-        mana = START_MANA;
     }
     
     /**
@@ -44,59 +41,12 @@ public class Player
     }
     
     /**
-     * Returns the current mana amount
-     * @return the current mana amount
-     */
-    public int getMana()
-    {
-        return mana;
-    }
-    
-    /**
      * Returns the current health amount
      * @return the current health amount
      */
     public int getHealth()
     {
         return health;
-    }
-    
-    /**
-     * Adds to the current mana
-     * @param mana the mana to add
-     */
-    public void addMana(int mana)
-    {
-        if(mana >= 0)
-        {
-            this.mana += mana;
-            if(this.mana > maxMana)
-            {
-                this.mana = maxMana;
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid mana amount");
-        }
-    }
-    
-    /**
-     * Uses the passed amount of mana, returns true if possible
-     * @param mana The amount to use
-     * @return True if amount is available
-     */
-    public boolean useMana(int mana)
-    {
-        boolean output = false;
-        
-        if(this.mana - mana >= 0)
-        {
-            this.mana -= mana;
-            output = true;
-        }
-        
-        return output;
     }
     
     /**

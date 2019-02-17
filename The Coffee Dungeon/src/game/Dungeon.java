@@ -77,6 +77,22 @@ public class Dungeon
     }
     
     /**
+     * Returns the desc of the current rooms
+     * @return the desc of the current rooms
+     */
+    public String[] getRoomDescs()
+    {
+        String[] output = new String[index.length];
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            output[i] = ROOMS[index[i]].getDesc();
+        }
+        
+        return output;
+    }
+    
+    /**
      * Activates loot function of the room at the index
      * @param index The rooms index
      * @param player The current player

@@ -14,4 +14,5 @@ public interface Room
     
     public void giveLoot(Player player);
     public String getName();
+    public String getDesc();
 }

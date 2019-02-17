@@ -15,6 +15,7 @@ public class Inventory
     private static final Item[] DEF_ITM = {new HealPotion(), null, null};
     
     public static final int INV_LENGTH = 3;
+    public static final int START_MANA = 3;
     
     private Weapon weapon;
     private Magic[] magics;
@@ -23,6 +24,7 @@ public class Inventory
     //MAYBE Armor?
     
     private int gold;
+    private int mana, maxMana;
     
     /**
      * Default constructor
@@ -32,6 +34,9 @@ public class Inventory
         this.weapon = DEF_WEP;
         this.magics = DEF_MAG;
         this.items = DEF_ITM;
+        
+        maxMana = START_MANA;
+        mana = START_MANA;
     }
     
     //Weapon
@@ -154,4 +159,59 @@ public class Inventory
         }    
     }
     
+    /**
+     * Returns the current mana amount
+     * @return the current mana amount
+     */
+    public int getMana()
+    {
+        return mana;
+    }
+
+    /**
+     * Adds to the current mana
+     * @param mana the mana to add
+     */
+    public void addMana(int mana)
+    {
+        if(mana >= 0)
+        {
+            this.mana += mana;
+            if(this.mana > maxMana)
+            {
+                this.mana = maxMana;
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid mana amount");
+        }
+    }
+    
+    /**
+     * Uses the passed amount of mana, returns true if possible
+     * @param mana The amount to use
+     * @return True if amount is available
+     */
+    public boolean useMana(int mana)
+    {
+        boolean output = false;
+        
+        if(this.mana - mana >= 0)
+        {
+            this.mana -= mana;
+            output = true;
+        }
+        
+        return output;
+    }
+    
+    /**
+     * Returns the max mana
+     * @return the max mana
+     */
+    public int getMaxMana()
+    {
+        return maxMana;
+    }
 }

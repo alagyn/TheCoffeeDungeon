@@ -98,7 +98,7 @@ public class Game
     {
         String[] output = new String[2];
         output[0] = "" + player.getHealth();
-        output[1] = "" + player.getMana();
+        output[1] = "" + inventory.getMana();
 
         return output;
     }
@@ -126,6 +126,15 @@ public class Game
     }
 
     /**
+     * Returns the current room descs
+     * @return the current room descs
+     */
+    public String[] getRoomDescs()
+    {
+        return dungeon.getRoomDescs();
+    }
+    
+    /**
      * Activates a primary attack on a monster and returns the damage done
      * @return The damage done
      */
@@ -138,6 +147,7 @@ public class Game
     
     /*
      * TODO Return values for completed actions
+     * Command object?
      * i.e. whether the action could be completed
      * not enough mana/Cooldowns?
      * throw exceptions? gives a third return value
@@ -153,7 +163,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getMagic(idx).activate(player);
+            return inventory.getMagic(idx).activate(player, monster);
         }
         else
         {
@@ -169,7 +179,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getItems(idx).use(player);
+            return inventory.getItems(idx).use(player, monster);
         }
         else
         {
