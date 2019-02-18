@@ -23,7 +23,8 @@ public class Dungeon
     /**
      * The indexes of the current rooms in the rooms array
      */
-    private int[] index;
+    private int[] currentRooms;
+    private int chosenRoom;
     /**
      * Random generator
      */
@@ -44,7 +45,8 @@ public class Dungeon
             rand = new Random();
         }
         
-        index = new int[3];
+        currentRooms = new int[3];
+        chosenRoom = -1;
         
         nextRooms();
     }
@@ -54,9 +56,9 @@ public class Dungeon
      */
     public void nextRooms()
     {
-        for(int i = 0; i < index.length; i++)
+        for(int i = 0; i < currentRooms.length; i++)
         {
-            index[i] = rand.nextInt(ROOMS.length);
+            currentRooms[i] = rand.nextInt(ROOMS.length);
         } 
     }
    
@@ -66,11 +68,11 @@ public class Dungeon
      */
     public String[] getRoomNames()
     {
-        String[] output = new String[index.length];
+        String[] output = new String[currentRooms.length];
         
-        for(int i = 0; i < index.length; i++)
+        for(int i = 0; i < currentRooms.length; i++)
         {
-            output[i] = ROOMS[index[i]].getName();
+            output[i] = ROOMS[currentRooms[i]].getName();
         }
         
         return output;
@@ -82,11 +84,11 @@ public class Dungeon
      */
     public String[] getRoomDescs()
     {
-        String[] output = new String[index.length];
+        String[] output = new String[currentRooms.length];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = ROOMS[index[i]].getDesc();
+            output[i] = ROOMS[currentRooms[i]].getDesc();
         }
         
         return output;
@@ -104,4 +106,21 @@ public class Dungeon
         ROOMS[index].giveLoot(player);
     }
     
+    /**
+     * Set's the current chosen room to the index
+     * @param idx
+     */
+    public void setChosenRoom(int idx)
+    {
+        if(idx >= 0)
+        {
+            chosenRoom = idx;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    //FIXME fix new current room index
 }

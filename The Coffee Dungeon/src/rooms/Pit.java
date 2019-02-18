@@ -23,4 +23,11 @@ public class Pit implements Room
     {
         return name;
     }
+
+    @Override
+    public String getDesc()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

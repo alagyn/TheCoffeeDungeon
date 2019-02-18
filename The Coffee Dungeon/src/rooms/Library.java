@@ -23,4 +23,11 @@ public class Library implements Room
         player.addMagic();
         */
     }
+
+    @Override
+    public String getDesc()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
