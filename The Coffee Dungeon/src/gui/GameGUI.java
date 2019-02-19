@@ -69,10 +69,6 @@ public class GameGUI extends JFrame implements ActionListener
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 1));
         
-        itemGUI = new ItemGUI();
-        magicGUI = new MagicGUI();
-        roomGUI = new RoomGUI();
-        
         //Monster stats
         top = new JPanel();
         left = new JPanel();
@@ -159,6 +155,10 @@ public class GameGUI extends JFrame implements ActionListener
         
         logText = new ArrayList<String>();
         
+        itemGUI = new ItemGUI();
+        magicGUI = new MagicGUI();
+        roomGUI = new RoomGUI();
+        
         setPlayerStats();
         //TODO Starting room select
         startGUI(roomGUI);
@@ -243,7 +243,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            game.setIndex(index);
+            game.setCurrentRoomIndex(index);
             setMonsterStats();
         }
         else
@@ -276,10 +276,9 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
-            game.getLoot();
             addLog("You defeated the " + game.getMonsterStats()[0]);
             game.nextMonster();
-            game.getLoot();
+            game.giveLoot();
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
@@ -449,6 +448,11 @@ public class GameGUI extends JFrame implements ActionListener
             index = 0;
             
             btns = new JButton[SPACE];
+            
+            for(int i = 0; i < btns.length; i++)
+            {
+                btns[i] = new JButton();
+            }
             
             for(int i = 0; i < btns.length; i++)
             {
@@ -624,8 +628,6 @@ public class GameGUI extends JFrame implements ActionListener
 
         
     }
-    
-    
 
     private class RoomGUI extends SelectionGUI
     {
@@ -634,6 +636,10 @@ public class GameGUI extends JFrame implements ActionListener
         public RoomGUI()
         {
             super(game.getInventory());
+            setSize(500, 500);
+            setLocation(GameGUI.this.getLocation());
+            
+            setVisible(true);
         }
         
         @Override
@@ -643,12 +649,16 @@ public class GameGUI extends JFrame implements ActionListener
             setDesc(game.getRoomDescs());
         }
 
-        
         @Override
         public void activate(int i)
         {
-            // TODO room activate
+            if(i >= 0)
+            {
+                newRoom(i);
+            }
             
+            setVisible(false);
+            enableBtns(true);
         }
     }
 }

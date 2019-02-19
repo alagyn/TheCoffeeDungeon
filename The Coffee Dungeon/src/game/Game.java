@@ -13,7 +13,6 @@ public class Game
     private Inventory inventory;
     
     private Dungeon dungeon;
-    private int roomIdx;
     private Horde horde;
     //FIXME Remove monster instance from Game
     //Move to Horde
@@ -39,6 +38,11 @@ public class Game
      */
     public Monster nextMonster()
     {
+        if(monster != null)
+        {
+            monster.reset();
+        }
+        
         monster = horde.nextMonster();
         return monster;
     }
@@ -47,23 +51,12 @@ public class Game
      * Sets the current room index
      * @param roomIdx The current room index
      */
-    public void setIndex(int roomIdx)
+    public void setCurrentRoomIndex(int roomIdx)
     {
-        this.roomIdx = roomIdx;
+        dungeon.setChosenRoom(roomIdx);
     }
 
-    /**
-     * Gives loot to the player
-     */
-    public void getLoot()
-    {
-        /*
-         * TODO Item loot generation
-         * Loot gen up to the room?
-         * Item rand weights?
-         */
-        dungeon.giveLoot(roomIdx, player);
-    }
+    
 
     /**
      * Checks if the player and or monster is still alive
@@ -76,15 +69,10 @@ public class Game
         if(player.isAlive() && !monster.isAlive())
         {
             output = 1;
-            monster.reset();
-            getLoot();
-            dungeon.nextRooms();
-            monster.reset();
         } 
         else if (!player.isAlive())
         {
             output = -1;
-            monster.reset();
         }
 
         return output;
@@ -215,5 +203,10 @@ public class Game
     public Inventory getInventory()
     {
         return inventory;
+    }
+
+    public void giveLoot()
+    {
+        dungeon.giveLoot(player);
     }
 }

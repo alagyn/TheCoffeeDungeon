@@ -13,7 +13,7 @@ public class Pit implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TOMAKE loot
+        /*TOMAKE Pit
         player.addWeapon();
         */
     }
@@ -27,7 +27,6 @@ public class Pit implements Room
     @Override
     public String getDesc()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 }

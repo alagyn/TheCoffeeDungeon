@@ -6,6 +6,7 @@ import interfaces.usables.Weapon;
 
 public class Sword1 implements Weapon
 {
+    //TOMAKE Sword1
     Random rand;
 
     public Sword1()

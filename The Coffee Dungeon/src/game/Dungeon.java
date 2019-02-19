@@ -99,11 +99,17 @@ public class Dungeon
      * @param index The rooms index
      * @param player The current player
      */
-    public void giveLoot(int index, Player player)
+    public void giveLoot(Player player)
     {
-        //TODO Inventory loot
+        /*
+         * TODO Item loot generation
+         * Loot gen up to the room?
+         * Item rand weights?
+         * Selection GUI (slot selection/ replace)
+         */
+    
         //TOMAKE more items
-        ROOMS[index].giveLoot(player);
+        ROOMS[chosenRoom].giveLoot(player);
     }
     
     /**
@@ -121,6 +127,5 @@ public class Dungeon
             throw new IllegalArgumentException();
         }
     }
-    
     //FIXME fix new current room index
 }

@@ -15,7 +15,7 @@ public class Corridor implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TOMAKE loot
+        /*TOMAKE Corridor
         player.addGold(Room.rand(MAX_GOLD));
         */
     }
@@ -29,7 +29,6 @@ public class Corridor implements Room
     @Override
     public String getDesc()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 }

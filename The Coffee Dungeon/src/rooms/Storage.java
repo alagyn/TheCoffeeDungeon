@@ -14,7 +14,7 @@ public class Storage implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TOMAKE loot
+        /*TOMAKE Storage
         player.addPotion();
         player.addGold(Room.rand(MAX_GOLD));
         */
@@ -29,7 +29,6 @@ public class Storage implements Room
     @Override
     public String getDesc()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

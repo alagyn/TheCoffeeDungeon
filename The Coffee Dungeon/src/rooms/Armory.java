@@ -16,7 +16,7 @@ public class Armory implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /* TOMAKE loot
+        /* TOMAKE Armory
         player.addArmor();
         player.addGold(Room.rand(MAX_GOLD));
         */
@@ -31,7 +31,6 @@ public class Armory implements Room
     @Override
     public String getDesc()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 }

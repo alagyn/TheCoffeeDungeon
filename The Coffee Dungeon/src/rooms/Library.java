@@ -19,7 +19,7 @@ public class Library implements Room
     @Override
     public void giveLoot(Player player)
     {
-        /*TOMAKE loot
+        /*TOMAKE Library
         player.addMagic();
         */
     }
@@ -27,7 +27,6 @@ public class Library implements Room
     @Override
     public String getDesc()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 }
