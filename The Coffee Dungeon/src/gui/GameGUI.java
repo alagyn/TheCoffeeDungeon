@@ -171,8 +171,8 @@ public class GameGUI extends JFrame implements ActionListener
         
         if(attack)
         {
-            int dmg = Game.getInstance().attack();
-            addLog("You hit the " + Game.getInstance().getMonsterStats()[0] + " for " + dmg);
+            int dmg = Game.getInst().attack();
+            addLog("You hit the " + Game.getInst().getMonsterStats()[0] + " for " + dmg);
             playerDamage();
             canHaveSecond = false;
         }
@@ -212,7 +212,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Generates player damage and adds a log*/
     private void playerDamage()
     {
-        int dmg = Game.getInstance().monsterAttack();
+        int dmg = Game.getInst().monsterAttack();
         addLog("You take " + dmg + " points of damage");
     }
     
@@ -224,7 +224,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            Game.getInstance().setCurrentRoomIndex(index);
+            Game.getInst().setCurrentRoomIndex(index);
             setMonsterStats();
         }
         else
@@ -239,7 +239,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        int status = Game.getInstance().combatResolve();
+        int status = Game.getInst().combatResolve();
         
         System.out.println("Status " + status);
         
@@ -257,9 +257,9 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case 1:
-            addLog("You defeated the " + Game.getInstance().getMonsterStats()[0]);
-            Game.getInstance().nextMonster();
-            Game.getInstance().giveLoot();
+            addLog("You defeated the " + Game.getInst().getMonsterStats()[0]);
+            Game.getInst().nextMonster();
+            Game.getInst().giveLoot();
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
@@ -278,7 +278,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setPlayerStats()
     {
-        String[] stats = Game.getInstance().getPlayerStats();
+        String[] stats = Game.getInst().getPlayerStats();
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
     }
@@ -288,7 +288,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setMonsterStats()
     {
-        String[] stats = Game.getInstance().getMonsterStats();
+        String[] stats = Game.getInst().getMonsterStats();
         monName.setText(stats[0]);
         monHealth.setText(stats[1]);
     }
@@ -382,7 +382,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newGame()
     {
-        Game.getInstance().newGame();
+        Game.getInst().newGame();
         resetLog(true);
         setMonsterStats();
         setPlayerStats();
@@ -507,7 +507,7 @@ public class GameGUI extends JFrame implements ActionListener
         //TOGUI ItemGUI
         public ItemGUI()
         {
-            super(Game.getInstance().getInventory());
+            super(Game.getInst().getInventory());
         }
     
         @Override
@@ -533,7 +533,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Game.getInstance().item(i);
+                Game.getInst().item(i);
                 canHaveSecond = inventory.getItems(i).hasSecondAction();
             }
             
@@ -552,7 +552,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         public MagicGUI()
         {
-            super(Game.getInstance().getInventory());
+            super(Game.getInst().getInventory());
             
             mana = new JLabel();
             
@@ -591,7 +591,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Game.getInstance().magic(i);
+                Game.getInst().magic(i);
                 canHaveSecond = inventory.getMagic(i).hasSecondAction();
             }
             
@@ -608,7 +608,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         public RoomGUI()
         {
-            super(Game.getInstance().getInventory());
+            super(Game.getInst().getInventory());
             setSize(500, 300);
             setLocation(GameGUI.this.getLocation());
             
@@ -626,8 +626,8 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            setBtnLabels(Game.getInstance().getRooms());
-            setDesc(Game.getInstance().getRoomDescs());
+            setBtnLabels(Game.getInst().getRooms());
+            setDesc(Game.getInst().getRoomDescs());
         }
 
         @Override

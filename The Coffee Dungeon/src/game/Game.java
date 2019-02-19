@@ -1,7 +1,5 @@
 package game;
 
-import java.io.FileNotFoundException;
-
 import game.player.*;
 import gui.GameGUI;
 
@@ -19,9 +17,7 @@ public class Game
     
     private Dungeon dungeon;
     private Horde horde;
-    //FIXME Remove monster instance from Game
-    //Move to Horde
-    private Monster monster;
+    
 
     /**Default Constructor*/
     private Game()
@@ -42,7 +38,7 @@ public class Game
         }
     }
     
-    public static Game getInstance()
+    public static Game getInst()
     {
         return game;
     }
@@ -51,15 +47,9 @@ public class Game
      * Generates the next monster
      * @return the next random monster
      */
-    public Monster nextMonster()
+    public void nextMonster()
     {
-        if(monster != null)
-        {
-            monster.reset();
-        }
-        
-        monster = horde.nextMonster();
-        return monster;
+        horde.nextMonster();
     }
 
     /**
@@ -81,7 +71,7 @@ public class Game
     {
         int output = 0;
 
-        if(player.isAlive() && !monster.isAlive())
+        if(player.isAlive() && !horde.isCurrentAlive())
         {
             output = 1;
         } 
@@ -112,11 +102,7 @@ public class Game
      */
     public String[] getMonsterStats()
     {
-        String[] output = new String[2];
-        output[0] = "" + monster.getName();
-        output[1] = "" + monster.getHealth();
-
-        return output;
+        return horde.getMonsterStats();
     }
 
     /**
@@ -144,7 +130,7 @@ public class Game
     public int attack()
     {
        int damage = inventory.getWeapon().attack(player);
-       monster.damage(damage);
+       horde.damageMonster(damage);
        return damage;
     }
     
@@ -166,7 +152,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getMagic(idx).activate(player, monster);
+            return inventory.getMagic(idx).activate(player, horde.getCurrentMonster());
         }
         else
         {
@@ -182,7 +168,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getItems(idx).use(player, monster);
+            return inventory.getItems(idx).use(player, horde.getCurrentMonster());
         }
         else
         {
@@ -196,7 +182,7 @@ public class Game
      */
     public int monsterAttack()
     {
-        int dmg = horde.monsterAttack(monster);
+        int dmg = horde.monsterAttack(horde.getCurrentMonster());
         player.damage(dmg);
         return dmg;
     }

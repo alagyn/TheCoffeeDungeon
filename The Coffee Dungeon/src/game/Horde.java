@@ -8,7 +8,7 @@ public class Horde
     private ArrayList<Monster> monsters;
     private double[] weights;
     private Random rand;
-    
+    private Monster currentMonster;
     /**
      * Default constructor
      * @param fileName The filename for the input file
@@ -34,8 +34,13 @@ public class Horde
      * Generates and returns the next random monster
      * @return The next monster
      */
-    public Monster nextMonster()
+    public void nextMonster()
     {
+        if(currentMonster != null)
+        {
+            resetCurrentMonster();
+        }
+        
         double gen = rand.nextDouble();
         double sum = 0;
         
@@ -51,7 +56,7 @@ public class Horde
             }
         }
         
-        return output;
+        currentMonster = output;
     }
     
     /**
@@ -215,5 +220,35 @@ public class Horde
         output = rand.nextInt(range) + min;
         
         return output;
+    }
+    
+    public Monster getCurrentMonster()
+    {
+        return currentMonster;
+    }
+
+    public void resetCurrentMonster()
+    {
+        currentMonster.reset();
+    }
+    
+    public boolean isCurrentAlive()
+    {
+        return currentMonster.isAlive();
+    }
+    
+    public String[] getMonsterStats()
+    {
+        String[] output = new String[2];
+        
+        output[0] = "" + currentMonster.getName();
+        output[1] = "" + currentMonster.getHealth();
+        
+        return output;
+    }
+
+    public void damageMonster(int damage)
+    {
+        currentMonster.damage(damage);
     }
 }
