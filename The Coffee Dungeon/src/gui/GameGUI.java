@@ -14,6 +14,8 @@ import java.util.ArrayList;
  */
 public class GameGUI extends JFrame implements ActionListener
 {
+    //TOGUI Improve Main GUI
+    
     /**True if an action has already happened*/
     private boolean secondAction;
     private boolean canHaveSecond;
@@ -179,10 +181,6 @@ public class GameGUI extends JFrame implements ActionListener
         else if(magic)
         {
             startGUI(magicGUI);
-            
-            //TODO Insufficient mana behavior
-            //TODO item use limits/cooldowns
-            //TODO Resolve magic/items after use
         }
         else if(item)
         {
@@ -589,6 +587,7 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
+            //TODO Insufficient mana behavior
             if(i >= 0)
             {
                 Game.getInst().magic(i);
