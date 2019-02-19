@@ -214,4 +214,14 @@ public class Inventory
     {
         return maxMana;
     }
+
+    public void removeItem(int idx)
+    {
+        items[idx] = null;
+    }
+    
+    public void removeMagic(int idx)
+    {
+        magics[idx] = null;
+    }
 }

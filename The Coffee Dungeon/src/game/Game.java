@@ -1,6 +1,9 @@
 package game;
 
+import java.io.FileNotFoundException;
+
 import game.player.*;
+import gui.GameGUI;
 
 public class Game
 {
@@ -9,6 +12,8 @@ public class Game
      */
     public static final int NUM_ROOMS = 3;
 
+    private static Game game = new Game();
+    
     private Player player;
     private Inventory inventory;
     
@@ -16,20 +21,30 @@ public class Game
     private Horde horde;
     //FIXME Remove monster instance from Game
     //Move to Horde
-    //MAYBE Change Game to singleton
     private Monster monster;
 
     /**Default Constructor*/
-    public Game()
+    private Game()
     {
-        player = new Player();
-        inventory = new Inventory();
-        horde = new Horde("data/mon.csv", -1);
-        
-        nextMonster();
-        
-        dungeon = new Dungeon(-1);
-        
+        try
+        {
+            player = new Player();
+            inventory = new Inventory();
+            horde = new Horde("data/mon.csv", -1);
+            
+            nextMonster();
+            
+            dungeon = new Dungeon(-1);
+        }
+        catch(IllegalArgumentException e)
+        {
+            GameGUI.critErrorMessage("Input file not found");
+        }
+    }
+    
+    public static Game getInstance()
+    {
+        return game;
     }
 
     /**

@@ -58,7 +58,30 @@ public class Dungeon
     {
         for(int i = 0; i < currentRooms.length; i++)
         {
-            currentRooms[i] = rand.nextInt(ROOMS.length);
+            currentRooms[i] = -1;
+        }
+        
+        for(int i = 0; i < currentRooms.length; i++)
+        {
+            boolean same = false;
+            do
+            {
+                int gen =  rand.nextInt(ROOMS.length);
+                
+                for(int x = 0; x < currentRooms.length; x++)
+                {
+                    if(gen == currentRooms[x])
+                    {
+                        same = true;
+                    }
+                }
+                
+                if(!same)
+                {
+                    currentRooms[i] = gen;
+                }
+                
+            }while(same);
         } 
     }
    
@@ -127,5 +150,4 @@ public class Dungeon
             throw new IllegalArgumentException();
         }
     }
-    //FIXME fix new current room index
 }
