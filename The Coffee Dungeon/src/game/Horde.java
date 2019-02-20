@@ -61,11 +61,13 @@ public class Horde
         instance.currentMonster = output;
     }
     
+    
     /**
      * Reads an input file of monster stats
      * @param fileName The input filename
      * @deprecated
      */
+    /*
     private void readFile(String fileName)
     {
         Scanner in;
@@ -130,6 +132,7 @@ public class Horde
         }
         
     }
+    */
     
     /**
      * Creates a monster object from a line of data
