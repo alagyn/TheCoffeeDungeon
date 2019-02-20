@@ -17,7 +17,7 @@ public class Library implements Room
     }
     
     @Override
-    public void giveLoot(Player player)
+    public void giveLoot()
     {
         /*TOMAKE Library
         player.addMagic();

@@ -8,6 +8,7 @@ import interfaces.*;
 
 public class Dungeon
 {
+    private static Dungeon instance = new Dungeon(-1);
     /**
      * All of the available rooms
      */
@@ -34,7 +35,7 @@ public class Dungeon
      * Default constructor
      * @param seed The seed for random generation
      */
-    public Dungeon(int seed)
+    private Dungeon(int seed)
     {
         if(seed > 0)
         {
@@ -89,13 +90,13 @@ public class Dungeon
      * Returns the current room names
      * @return the current room names
      */
-    public String[] getRoomNames()
+    public static String[] getRoomNames()
     {
-        String[] output = new String[currentRooms.length];
+        String[] output = new String[instance.currentRooms.length];
         
-        for(int i = 0; i < currentRooms.length; i++)
+        for(int i = 0; i < instance.currentRooms.length; i++)
         {
-            output[i] = ROOMS[currentRooms[i]].getName();
+            output[i] = ROOMS[instance.currentRooms[i]].getName();
         }
         
         return output;
@@ -105,13 +106,13 @@ public class Dungeon
      * Returns the desc of the current rooms
      * @return the desc of the current rooms
      */
-    public String[] getRoomDescs()
+    public static String[] getRoomDescs()
     {
-        String[] output = new String[currentRooms.length];
+        String[] output = new String[instance.currentRooms.length];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = ROOMS[currentRooms[i]].getDesc();
+            output[i] = ROOMS[instance.currentRooms[i]].getDesc();
         }
         
         return output;
@@ -120,9 +121,8 @@ public class Dungeon
     /**
      * Activates loot function of the room at the index
      * @param index The rooms index
-     * @param player The current player
      */
-    public void giveLoot(Player player)
+    public static void giveLoot()
     {
         /*
          * TODO Item loot generation
@@ -132,18 +132,18 @@ public class Dungeon
          */
     
         //TOMAKE more items
-        ROOMS[chosenRoom].giveLoot(player);
+        ROOMS[instance.chosenRoom].giveLoot();
     }
     
     /**
      * Set's the current chosen room to the index
      * @param idx
      */
-    public void setChosenRoom(int idx)
+    public static void setChosenRoom(int idx)
     {
         if(idx >= 0)
         {
-            chosenRoom = idx;
+            instance.chosenRoom = idx;
         }
         else
         {

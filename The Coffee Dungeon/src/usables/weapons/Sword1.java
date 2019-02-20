@@ -15,7 +15,7 @@ public class Sword1 implements Weapon
     }
 
     @Override
-    public int attack(Player player)
+    public int attack()
     {
         return rand.nextInt(5) + 1;
     }

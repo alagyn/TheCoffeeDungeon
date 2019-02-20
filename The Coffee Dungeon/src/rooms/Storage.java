@@ -12,7 +12,7 @@ public class Storage implements Room
     {    }
 
     @Override
-    public void giveLoot(Player player)
+    public void giveLoot()
     {
         /*TOMAKE Storage
         player.addPotion();

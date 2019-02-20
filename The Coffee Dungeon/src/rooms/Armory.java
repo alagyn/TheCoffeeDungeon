@@ -14,7 +14,7 @@ public class Armory implements Room
     }
 
     @Override
-    public void giveLoot(Player player)
+    public void giveLoot()
     {
         /* TOMAKE Armory
         player.addArmor();

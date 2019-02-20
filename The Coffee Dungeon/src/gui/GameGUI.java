@@ -401,7 +401,6 @@ public class GameGUI extends JFrame implements ActionListener
     
     private abstract class SelectionGUI extends JFrame implements ActionListener
     {   
-        Inventory inventory;
         private int index;
         
         public static final int SPACE = 3;
@@ -411,10 +410,9 @@ public class GameGUI extends JFrame implements ActionListener
         
         public JLabel[] labels;
         
-        public SelectionGUI(Inventory inventory)
+        public SelectionGUI()
         {
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            this.inventory = inventory;
             index = 0;
             
             btns = new JButton[SPACE];
@@ -505,23 +503,15 @@ public class GameGUI extends JFrame implements ActionListener
         //TOGUI ItemGUI
         public ItemGUI()
         {
-            super(Game.getInst().getInventory());
+            super();
         }
     
         @Override
         public void setUp()
         {
-            String[] desc = new String[Inventory.INV_LENGTH];
-            String[] btnLabel = new String[Inventory.INV_LENGTH];
             
-            for(int i = 0; i < Inventory.INV_LENGTH; i++)
-            {
-                desc[i] = inventory.getItems(i).getDesc();
-                btnLabel[i] = inventory.getItems(i).getName();
-            }
-            
-            setBtnLabels(btnLabel);
-            setDesc(desc);
+            setBtnLabels(Inventory.getMagicNames());
+            setDesc(Inventory.getMagicDescs());
             
             //TODO Item use label
             setVisible(true);
@@ -532,7 +522,7 @@ public class GameGUI extends JFrame implements ActionListener
             if(i >= 0)
             {
                 Game.getInst().item(i);
-                canHaveSecond = inventory.getItems(i).hasSecondAction();
+                canHaveSecond = Inventory.getItems(i).hasSecondAction();
             }
             
             enableBtns(true);
@@ -550,7 +540,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         public MagicGUI()
         {
-            super(Game.getInst().getInventory());
+            super();
             
             mana = new JLabel();
             
@@ -567,18 +557,9 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            String[] desc = new String[Inventory.INV_LENGTH];
-            String[] btnLabel = new String[Inventory.INV_LENGTH];
-            
-            for(int i = 0; i < Inventory.INV_LENGTH; i++)
-            {
-                desc[i] = inventory.getMagic(i).getDesc();
-                btnLabel[i] = inventory.getMagic(i).getName();
-            }
-            
-            setManaInfo(inventory.getMana(), inventory.getMaxMana());
-            setBtnLabels(btnLabel);
-            setDesc(desc);
+            setManaInfo(Inventory.getMana(), Inventory.getMaxMana());
+            setBtnLabels(Inventory.getItemNames());
+            setDesc(Inventory.getItemDescs());
             
             setVisible(true);
         }
@@ -591,7 +572,7 @@ public class GameGUI extends JFrame implements ActionListener
             if(i >= 0)
             {
                 Game.getInst().magic(i);
-                canHaveSecond = inventory.getMagic(i).hasSecondAction();
+                canHaveSecond = Inventory.getMagic(i).hasSecondAction();
             }
             
             enableBtns(true);
@@ -607,7 +588,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         public RoomGUI()
         {
-            super(Game.getInst().getInventory());
+            super();
             setSize(500, 300);
             setLocation(GameGUI.this.getLocation());
             

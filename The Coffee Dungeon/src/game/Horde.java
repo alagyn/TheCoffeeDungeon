@@ -5,7 +5,10 @@ import java.io.*;
 
 public class Horde
 {
+    private static Horde instance = new Horde(-1);
+    
     private ArrayList<Monster> monsters;
+    //FIXME Remove weights from horde and update monsters array
     private double[] weights;
     private Random rand;
     private Monster currentMonster;
@@ -14,7 +17,7 @@ public class Horde
      * @param fileName The filename for the input file
      * @param seed the seed for random generation
      */
-    public Horde(String fileName, int seed)
+    private Horde(int seed)
     {
         if(seed > 0)
         {
@@ -25,8 +28,6 @@ public class Horde
             rand = new Random();
         }
         
-        readFile(fileName);
-        
         nextMonster();
     }
     
@@ -34,34 +35,36 @@ public class Horde
      * Generates and returns the next random monster
      * @return The next monster
      */
-    public void nextMonster()
+    public static void nextMonster()
     {
-        if(currentMonster != null)
+        if(instance.currentMonster != null)
         {
-            resetCurrentMonster();
+            instance.resetCurrentMonster();
         }
         
-        double gen = rand.nextDouble();
+        double gen = instance.rand.nextDouble();
         double sum = 0;
         
         Monster output = null;
         
-        for(int i = 0; i < weights.length; i++)
+        //FIXME Update Monster generation
+        for(int i = 0; i < instance.weights.length; i++)
         {
-            sum += weights[i];
+            sum += instance.weights[i];
             if(gen <= sum)
             {
-                output = monsters.get(i);
+                output = instance.monsters.get(i);
                 break;
             }
         }
         
-        currentMonster = output;
+        instance.currentMonster = output;
     }
     
     /**
      * Reads an input file of monster stats
      * @param fileName The input filename
+     * @deprecated
      */
     private void readFile(String fileName)
     {
@@ -98,7 +101,7 @@ public class Horde
         {
             try
             {
-                monsters.add(readMonster(in.nextLine()));
+                //monsters.add(readMonster(in.nextLine()));
             }
             catch(IllegalArgumentException e)
             {
@@ -133,7 +136,9 @@ public class Horde
      * @param line The data
      * @return The constructed monster
      * @throws IllegalArgumentException when invalid data
+     * @deprecated
      */
+    /*
     private Monster readMonster(String line)
     {
         Monster output = null;
@@ -196,20 +201,24 @@ public class Horde
             throw new IllegalArgumentException("Invalid maxAtk");
         }
 
-        output = new Monster(name, weight, health, minAtk, maxAtk);
+        //FIXME monster init
+        
         
         lineScan.close();
         
         return output;
     }
-
+     */
+    
     /**
      * Generates the random damage of a monster attack
      * @param monster The current monster
      * @return The damage
+     * @deprecated
      */
     public int monsterAttack(Monster monster)
     {
+        //FIXME Monster attack
         int output = 0;
         
         int[] atk = monster.getAtk();
@@ -232,23 +241,23 @@ public class Horde
         currentMonster.reset();
     }
     
-    public boolean isCurrentAlive()
+    public static boolean isCurrentAlive()
     {
-        return currentMonster.isAlive();
+        return instance.currentMonster.isAlive();
     }
     
-    public String[] getMonsterStats()
+    public static String[] getMonsterStats()
     {
         String[] output = new String[2];
         
-        output[0] = "" + currentMonster.getName();
-        output[1] = "" + currentMonster.getHealth();
+        output[0] = "" + instance.currentMonster.getName();
+        output[1] = "" + instance.currentMonster.getHealth();
         
         return output;
     }
 
-    public void damageMonster(int damage)
+    public static void damageMonster(int damage)
     {
-        currentMonster.damage(damage);
+        instance.currentMonster.damage(damage);
     }
 }

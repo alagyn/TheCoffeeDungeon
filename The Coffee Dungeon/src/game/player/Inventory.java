@@ -7,6 +7,8 @@ import interfaces.usables.*;
 
 public class Inventory
 {
+    private static Inventory instance = new Inventory();
+    
     /**Default weapon*/
     private static final Weapon DEF_WEP = new Sword1();
     /**Default Magics*/
@@ -29,7 +31,7 @@ public class Inventory
     /**
      * Default constructor
      */
-    public Inventory()
+    private Inventory()
     {
         this.weapon = DEF_WEP;
         this.magics = DEF_MAG;
@@ -44,9 +46,9 @@ public class Inventory
      * Returns the current weapon
      * @return the current weapon
      */
-    public Weapon getWeapon()
+    public static Weapon getWeapon()
     {
-        return weapon;
+        return instance.weapon;
     }
     
     /**
@@ -64,9 +66,9 @@ public class Inventory
      * @param idx the index
      * @return the magic
      */
-    public Magic getMagic(int idx)
+    public static Magic getMagic(int idx)
     {
-        return magics[idx];
+        return instance.magics[idx];
     }
     
     /**
@@ -102,9 +104,9 @@ public class Inventory
      * @param idx the index
      * @return the item
      */
-    public Item getItems(int idx)
+    public static Item getItems(int idx)
     {
-        return items[idx];
+        return instance.items[idx];
     }
     
     /**
@@ -163,9 +165,9 @@ public class Inventory
      * Returns the current mana amount
      * @return the current mana amount
      */
-    public int getMana()
+    public static int getMana()
     {
-        return mana;
+        return instance.mana;
     }
 
     /**
@@ -210,9 +212,9 @@ public class Inventory
      * Returns the max mana
      * @return the max mana
      */
-    public int getMaxMana()
+    public static int getMaxMana()
     {
-        return maxMana;
+        return instance.maxMana;
     }
 
     public void removeItem(int idx)
@@ -223,5 +225,29 @@ public class Inventory
     public void removeMagic(int idx)
     {
         magics[idx] = null;
+    }
+
+    public static String[] getItemNames()
+    {
+        //TODO getItemNames
+        return null;
+    }
+
+    public static String[] getItemDescs()
+    {
+        //TODO getItemDescs
+        return null;
+    }
+
+    public static String[] getMagicNames()
+    {
+        //TODO getMagicNames
+        return null;
+    }
+
+    public static String[] getMagicDescs()
+    {
+        // TODO getMAigcDescs
+        return null;
     }
 }

@@ -2,6 +2,8 @@ package game.player;
 
 public class Player
 {   
+    private static Player instance = new Player();
+    
     /**
      * Beginning stats
      */
@@ -11,12 +13,11 @@ public class Player
     
     private int 
         maxHealth, health; 
-        
-    
+      
     /**
      * Defualt constructor
      */
-    public Player()
+    private Player()
     {
         maxHealth = START_HEALTH;
         health = START_HEALTH;
@@ -26,41 +27,41 @@ public class Player
      * Damages the player a set amount
      * @param damage The incoming damage
      */
-    public void damage(int damage)
+    public static void damage(int damage)
     {
-        health -= damage;
+        instance.health -= damage;
     }
     
     /**
      * Checks if the player's health is above zero
      * @return True is health is above zero
      */
-    public boolean isAlive()
+    public static boolean isAlive()
     {
-        return health > 0;
+        return instance.health > 0;
     }
     
     /**
      * Returns the current health amount
      * @return the current health amount
      */
-    public int getHealth()
+    public static int getHealth()
     {
-        return health;
+        return instance.health;
     }
     
     /**
      * Adds to the current health
      * @param health the health to add
      */
-    public void addHealth(int health)
+    public static void addHealth(int health)
     {
         if(health >= 0)
         {
-            this.health += health;
-            if(this.health > maxHealth)
+            instance.health += health;
+            if(instance.health > instance.maxHealth)
             {
-                this.health = maxHealth;
+                instance.health = instance.maxHealth;
             }
         }
         else

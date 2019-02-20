@@ -8,7 +8,7 @@ public class HealPotion implements Item
 {
     //TOMAKE HealPotion
     @Override
-    public boolean use(Player player, Monster monster)
+    public boolean use()
     {
         return false;
     }

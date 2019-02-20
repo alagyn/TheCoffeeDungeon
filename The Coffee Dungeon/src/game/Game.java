@@ -12,25 +12,13 @@ public class Game
 
     private static Game game = new Game();
     
-    private Player player;
-    private Inventory inventory;
-    
-    private Dungeon dungeon;
-    private Horde horde;
-    
 
     /**Default Constructor*/
     private Game()
     {
         try
         {
-            player = new Player();
-            inventory = new Inventory();
-            horde = new Horde("data/mon.csv", -1);
-            
             nextMonster();
-            
-            dungeon = new Dungeon(-1);
         }
         catch(IllegalArgumentException e)
         {
@@ -49,7 +37,7 @@ public class Game
      */
     public void nextMonster()
     {
-        horde.nextMonster();
+        Horde.nextMonster();
     }
 
     /**
@@ -58,7 +46,7 @@ public class Game
      */
     public void setCurrentRoomIndex(int roomIdx)
     {
-        dungeon.setChosenRoom(roomIdx);
+        Dungeon.setChosenRoom(roomIdx);
     }
 
     
@@ -71,11 +59,11 @@ public class Game
     {
         int output = 0;
 
-        if(player.isAlive() && !horde.isCurrentAlive())
+        if(Player.isAlive() && !Horde.isCurrentAlive())
         {
             output = 1;
         } 
-        else if (!player.isAlive())
+        else if (!Player.isAlive())
         {
             output = -1;
         }
@@ -90,8 +78,8 @@ public class Game
     public String[] getPlayerStats()
     {
         String[] output = new String[2];
-        output[0] = "" + player.getHealth();
-        output[1] = "" + inventory.getMana();
+        output[0] = "" + Player.getHealth();
+        output[1] = "" + Inventory.getMana();
 
         return output;
     }
@@ -102,7 +90,7 @@ public class Game
      */
     public String[] getMonsterStats()
     {
-        return horde.getMonsterStats();
+        return Horde.getMonsterStats();
     }
 
     /**
@@ -111,7 +99,7 @@ public class Game
      */
     public String[] getRooms()
     {
-        return dungeon.getRoomNames();
+        return Dungeon.getRoomNames();
     }
 
     /**
@@ -120,7 +108,7 @@ public class Game
      */
     public String[] getRoomDescs()
     {
-        return dungeon.getRoomDescs();
+        return Dungeon.getRoomDescs();
     }
     
     /**
@@ -129,8 +117,8 @@ public class Game
      */
     public int attack()
     {
-       int damage = inventory.getWeapon().attack(player);
-       horde.damageMonster(damage);
+       int damage = Inventory.getWeapon().attack();
+       Horde.damageMonster(damage);
        return damage;
     }
     
@@ -152,7 +140,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getMagic(idx).activate(player, horde.getCurrentMonster());
+            return Inventory.getMagic(idx).activate();
         }
         else
         {
@@ -168,7 +156,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return inventory.getItems(idx).use(player, horde.getCurrentMonster());
+            return Inventory.getItems(idx).use();
         }
         else
         {
@@ -182,8 +170,10 @@ public class Game
      */
     public int monsterAttack()
     {
-        int dmg = horde.monsterAttack(horde.getCurrentMonster());
-        player.damage(dmg);
+        //FIXME update monsterAttack
+        //int dmg = Horde.monsterAttack();
+        int dmg = 0;
+        Player.damage(dmg);
         return dmg;
     }
     
@@ -192,6 +182,8 @@ public class Game
      */
     public void newGame()
     {
+        //FIXME Update newGame
+        /*
         player = new Player();
         inventory = new Inventory();
         horde = new Horde("data/mon.csv", -1);
@@ -199,15 +191,11 @@ public class Game
         nextMonster();
         
         dungeon = new Dungeon(-1);
+        */
     }
     
-    public Inventory getInventory()
-    {
-        return inventory;
-    }
-
     public void giveLoot()
     {
-        dungeon.giveLoot(player);
+        Dungeon.giveLoot();
     }
 }

@@ -9,7 +9,7 @@ public class FireBall implements Magic
     //TOMAKE FireBall
     
     @Override
-    public boolean activate(Player player, Monster monster)
+    public boolean activate()
     {
         return false;
     }

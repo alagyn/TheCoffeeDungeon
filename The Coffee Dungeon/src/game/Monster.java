@@ -1,7 +1,14 @@
 package game;
 
-public class Monster
+import game.player.*;
+
+public abstract class Monster
 {
+    /*
+     * FIXME Refactor monster data structure
+     * monsters with abilities
+     */
+    
     private int maxHealth;
     private int health;
     private int[] atk;
@@ -92,4 +99,6 @@ public class Monster
     {
         health = maxHealth;
     }
+
+    public abstract void attack(Player player);
 }
