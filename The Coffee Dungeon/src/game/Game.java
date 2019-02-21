@@ -168,13 +168,9 @@ public class Game
      * Activates a monster attack with the current monster
      * @return The damage done to the player
      */
-    public int monsterAttack()
+    public void monsterAttack()
     {
-        //FIXME update monsterAttack
-        //int dmg = Horde.monsterAttack();
-        int dmg = 0;
-        Player.damage(dmg);
-        return dmg;
+        Horde.getCurrentMonster().attack();
     }
     
     /**

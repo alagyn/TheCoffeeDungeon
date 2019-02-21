@@ -20,6 +20,8 @@ public class GameGUI extends JFrame implements ActionListener
     private boolean secondAction;
     private boolean canHaveSecond;
     
+    private static GameGUI instance = new GameGUI();
+    
     private JPanel top;
     private JPanel left;
     private JPanel right;
@@ -60,7 +62,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**
      * Default constructor
      */
-    public GameGUI()
+    private GameGUI()
     {
         setSize(WIN_WIDTH, WIN_HEIGHT);
         setLocation(X, Y);
@@ -150,6 +152,15 @@ public class GameGUI extends JFrame implements ActionListener
     }
     
     /**
+     * Returns the singleton instance
+     * @return
+     */
+    public GameGUI getInst()
+    {
+        return instance;
+    }
+    
+    /**
      * Called when buttons are activated
      */
     @Override
@@ -210,8 +221,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Generates player damage and adds a log*/
     private void playerDamage()
     {
-        int dmg = Game.getInst().monsterAttack();
-        addLog("You take " + dmg + " points of damage");
+        Game.getInst().monsterAttack();
     }
     
     /**
@@ -295,7 +305,7 @@ public class GameGUI extends JFrame implements ActionListener
      * Adds a log entry to the combat log
      * @param entry The new entry
      */
-    private void addLog(String entry)
+    public void addLog(String entry)
     {
         if(logText.size() < LOG_LINES)
         {

@@ -1,7 +1,5 @@
 package game;
 
-import game.player.*;
-
 public abstract class Monster
 {
     /*
@@ -11,9 +9,6 @@ public abstract class Monster
     
     private int maxHealth;
     private int health;
-    private int[] atk;
-    
-    private double weight;
     
     private String name;
     
@@ -25,17 +20,11 @@ public abstract class Monster
      * @param minAtk Minimum attack
      * @param maxAtk maximum attack
      */
-    public Monster(String name, double weight, int health, int minAtk, int maxAtk)
+    public Monster(String name, int health)
     {
         this.name = name;
         this.health = health;
         this.maxHealth = health;
-        
-        this.atk = new int[2];
-        this.atk[0] = minAtk;
-        this.atk[1] = maxAtk;
-        
-        this.weight = weight;
     }
     
     /**
@@ -57,15 +46,6 @@ public abstract class Monster
     }
     
     /**
-     * Returns an array for the attack values
-     * @return an array of 0:minAtk, 1:maxAtk
-     */
-    public int[] getAtk()
-    {
-        return atk;
-    }
-    
-    /**
      * Damages the monster for a set amount
      * @param damage The incoming damage
      */
@@ -84,15 +64,6 @@ public abstract class Monster
     }
     
     /**
-     * Returns the random gen weight
-     * @return the random gen weight
-     */
-    public double getWeight()
-    {
-        return weight;
-    }
-    
-    /**
      * resets the monster's health to maximum
      */
     public void reset()
@@ -100,5 +71,5 @@ public abstract class Monster
         health = maxHealth;
     }
 
-    public abstract void attack(Player player);
+    public abstract void attack();
 }

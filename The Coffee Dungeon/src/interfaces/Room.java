@@ -2,8 +2,6 @@ package interfaces;
 
 import java.util.Random;
 
-import game.player.Player;
-
 public interface Room
 {
     //FIXME Add monster weights to Room

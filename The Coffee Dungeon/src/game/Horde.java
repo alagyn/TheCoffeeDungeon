@@ -1,33 +1,19 @@
 package game;
 
-import java.util.*;
-import java.io.*;
-
 public class Horde
 {
-    private static Horde instance = new Horde(-1);
+    private static Horde instance = new Horde();
     
-    private ArrayList<Monster> monsters;
+    //private ArrayList<Monster> monsters;
     //FIXME Remove weights from horde and update monsters array
-    private double[] weights;
-    private Random rand;
+    //private double[] weights;
     private Monster currentMonster;
+    
     /**
      * Default constructor
-     * @param fileName The filename for the input file
-     * @param seed the seed for random generation
      */
-    private Horde(int seed)
+    private Horde()
     {
-        if(seed > 0)
-        {
-            rand = new Random(seed);
-        }
-        else
-        {
-            rand = new Random();
-        }
-        
         nextMonster();
     }
     
@@ -37,17 +23,20 @@ public class Horde
      */
     public static void nextMonster()
     {
+        
         if(instance.currentMonster != null)
         {
-            instance.resetCurrentMonster();
+            resetCurrentMonster();
         }
         
+        /*
         double gen = instance.rand.nextDouble();
         double sum = 0;
         
         Monster output = null;
         
         //FIXME Update Monster generation
+        
         for(int i = 0; i < instance.weights.length; i++)
         {
             sum += instance.weights[i];
@@ -57,8 +46,9 @@ public class Horde
                 break;
             }
         }
+        */
+        instance.currentMonster = null;
         
-        instance.currentMonster = output;
     }
     
     
@@ -67,9 +57,10 @@ public class Horde
      * @param fileName The input filename
      * @deprecated
      */
-    /*
+    @SuppressWarnings(value= {"unused"})
     private void readFile(String fileName)
     {
+        /*
         Scanner in;
         try
         {
@@ -130,9 +121,9 @@ public class Horde
                 continue;
             }
         }
-        
+        */
     }
-    */
+    
     
     /**
      * Creates a monster object from a line of data
@@ -141,9 +132,10 @@ public class Horde
      * @throws IllegalArgumentException when invalid data
      * @deprecated
      */
-    /*
+    @SuppressWarnings(value= {"unused"})
     private Monster readMonster(String line)
     {
+        /*
         Monster output = null;
         
         Scanner lineScan = new Scanner(line);
@@ -210,8 +202,10 @@ public class Horde
         lineScan.close();
         
         return output;
+        */
+        return null;
     }
-     */
+    
     
     /**
      * Generates the random damage of a monster attack
@@ -222,6 +216,7 @@ public class Horde
     public int monsterAttack(Monster monster)
     {
         //FIXME Monster attack
+       /*
         int output = 0;
         
         int[] atk = monster.getAtk();
@@ -232,16 +227,19 @@ public class Horde
         output = rand.nextInt(range) + min;
         
         return output;
+        */
+        
+        return 0;
     }
     
-    public Monster getCurrentMonster()
+    public static Monster getCurrentMonster()
     {
-        return currentMonster;
+        return instance.currentMonster;
     }
 
-    public void resetCurrentMonster()
+    public static void resetCurrentMonster()
     {
-        currentMonster.reset();
+        instance.currentMonster.reset();
     }
     
     public static boolean isCurrentAlive()

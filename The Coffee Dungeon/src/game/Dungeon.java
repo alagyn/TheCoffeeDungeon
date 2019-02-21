@@ -2,7 +2,6 @@ package game;
 
 import java.util.*;
 
-import game.player.Player;
 import rooms.*;
 import interfaces.*;
 
