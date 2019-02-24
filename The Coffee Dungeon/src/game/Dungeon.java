@@ -2,8 +2,8 @@ package game;
 
 import java.util.*;
 
-import rooms.*;
 import interfaces.*;
+import objects.rooms.*;
 
 public class Dungeon
 {

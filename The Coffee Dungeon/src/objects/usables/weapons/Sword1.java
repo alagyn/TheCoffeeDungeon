@@ -1,4 +1,4 @@
-package usables.weapons;
+package objects.usables.weapons;
 
 import java.util.Random;
 import game.player.*;

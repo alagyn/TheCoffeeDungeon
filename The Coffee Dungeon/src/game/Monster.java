@@ -2,11 +2,6 @@ package game;
 
 public abstract class Monster
 {
-    /*
-     * FIXME Refactor monster data structure
-     * monsters with abilities
-     */
-    
     private int maxHealth;
     private int health;
     

@@ -1,4 +1,4 @@
-package usables.items;
+package objects.usables.items;
 
 import game.Monster;
 import game.player.*;

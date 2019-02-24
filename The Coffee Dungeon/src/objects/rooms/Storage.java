@@ -1,25 +1,25 @@
-package rooms;
-import game.player.Player;
-import interfaces.*;
+package objects.rooms;
 
-public class Corridor implements Room
+import game.player.Player;
+import interfaces.Room;
+
+public class Storage implements Room
 {
-    private static final String name = "Corridor";
-    //private static final int MAX_GOLD = 15;
+    public static final String name = "Storage";
+    public static final int MAX_GOLD = 10;
     
-    public Corridor()
-    {
-        
-    }
-    
+    public Storage()
+    {    }
+
     @Override
     public void giveLoot()
     {
-        /*TOMAKE Corridor
+        /*TOMAKE Storage
+        player.addPotion();
         player.addGold(Room.rand(MAX_GOLD));
         */
     }
-    
+
     @Override
     public String getName()
     {
@@ -31,4 +31,5 @@ public class Corridor implements Room
     {
         return null;
     }
+
 }

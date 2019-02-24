@@ -1,4 +1,4 @@
-package rooms;
+package objects.rooms;
 
 import game.player.Player;
 import interfaces.Room;
