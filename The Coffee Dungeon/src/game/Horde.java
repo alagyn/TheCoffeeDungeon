@@ -4,7 +4,6 @@ public class Horde
 {
     private static Horde instance = new Horde();
     
-    //private ArrayList<Monster> monsters;
     //FIXME Remove weights from horde and update monsters array
     //private double[] weights;
     private Monster currentMonster;
@@ -23,31 +22,11 @@ public class Horde
      */
     public static void nextMonster()
     {
-        
         if(instance.currentMonster != null)
         {
             resetCurrentMonster();
         }
         
-        /*
-        double gen = instance.rand.nextDouble();
-        double sum = 0;
-        
-        Monster output = null;
-        
-        //FIXME Update Monster generation
-        
-        for(int i = 0; i < instance.weights.length; i++)
-        {
-            sum += instance.weights[i];
-            if(gen <= sum)
-            {
-                output = instance.monsters.get(i);
-                break;
-            }
-        }
-        */
-        instance.currentMonster = null;
         
     }
     
