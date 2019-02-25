@@ -1,6 +1,6 @@
 package objects.rooms;
 
-import interfaces.Room;
+import abstracts.Room;
 
 public class Armory implements Room
 {

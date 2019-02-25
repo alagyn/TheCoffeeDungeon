@@ -1,6 +1,6 @@
 package game.player;
 
-import interfaces.usables.*;
+import abstracts.usables.*;
 import objects.usables.items.*;
 import objects.usables.magics.*;
 import objects.usables.weapons.*;

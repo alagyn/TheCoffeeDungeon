@@ -1,6 +1,6 @@
 package objects.rooms;
 
-import interfaces.*;
+import abstracts.*;
 
 public class Corridor implements Room
 {

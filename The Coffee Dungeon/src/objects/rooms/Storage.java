@@ -1,7 +1,7 @@
 package objects.rooms;
 
 
-import interfaces.Room;
+import abstracts.Room;
 
 public class Storage implements Room
 {

@@ -1,5 +1,8 @@
 package game;
 
+//FIXME horde monster init
+import objects.monsters.Slime;
+
 public class Horde
 {
     private static Horde instance = new Horde();
@@ -27,7 +30,7 @@ public class Horde
             resetCurrentMonster();
         }
         
-        
+        instance.currentMonster = new Slime();
     }
     
     

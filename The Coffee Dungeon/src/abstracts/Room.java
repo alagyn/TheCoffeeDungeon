@@ -1,8 +1,8 @@
-package interfaces;
+package abstracts;
 
 import java.util.Random;
 
-public interface Room
+public abstract class Room
 {
     //FIXME Add monster weights to Room
     //Add monster list and weights
@@ -12,7 +12,7 @@ public interface Room
         return rand.nextInt(max);
     }
     
-    public void giveLoot();
-    public String getName();
-    public String getDesc();
+    public abstract void giveLoot();
+    public abstract String getName();
+    public abstract String getDesc();
 }
