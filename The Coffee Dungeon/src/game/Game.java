@@ -136,7 +136,7 @@ public class Game
      * @return true if another action is available
      * @throws IllegalArgumentException when not enough mana
      */
-    public boolean magic(int idx)
+    public Completion magic(int idx)
     {
         if(idx >= 0)
         {
@@ -152,7 +152,7 @@ public class Game
      * Activates the item at the  inventory index
      * @param idx the index
      */
-    public boolean item(int idx)
+    public Completion item(int idx)
     {
         if(idx >= 0)
         {

@@ -1,9 +1,10 @@
 package interfaces.usables;
 
+import game.Completion;
+
 public interface Magic
 {
-    public boolean activate();
+    public Completion activate();
     public String getName();
     public String getDesc();
-    public boolean hasSecondAction();
 }

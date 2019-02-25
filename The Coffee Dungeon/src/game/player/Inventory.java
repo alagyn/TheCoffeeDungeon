@@ -229,25 +229,49 @@ public class Inventory
 
     public static String[] getItemNames()
     {
-        //TODO getItemNames
-        return null;
+        String[] output = new String[INV_LENGTH];
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            output[i] = instance.items[i].getName();
+        }
+        
+        return output;
     }
 
     public static String[] getItemDescs()
     {
-        //TODO getItemDescs
-        return null;
+        String[] output = new String[INV_LENGTH];
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            output[i] = instance.items[i].getDesc();
+        }
+        
+        return output;
     }
 
     public static String[] getMagicNames()
     {
-        //TODO getMagicNames
-        return null;
+        String[] output = new String[INV_LENGTH];
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            output[i] = instance.magics[i].getName();
+        }
+        
+        return output;
     }
 
     public static String[] getMagicDescs()
     {
-        // TODO getMAigcDescs
-        return null;
+        String[] output = new String[INV_LENGTH];
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            output[i] = instance.magics[i].getDesc();
+        }
+        
+        return output;
     }
 }

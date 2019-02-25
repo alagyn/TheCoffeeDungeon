@@ -1,7 +1,6 @@
 package objects.usables.magics;
 
-import game.Monster;
-import game.player.*;
+import game.Completion;
 import interfaces.usables.Magic;
 
 public class FireBall implements Magic
@@ -9,9 +8,9 @@ public class FireBall implements Magic
     //TOMAKE FireBall
     
     @Override
-    public boolean activate()
+    public Completion activate()
     {
-        return false;
+        return null;
     }
 
     @Override
@@ -24,12 +23,6 @@ public class FireBall implements Magic
     public String getDesc()
     {
         return null;
-    }
-
-    @Override
-    public boolean hasSecondAction()
-    {
-        return false;
     }
 
 }

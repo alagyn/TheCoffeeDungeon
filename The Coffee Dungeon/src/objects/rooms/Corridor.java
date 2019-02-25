@@ -1,5 +1,5 @@
 package objects.rooms;
-import game.player.Player;
+
 import interfaces.*;
 
 public class Corridor implements Room

@@ -1,7 +1,6 @@
 package objects.usables.weapons;
 
 import java.util.Random;
-import game.player.*;
 import interfaces.usables.Weapon;
 
 public class Sword1 implements Weapon

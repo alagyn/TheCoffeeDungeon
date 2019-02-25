@@ -1,5 +1,6 @@
 package gui;
 
+import game.Completion;
 import game.Game;
 import game.player.Inventory;
 
@@ -197,8 +198,6 @@ public class GameGUI extends JFrame implements ActionListener
         {
             startGUI(itemGUI);
         }
-
-        endRound();
     }
     
     private void endRound()
@@ -531,8 +530,12 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Game.getInst().item(i);
-                canHaveSecond = Inventory.getItems(i).hasSecondAction();
+                Completion c = Game.getInst().item(i);
+                if(c.actionCompleted())
+                {
+                    canHaveSecond = c.canHaveSecond();
+                    endRound();
+                }
             }
             
             enableBtns(true);
@@ -578,18 +581,19 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
-            //TODO Insufficient mana behavior
             if(i >= 0)
             {
-                Game.getInst().magic(i);
-                canHaveSecond = Inventory.getMagic(i).hasSecondAction();
+                Completion c = Game.getInst().magic(i);
+                if(c.actionCompleted())
+                {
+                    canHaveSecond = c.canHaveSecond();
+                    endRound();
+                }
             }
             
             enableBtns(true);
             setVisible(false);
-        }
-
-        
+        }        
     }
 
     private class RoomGUI extends SelectionGUI

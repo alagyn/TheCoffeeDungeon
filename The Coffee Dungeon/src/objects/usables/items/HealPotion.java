@@ -1,16 +1,15 @@
 package objects.usables.items;
 
-import game.Monster;
-import game.player.*;
+import game.Completion;
 import interfaces.usables.Item;
 
 public class HealPotion implements Item
 {
     //TOMAKE HealPotion
     @Override
-    public boolean use()
+    public Completion use()
     {
-        return false;
+        return null;
     }
 
     @Override
@@ -26,9 +25,10 @@ public class HealPotion implements Item
     }
 
     @Override
-    public boolean hasSecondAction()
+    public void cooldown()
     {
-        return false;
+        // TODO Auto-generated method stub
+        
     }
 
 }
