@@ -2,12 +2,13 @@ package objects.usables.magics;
 
 import abstracts.usables.Magic;
 import game.Completion;
+import game.player.Inventory;
 
 public class FireBall extends Magic
 {
-    //TOMAKE FireBall
-    
     private static final int manaCost = 1;
+    private static final int coolDownTime = 2;
+    private static final boolean canHaveSecond = false;
     
     public FireBall()
     {
@@ -17,7 +18,22 @@ public class FireBall extends Magic
     @Override
     public Completion activate()
     {
-        return null;
+        Completion c;
+        
+        if(available() && Inventory.getMana() >= manaCost)
+        {
+            //TOMAKE FireBall
+            //Use magic
+            addCooldown(coolDownTime);
+            Inventory.useMana(manaCost);
+            c = new Completion(canHaveSecond, true);
+        }
+        else
+        {
+            c = new Completion(canHaveSecond, false);
+        }
+        
+        return c;
     }
 
     @Override

@@ -195,13 +195,13 @@ public class Inventory
      * @param mana The amount to use
      * @return True if amount is available
      */
-    public boolean useMana(int mana)
+    public static boolean useMana(int mana)
     {
         boolean output = false;
         
-        if(this.mana - mana >= 0)
+        if(instance.mana - mana >= 0)
         {
-            this.mana -= mana;
+            instance.mana -= mana;
             output = true;
         }
         
