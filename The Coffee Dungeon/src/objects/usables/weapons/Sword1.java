@@ -4,7 +4,7 @@ import java.util.Random;
 
 import abstracts.usables.Weapon;
 
-public class Sword1 implements Weapon
+public class Sword1 extends Weapon
 {
     //TOMAKE Sword1
     Random rand;

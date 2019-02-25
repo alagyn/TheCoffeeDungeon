@@ -3,10 +3,17 @@ package objects.usables.magics;
 import abstracts.usables.Magic;
 import game.Completion;
 
-public class FireBall implements Magic
+public class FireBall extends Magic
 {
     //TOMAKE FireBall
     
+    private static final int manaCost = 1;
+    
+    public FireBall()
+    {
+        super(manaCost);
+    }
+
     @Override
     public Completion activate()
     {

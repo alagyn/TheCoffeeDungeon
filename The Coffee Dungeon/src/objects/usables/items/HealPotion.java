@@ -3,7 +3,7 @@ package objects.usables.items;
 import abstracts.usables.Item;
 import game.Completion;
 
-public class HealPotion implements Item
+public class HealPotion extends Item
 {
     //TOMAKE HealPotion
     @Override

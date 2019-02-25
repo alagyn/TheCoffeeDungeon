@@ -3,7 +3,7 @@ package objects.rooms;
 
 import abstracts.Room;
 
-public class Pit implements Room
+public class Pit extends Room
 {
     static final String name = "Pit";
     

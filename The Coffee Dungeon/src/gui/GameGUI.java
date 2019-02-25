@@ -276,6 +276,8 @@ public class GameGUI extends JFrame implements ActionListener
             break;
         }
         
+        Inventory.cooldowns();
+        
         setMonsterStats();
         setPlayerStats();
     }

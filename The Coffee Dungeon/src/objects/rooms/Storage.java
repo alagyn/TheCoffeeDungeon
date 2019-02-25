@@ -3,7 +3,7 @@ package objects.rooms;
 
 import abstracts.Room;
 
-public class Storage implements Room
+public class Storage extends Room
 {
     public static final String name = "Storage";
     public static final int MAX_GOLD = 10;

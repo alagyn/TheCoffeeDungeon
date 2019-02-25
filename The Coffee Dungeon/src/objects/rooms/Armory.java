@@ -2,7 +2,7 @@ package objects.rooms;
 
 import abstracts.Room;
 
-public class Armory implements Room
+public class Armory extends Room
 {
     public static final String name = "Armory";
     public static final int MAX_GOLD = 10;

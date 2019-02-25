@@ -2,7 +2,7 @@ package objects.rooms;
 
 import abstracts.*;
 
-public class Corridor implements Room
+public class Corridor extends Room
 {
     private static final String name = "Corridor";
     //private static final int MAX_GOLD = 15;

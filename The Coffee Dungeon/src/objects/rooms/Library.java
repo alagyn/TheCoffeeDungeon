@@ -2,7 +2,7 @@ package objects.rooms;
 
 import abstracts.Room;
 
-public class Library implements Room
+public class Library extends Room
 {
     static final String name = "Library";
     

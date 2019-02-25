@@ -274,4 +274,18 @@ public class Inventory
         
         return output;
     }
+
+    
+    public static void cooldowns()
+    {
+        for(Item n : instance.items)
+        {
+            n.cooldown();
+        }
+        
+        for(Magic n : instance.magics)
+        {
+            n.cooldown();
+        }
+    }
 }
