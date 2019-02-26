@@ -30,7 +30,7 @@ public class Storage extends Room
     @Override
     public String getDesc()
     {
-        return null;
+        return name;
     }
 
 }

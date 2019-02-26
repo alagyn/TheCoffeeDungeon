@@ -1,6 +1,5 @@
 package game;
 
-import gui.GameGUI;
 import objects.abstracts.Monster;
 
 public class Game
@@ -13,17 +12,12 @@ public class Game
     private static Game instance = new Game();
     private Monster currentMonster;
 
+    private Player player;
+    
     /**Default Constructor*/
     private Game()
     {
-        try
-        {
-            nextMonster();
-        }
-        catch(IllegalArgumentException e)
-        {
-            GameGUI.critErrorMessage("Input file not found");
-        }
+        player = new Player();   
     }
     
     /**
@@ -44,24 +38,24 @@ public class Game
         Dungeon.setChosenRoom(roomIdx);
     }
 
-    
-
     /**
      * Checks if the player and or monster is still alive
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
-    public static int combatResolve()
+    public int combatResolve()
     {
         int output = 0;
 
-        if(Player.isAlive() && !instance.currentMonster.isAlive())
+        if(player.isAlive() && !currentMonster.isAlive())
         {
             output = 1;
         } 
-        else if (!Player.isAlive())
+        else if (!player.isAlive())
         {
             output = -1;
         }
+        
+        player.cooldowns();
 
         return output;
     }
@@ -70,11 +64,11 @@ public class Game
      * Gets the current player stats
      * @return An array of 0:Health, 1:Mana 
      */
-    public static String[] getPlayerStats()
+    public String[] getPlayerStats()
     {
         String[] output = new String[2];
-        output[0] = "" + Player.getHealth();
-        output[1] = "" + Player.getMana();
+        output[0] = "" + player.getHealth();
+        output[1] = "" + player.getMana();
 
         return output;
     }
@@ -101,9 +95,9 @@ public class Game
      * Activates a primary attack on a monster and returns the damage done
      * @return The damage done
      */
-    public static int attack()
+    public int attack()
     {
-       int damage = Player.getWeapon().attack();
+       int damage = player.getWeapon().attack();
        damageMonster(damage);
        return damage;
     }
@@ -122,11 +116,11 @@ public class Game
      * @return true if another action is available
      * @throws IllegalArgumentException when not enough mana
      */
-    public static Completion magic(int idx)
+    public Completion magic(int idx)
     {
         if(idx >= 0)
         {
-            return Player.getMagic(idx).activate();
+            return player.getMagic(idx).activate();
         }
         else
         {
@@ -138,11 +132,11 @@ public class Game
      * Activates the item at the  inventory index
      * @param idx the index
      */
-    public static Completion item(int idx)
+    public Completion item(int idx)
     {
         if(idx >= 0)
         {
-            return Player.getItems(idx).use();
+            return player.getItems(idx).use();
         }
         else
         {
@@ -162,10 +156,10 @@ public class Game
     /**
      * Resets action to the starting configuration
      */
-    public static void newGame()
+    public void newGame()
     {
-        Player.reset();
-        Player.reset();
+        player = new Player();
+        nextMonster();
         Dungeon.reset();   
     }
     
@@ -198,5 +192,25 @@ public class Game
     public static String getCurrentMonsterHealth()
     {
         return "" + instance.currentMonster.getHealth();
+    }
+
+    public static Game getInst()
+    {
+        return instance;
+    }
+
+    public String[] getMagicNames()
+    {
+        return player.getMagicNames();
+    }
+
+    public String[] getMagicDescs()
+    {
+        return player.getMagicDescs();
+    }
+
+    public Player getPlayer()
+    {
+        return player;
     }
 }

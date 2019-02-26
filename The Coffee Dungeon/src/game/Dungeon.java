@@ -13,11 +13,13 @@ public class Dungeon
      */
     private static final Room[] ROOMS = 
         {
+            /*
             new Corridor(),
             new Storage(),
-            new Armory(),
             new Library(),
-            new Pit()
+            new Pit(),
+            */
+            new Armory()
         };
     
     /**

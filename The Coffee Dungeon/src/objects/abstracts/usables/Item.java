@@ -6,12 +6,6 @@ public abstract class Item
 {
     private int cooldownTime;
     
-    /*
-     * TODO Item use limits and cooldowns
-     * Item has x uses
-     * Item is removed from inventory after all uses are expended
-     */
-    
     public void cooldown()
     {
         if(cooldownTime > 0)

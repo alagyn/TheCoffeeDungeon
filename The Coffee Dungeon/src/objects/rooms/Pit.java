@@ -29,6 +29,6 @@ public class Pit extends Room
     @Override
     public String getDesc()
     {
-        return null;
+        return name;
     }
 }

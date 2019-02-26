@@ -7,8 +7,6 @@ import objects.usables.weapons.*;
 
 public class Player
 {
-    private static Player instance = new Player();
-    
     /**Default weapon*/
     private static final Weapon DEF_WEP = new Sword1();
     /**Default Magics*/
@@ -38,7 +36,7 @@ public class Player
     /**
      * Default constructor
      */
-    private Player()
+    public Player()
     {
         this.weapon = DEF_WEP;
         this.magics = DEF_MAG;
@@ -51,16 +49,16 @@ public class Player
         health = START_HEALTH;
     }
     
-    public static int getArmor()
+    public int getArmor()
     {
-        return instance.armor;
+        return armor;
     }
     
-    public static void addArmor(int i)
+    public void addArmor(int i)
     {
         if(i > 0)
         {
-            instance.armor += i;
+            armor += i;
         }
         else
         {
@@ -73,9 +71,9 @@ public class Player
      * Returns the current weapon
      * @return the current weapon
      */
-    public static Weapon getWeapon()
+    public Weapon getWeapon()
     {
-        return instance.weapon;
+        return weapon;
     }
     
     /**
@@ -93,9 +91,9 @@ public class Player
      * @param idx the index
      * @return the magic
      */
-    public static Magic getMagic(int idx)
+    public Magic getMagic(int idx)
     {
-        return instance.magics[idx];
+        return magics[idx];
     }
     
     /**
@@ -131,9 +129,9 @@ public class Player
      * @param idx the index
      * @return the item
      */
-    public static Item getItems(int idx)
+    public Item getItems(int idx)
     {
-        return instance.items[idx];
+        return items[idx];
     }
     
     /**
@@ -192,9 +190,9 @@ public class Player
      * Returns the current mana amount
      * @return the current mana amount
      */
-    public static int getMana()
+    public int getMana()
     {
-        return instance.mana;
+        return mana;
     }
 
     /**
@@ -222,13 +220,13 @@ public class Player
      * @param mana The amount to use
      * @return True if amount is available
      */
-    public static boolean useMana(int mana)
+    public boolean useMana(int mana)
     {
         boolean output = false;
         
-        if(instance.mana - mana >= 0)
+        if(this.mana - mana >= 0)
         {
-            instance.mana -= mana;
+            this.mana -= mana;
             output = true;
         }
         
@@ -239,9 +237,9 @@ public class Player
      * Returns the max mana
      * @return the max mana
      */
-    public static int getMaxMana()
+    public int getMaxMana()
     {
-        return instance.maxMana;
+        return maxMana;
     }
 
     public void removeItem(int idx)
@@ -254,112 +252,107 @@ public class Player
         magics[idx] = null;
     }
 
-    public static String[] getItemNames()
+    public String[] getItemNames()
     {
         String[] output = new String[INV_LENGTH];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = instance.items[i].getName();
+            output[i] = items[i].getName();
         }
         
         return output;
     }
 
-    public static String[] getItemDescs()
+    public String[] getItemDescs()
     {
         String[] output = new String[INV_LENGTH];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = instance.items[i].getDesc();
+            output[i] = items[i].getDesc();
         }
         
         return output;
     }
 
-    public static String[] getMagicNames()
+    public String[] getMagicNames()
     {
         String[] output = new String[INV_LENGTH];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = instance.magics[i].getName();
+            output[i] = magics[i].getName();
         }
         
         return output;
     }
 
-    public static String[] getMagicDescs()
+    public String[] getMagicDescs()
     {
         String[] output = new String[INV_LENGTH];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = instance.magics[i].getDesc();
+            output[i] = magics[i].getDesc();
         }
         
         return output;
     }
 
     
-    public static void cooldowns()
+    public void cooldowns()
     {
-        for(Item n : instance.items)
+        for(Item n : items)
         {
             n.cooldown();
         }
         
-        for(Magic n : instance.magics)
+        for(Magic n : magics)
         {
             n.cooldown();
         }
     }
-
-    public static void reset()
-    {
-        instance = new Player();
-    }
-
+    
     /**
      * Damages the player a set amount
      * @param damage The incoming damage
      */
-    public static void damage(int damage)
+    public void damage(int damage)
     {
-        instance.health -= damage;
+        health -= damage;
     }
     
     /**
      * Checks if the player's health is above zero
      * @return True is health is above zero
      */
-    public static boolean isAlive()
+    public boolean isAlive()
     {
-        return instance.health > 0;
+        return health > 0;
     }
     
     /**
      * Returns the current health amount
      * @return the current health amount
      */
-    public static int getHealth()
+    public int getHealth()
     {
-        return instance.health;
+        return health;
     }
     
     /**
      * Adds to the current health
      * @param health the health to add
      */
-    public static void addHealth(int health)
+    public void addHealth(int health)
     {
         if(health >= 0)
         {
-            instance.health += health;
-            if(instance.health > instance.maxHealth)
+            this.health += health;
+            if(this.health > maxHealth)
             {
-                instance.health = instance.maxHealth;
+                this.health = maxHealth;
             }
         }
         else

@@ -1,7 +1,6 @@
 package objects.usables.magics;
 
 import game.Completion;
-import game.Player;
 import objects.abstracts.usables.Magic;
 
 public class FireBall extends Magic
@@ -20,12 +19,12 @@ public class FireBall extends Magic
     {
         Completion c;
         
-        if(available() && Player.getMana() >= manaCost)
+        if(available() && getPlayer().getMana() >= manaCost)
         {
             //TOMAKE FireBall
             //Use magic
             addCooldown(coolDownTime);
-            Player.useMana(manaCost);
+            getPlayer().useMana(manaCost);
             c = new Completion(canHaveSecond, true);
         }
         else

@@ -1,6 +1,8 @@
 package objects.abstracts.usables;
 
 import game.Completion;
+import game.Game;
+import game.Player;
 
 public abstract class Magic
 {
@@ -48,5 +50,10 @@ public abstract class Magic
         {
             throw new IllegalArgumentException("Invalid cooldown");
         }
+    }
+    
+    public Player getPlayer()
+    {
+        return Game.getInst().getPlayer();
     }
 }
