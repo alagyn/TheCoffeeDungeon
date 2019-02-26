@@ -1,7 +1,7 @@
 package game;
 
+import abstracts.Monster;
 //FIXME horde monster init
-import objects.monsters.Slime;
 
 public class Horde
 {
@@ -9,30 +9,15 @@ public class Horde
     
     //FIXME Remove weights from horde and update monsters array
     //private double[] weights;
-    private Monster currentMonster;
+    
     
     /**
      * Default constructor
      */
     private Horde()
     {
-        nextMonster();
-    }
-    
-    /**
-     * Generates and returns the next random monster
-     * @return The next monster
-     */
-    public static void nextMonster()
-    {
-        if(instance.currentMonster != null)
-        {
-            resetCurrentMonster();
-        }
         
-        instance.currentMonster = new Slime();
     }
-    
     
     /**
      * Reads an input file of monster stats
@@ -219,28 +204,8 @@ public class Horde
         return instance.currentMonster;
     }
 
-    public static void resetCurrentMonster()
+    public static void setCurrentMonster(Monster nextMonster)
     {
-        instance.currentMonster.reset();
-    }
-    
-    public static boolean isCurrentAlive()
-    {
-        return instance.currentMonster.isAlive();
-    }
-    
-    public static String[] getMonsterStats()
-    {
-        String[] output = new String[2];
-        
-        output[0] = "" + instance.currentMonster.getName();
-        output[1] = "" + instance.currentMonster.getHealth();
-        
-        return output;
-    }
-
-    public static void damageMonster(int damage)
-    {
-        instance.currentMonster.damage(damage);
+        instance.currentMonster = nextMonster;
     }
 }

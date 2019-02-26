@@ -23,7 +23,7 @@ public class Inventory
     private Magic[] magics;
     private Item[] items;
     
-    //MAYBE Armor?
+    private int armor;
     
     private int gold;
     private int mana, maxMana;
@@ -36,9 +36,27 @@ public class Inventory
         this.weapon = DEF_WEP;
         this.magics = DEF_MAG;
         this.items = DEF_ITM;
+        this.armor = 0;
         
         maxMana = START_MANA;
         mana = START_MANA;
+    }
+    
+    public static int getArmor()
+    {
+        return instance.armor;
+    }
+    
+    public static void addArmor(int i)
+    {
+        if(i > 0)
+        {
+            instance.armor += i;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid armor");
+        }
     }
     
     //Weapon

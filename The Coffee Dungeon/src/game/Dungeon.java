@@ -85,6 +85,11 @@ public class Dungeon
         } 
     }
    
+    public static Room getCurrentRoom()
+    {
+        return Dungeon.ROOMS[instance.currentRooms[instance.chosenRoom]];
+    }
+    
     /**
      * Returns the current room names
      * @return the current room names

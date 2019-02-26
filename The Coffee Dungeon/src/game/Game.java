@@ -1,5 +1,6 @@
 package game;
 
+import abstracts.Monster;
 import game.player.*;
 import gui.GameGUI;
 
@@ -10,8 +11,8 @@ public class Game
      */
     public static final int NUM_ROOMS = 3;
 
-    private static Game game = new Game();
-    
+    private static Game instance = new Game();
+    private Monster currentMonster;
 
     /**Default Constructor*/
     private Game()
@@ -28,7 +29,7 @@ public class Game
     
     public static Game getInst()
     {
-        return game;
+        return instance;
     }
 
     /**
@@ -37,7 +38,7 @@ public class Game
      */
     public void nextMonster()
     {
-        Horde.nextMonster();
+        currentMonster = Dungeon.getCurrentRoom().nextMonster();
     }
 
     /**
@@ -59,7 +60,7 @@ public class Game
     {
         int output = 0;
 
-        if(Player.isAlive() && !Horde.isCurrentAlive())
+        if(Player.isAlive() && !currentMonster.isAlive())
         {
             output = 1;
         } 
@@ -82,15 +83,6 @@ public class Game
         output[1] = "" + Inventory.getMana();
 
         return output;
-    }
-
-    /**
-     * Gets the current monster stats
-     * @return An array of 0:Name, 1:Health
-     */
-    public String[] getMonsterStats()
-    {
-        return Horde.getMonsterStats();
     }
 
     /**
@@ -118,7 +110,7 @@ public class Game
     public int attack()
     {
        int damage = Inventory.getWeapon().attack();
-       Horde.damageMonster(damage);
+       damageMonster(damage);
        return damage;
     }
     
@@ -170,7 +162,7 @@ public class Game
      */
     public void monsterAttack()
     {
-        Horde.getCurrentMonster().attack();
+        instance.currentMonster.attack();
     }
     
     /**
@@ -189,6 +181,33 @@ public class Game
         dungeon = new Dungeon(-1);
         */
     }
+    
+    public static String[] getMonsterStats()
+    {
+        String[] output = new String[2];
+        
+        output[0] = "" + instance.currentMonster.getName();
+        output[1] = "" + instance.currentMonster.getHealth();
+        
+        return output;
+    }
+
+
+    public static void resetCurrentMonster()
+    {
+        instance.currentMonster.reset();
+    }
+    
+    public static boolean isCurrentAlive()
+    {
+        return instance.currentMonster.isAlive();
+    }
+
+    public static void damageMonster(int damage)
+    {
+        instance.currentMonster.damage(damage);
+    }
+
     
     public void giveLoot()
     {

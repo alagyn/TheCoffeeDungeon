@@ -4,15 +4,43 @@ import java.util.Random;
 
 public abstract class Room
 {
-    //FIXME Add monster weights to Room
-    //Add monster list and weights
-    public static int rand(int max)
+    double[] weights;
+    Monster[] monsters;
+    private static Random rand = new Random();
+    
+    public Room(Monster[] monsters, double[] weights)
     {
-        Random rand = new Random();
-        return rand.nextInt(max);
+        if(monsters.length > 0 && weights.length == monsters.length)
+        {
+            this.monsters = monsters;
+            this.weights = weights;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    public Monster nextMonster()
+    {
+        double sum = 0;
+        double num = rand.nextDouble();
+        int output = -1;
+        
+        for(int i = 0; i < weights.length; i++)
+        {
+            sum += weights[i];
+            if(num <= sum)
+            {
+                output = i;
+            }
+        }
+        
+        return monsters[output];
     }
     
     public abstract void giveLoot();
     public abstract String getName();
     public abstract String getDesc();
+    
 }

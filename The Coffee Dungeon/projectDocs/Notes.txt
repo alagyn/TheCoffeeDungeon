@@ -9,6 +9,7 @@ Monster
         Put same percentage monsters in an array, weighted random select an array even random a monster from within
         
         weights = double array of weights (Adding to 1.0)
+        num = rand.nextDouble()
         
         for(int i = 0; i < weights.length; i++)
         {
