@@ -1,7 +1,7 @@
 package objects.usables.magics;
 
 import game.Completion;
-import game.player.Player;
+import game.Player;
 import objects.abstracts.usables.Magic;
 
 public class FireBall extends Magic

@@ -1,6 +1,5 @@
 package game;
 
-import game.player.*;
 import gui.GameGUI;
 import objects.abstracts.Monster;
 

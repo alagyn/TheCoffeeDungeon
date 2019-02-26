@@ -1,4 +1,4 @@
-package game.player;
+package game;
 
 import objects.abstracts.usables.*;
 import objects.usables.items.*;

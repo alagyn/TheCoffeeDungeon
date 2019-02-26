@@ -2,7 +2,7 @@ package gui;
 
 import game.Completion;
 import game.Game;
-import game.player.Player;
+import game.Player;
 
 import javax.swing.*;
 import java.awt.*;
