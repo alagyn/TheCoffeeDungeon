@@ -1,13 +1,15 @@
 package objects.rooms;
 
-import abstracts.Room;
+import objects.abstracts.Room;
 
 public class Library extends Room
 {
     static final String name = "Library";
     
     public Library()
-    {}
+    {
+        super(null, null);
+    }
     
     @Override
     public String getName()

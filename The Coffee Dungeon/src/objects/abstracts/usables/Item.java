@@ -1,4 +1,4 @@
-package abstracts.usables;
+package objects.abstracts.usables;
 
 import game.Completion;
 

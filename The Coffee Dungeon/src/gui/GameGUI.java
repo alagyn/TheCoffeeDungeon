@@ -185,8 +185,8 @@ public class GameGUI extends JFrame implements ActionListener
         
         if(attack)
         {
-            int dmg = Game.getInst().attack();
-            addLog("You hit the " + Game.getInst().getMonsterStats()[0] + " for " + dmg);
+            int dmg = Game.attack();
+            addLog("You hit the " + Game.getCurrentMonsterName() + " for " + dmg);
             playerDamage();
             canHaveSecond = false;
         }
@@ -220,7 +220,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Generates player damage and adds a log*/
     private void playerDamage()
     {
-        Game.getInst().monsterAttack();
+        Game.monsterAttack();
     }
     
     /**
@@ -231,7 +231,8 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            Game.getInst().setCurrentRoomIndex(index);
+            Game.setCurrentRoomIndex(index);
+            Game.nextMonster();
             setMonsterStats();
         }
         else
@@ -246,7 +247,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        int status = Game.getInst().combatResolve();
+        int status = Game.combatResolve();
         
         System.out.println("Status " + status);
         
@@ -263,10 +264,10 @@ public class GameGUI extends JFrame implements ActionListener
             //Next Round, no action required
             break;
             
-        case 1:
-            addLog("You defeated the " + Game.getInst().getMonsterStats()[0]);
-            Game.getInst().nextMonster();
-            Game.getInst().giveLoot();
+        case 1
+            addLog("You defeated the " + Game.getCurrentMonsterName());
+            Game.nextMonster();
+            Game.giveLoot();
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
@@ -287,7 +288,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setPlayerStats()
     {
-        String[] stats = Game.getInst().getPlayerStats();
+        String[] stats = Game.getPlayerStats();
         playHealth.setText(stats[0]);
         playMana.setText(stats[1]);
     }
@@ -297,9 +298,9 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setMonsterStats()
     {
-        String[] stats = Game.getInst().getMonsterStats();
-        monName.setText(stats[0]);
-        monHealth.setText(stats[1]);
+        
+        monName.setText(Game.getCurrentMonsterName());
+        monHealth.setText(Game.getCurrentMonsterHealth());
     }
     
     /**
@@ -391,10 +392,10 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newGame()
     {
-        Game.getInst().newGame();
+        Game.newGame();
         resetLog(true);
-        setMonsterStats();
         setPlayerStats();
+        startGUI(roomGUI);
     }
 
     private void startGUI(SelectionGUI gui)
@@ -532,7 +533,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Completion c = Game.getInst().item(i);
+                Completion c = Game.item(i);
                 if(c.actionCompleted())
                 {
                     canHaveSecond = c.canHaveSecond();
@@ -585,7 +586,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Completion c = Game.getInst().magic(i);
+                Completion c = Game.magic(i);
                 if(c.actionCompleted())
                 {
                     canHaveSecond = c.canHaveSecond();
@@ -622,8 +623,8 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            setBtnLabels(Game.getInst().getRooms());
-            setDesc(Game.getInst().getRoomDescs());
+            setBtnLabels(Game.getRoomNames());
+            setDesc(Game.getRoomDescs());
         }
 
         @Override

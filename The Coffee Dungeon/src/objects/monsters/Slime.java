@@ -1,6 +1,6 @@
 package objects.monsters;
 
-import abstracts.Monster;
+import objects.abstracts.Monster;
 
 public class Slime extends Monster
 {

@@ -1,8 +1,8 @@
 package game;
 
-import abstracts.Monster;
 import game.player.*;
 import gui.GameGUI;
+import objects.abstracts.Monster;
 
 public class Game
 {
@@ -27,25 +27,20 @@ public class Game
         }
     }
     
-    public static Game getInst()
-    {
-        return instance;
-    }
-
     /**
      * Generates the next monster
      * @return the next random monster
      */
-    public void nextMonster()
+    public static void nextMonster()
     {
-        currentMonster = Dungeon.getCurrentRoom().nextMonster();
+        instance.currentMonster = Dungeon.getCurrentRoom().nextMonster();
     }
 
     /**
      * Sets the current room index
      * @param roomIdx The current room index
      */
-    public void setCurrentRoomIndex(int roomIdx)
+    public static void setCurrentRoomIndex(int roomIdx)
     {
         Dungeon.setChosenRoom(roomIdx);
     }
@@ -56,11 +51,11 @@ public class Game
      * Checks if the player and or monster is still alive
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
-    public int combatResolve()
+    public static int combatResolve()
     {
         int output = 0;
 
-        if(Player.isAlive() && !currentMonster.isAlive())
+        if(Player.isAlive() && !instance.currentMonster.isAlive())
         {
             output = 1;
         } 
@@ -76,7 +71,7 @@ public class Game
      * Gets the current player stats
      * @return An array of 0:Health, 1:Mana 
      */
-    public String[] getPlayerStats()
+    public static String[] getPlayerStats()
     {
         String[] output = new String[2];
         output[0] = "" + Player.getHealth();
@@ -89,7 +84,7 @@ public class Game
      * Gets the current room names
      * @return An array of room names
      */
-    public String[] getRooms()
+    public static String[] getRoomNames()
     {
         return Dungeon.getRoomNames();
     }
@@ -98,7 +93,7 @@ public class Game
      * Returns the current room descs
      * @return the current room descs
      */
-    public String[] getRoomDescs()
+    public static String[] getRoomDescs()
     {
         return Dungeon.getRoomDescs();
     }
@@ -107,7 +102,7 @@ public class Game
      * Activates a primary attack on a monster and returns the damage done
      * @return The damage done
      */
-    public int attack()
+    public static int attack()
     {
        int damage = Inventory.getWeapon().attack();
        damageMonster(damage);
@@ -128,7 +123,7 @@ public class Game
      * @return true if another action is available
      * @throws IllegalArgumentException when not enough mana
      */
-    public Completion magic(int idx)
+    public static Completion magic(int idx)
     {
         if(idx >= 0)
         {
@@ -144,7 +139,7 @@ public class Game
      * Activates the item at the  inventory index
      * @param idx the index
      */
-    public Completion item(int idx)
+    public static Completion item(int idx)
     {
         if(idx >= 0)
         {
@@ -160,7 +155,7 @@ public class Game
      * Activates a monster attack with the current monster
      * @return The damage done to the player
      */
-    public void monsterAttack()
+    public static void monsterAttack()
     {
         instance.currentMonster.attack();
     }
@@ -168,31 +163,13 @@ public class Game
     /**
      * Resets action to the starting configuration
      */
-    public void newGame()
+    public static void newGame()
     {
-        //FIXME Update newGame
-        /*
-        player = new Player();
-        inventory = new Inventory();
-        horde = new Horde("data/mon.csv", -1);
-        
-        nextMonster();
-        
-        dungeon = new Dungeon(-1);
-        */
+        Player.reset();
+        Inventory.reset();
+        Dungeon.reset();   
     }
     
-    public static String[] getMonsterStats()
-    {
-        String[] output = new String[2];
-        
-        output[0] = "" + instance.currentMonster.getName();
-        output[1] = "" + instance.currentMonster.getHealth();
-        
-        return output;
-    }
-
-
     public static void resetCurrentMonster()
     {
         instance.currentMonster.reset();
@@ -209,8 +186,18 @@ public class Game
     }
 
     
-    public void giveLoot()
+    public static void giveLoot()
     {
         Dungeon.giveLoot();
+    }
+
+    public static String getCurrentMonsterName()
+    {
+        return instance.currentMonster.getName();
+    }
+
+    public static String getCurrentMonsterHealth()
+    {
+        return "" + instance.currentMonster.getHealth();
     }
 }

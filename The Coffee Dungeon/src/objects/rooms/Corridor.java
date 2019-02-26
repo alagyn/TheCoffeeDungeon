@@ -1,6 +1,6 @@
 package objects.rooms;
 
-import abstracts.*;
+import objects.abstracts.*;
 
 public class Corridor extends Room
 {
@@ -9,7 +9,7 @@ public class Corridor extends Room
     
     public Corridor()
     {
-        
+        super(null, null);
     }
     
     @Override

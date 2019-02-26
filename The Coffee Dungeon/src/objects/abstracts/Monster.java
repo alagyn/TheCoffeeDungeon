@@ -1,4 +1,4 @@
-package abstracts;
+package objects.abstracts;
 
 public abstract class Monster
 {

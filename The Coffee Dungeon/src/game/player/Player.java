@@ -69,4 +69,9 @@ public class Player
             throw new IllegalArgumentException("Invalid health");
         }
     }
+
+    public static void reset()
+    {
+        instance = new Player();
+    }
 }

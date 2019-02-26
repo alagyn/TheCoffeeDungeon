@@ -1,6 +1,6 @@
 package game.player;
 
-import abstracts.usables.*;
+import objects.abstracts.usables.*;
 import objects.usables.items.*;
 import objects.usables.magics.*;
 import objects.usables.weapons.*;
@@ -305,5 +305,10 @@ public class Inventory
         {
             n.cooldown();
         }
+    }
+
+    public static void reset()
+    {
+        instance = new Inventory();
     }
 }

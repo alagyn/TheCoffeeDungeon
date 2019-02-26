@@ -2,7 +2,7 @@ package game;
 
 import java.util.*;
 
-import abstracts.*;
+import objects.abstracts.*;
 import objects.rooms.*;
 
 public class Dungeon
@@ -153,6 +153,11 @@ public class Dungeon
         {
             throw new IllegalArgumentException();
         }
+    }
+
+    public static void reset()
+    {
+        instance = new Dungeon(-1);
     }
  
 }

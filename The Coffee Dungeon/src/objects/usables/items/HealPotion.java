@@ -1,7 +1,7 @@
 package objects.usables.items;
 
-import abstracts.usables.Item;
 import game.Completion;
+import objects.abstracts.usables.Item;
 
 public class HealPotion extends Item
 {
@@ -22,13 +22,6 @@ public class HealPotion extends Item
     public String getDesc()
     {
         return null;
-    }
-
-    @Override
-    public void cooldown()
-    {
-        // TODO Auto-generated method stub
-        
     }
 
 }

@@ -1,14 +1,16 @@
 package objects.rooms;
 
 
-import abstracts.Room;
+import objects.abstracts.Room;
 
 public class Pit extends Room
 {
     static final String name = "Pit";
     
     public Pit()
-    {}
+    {
+        super(null, null);
+    }
     
     @Override
     public void giveLoot()
