@@ -13,29 +13,30 @@ public class Game
     private Monster currentMonster;
 
     private Player player;
+    private Dungeon dungeon;
     
     /**Default Constructor*/
     private Game()
     {
-        player = new Player();   
+        dungeon = new Dungeon(-1);
     }
     
     /**
      * Generates the next monster
      * @return the next random monster
      */
-    public static void nextMonster()
+    public void nextMonster()
     {
-        instance.currentMonster = Dungeon.getCurrentRoom().nextMonster();
+        instance.currentMonster = dungeon.getCurrentRoom().nextMonster();
     }
 
     /**
      * Sets the current room index
      * @param roomIdx The current room index
      */
-    public static void setCurrentRoomIndex(int roomIdx)
+    public void setCurrentRoomIndex(int roomIdx)
     {
-        Dungeon.setChosenRoom(roomIdx);
+        dungeon.setChosenRoom(roomIdx);
     }
 
     /**
@@ -77,18 +78,18 @@ public class Game
      * Gets the current room names
      * @return An array of room names
      */
-    public static String[] getRoomNames()
+    public String[] getRoomNames()
     {
-        return Dungeon.getRoomNames();
+        return dungeon.getRoomNames();
     }
 
     /**
      * Returns the current room descs
      * @return the current room descs
      */
-    public static String[] getRoomDescs()
+    public String[] getRoomDescs()
     {
-        return Dungeon.getRoomDescs();
+        return dungeon.getRoomDescs();
     }
     
     /**
@@ -159,8 +160,8 @@ public class Game
     public void newGame()
     {
         player = new Player();
-        nextMonster();
-        Dungeon.reset();   
+        System.out.println("Const Dungeon");
+        System.out.println("Done");
     }
     
     public static void resetCurrentMonster()
@@ -179,9 +180,9 @@ public class Game
     }
 
     
-    public static void giveLoot()
+    public void giveLoot()
     {
-        Dungeon.giveLoot();
+        dungeon.giveLoot();
     }
 
     public static String getCurrentMonsterName()

@@ -16,11 +16,11 @@ public class GameGUI extends JFrame implements ActionListener
 {
     //TOGUI Improve Main GUI
     
+    private static GameGUI instance = new GameGUI();
+    
     /**True if an action has already happened*/
     private boolean secondAction;
     private boolean canHaveSecond;
-    
-    private static GameGUI instance = new GameGUI();
     
     private JPanel top;
     private JPanel left;
@@ -53,17 +53,11 @@ public class GameGUI extends JFrame implements ActionListener
     
     private ArrayList<String> logText;
     
-    public static void main(String[] args)
-    {
-        GameGUI gui = new GameGUI();
-        gui.toString();
-    }
-    
     /**
      * Default constructor
      */
     private GameGUI()
-    {
+    {   
         setSize(WIN_WIDTH, WIN_HEIGHT);
         setLocation(X, Y);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -143,12 +137,17 @@ public class GameGUI extends JFrame implements ActionListener
         
         logText = new ArrayList<String>();
         
+        
         itemGUI = new ItemGUI();
         magicGUI = new MagicGUI();
         roomGUI = new RoomGUI();
         
-        setPlayerStats();
-        //startGUI(roomGUI);
+        newGame();
+    }
+    
+    public static void main(String[] args)
+    {
+        
     }
     
     /**
@@ -188,6 +187,7 @@ public class GameGUI extends JFrame implements ActionListener
             addLog("You hit the " + Game.getCurrentMonsterName() + " for " + dmg);
             playerDamage();
             canHaveSecond = false;
+            endRound();
         }
         else if(magic)
         {
@@ -230,8 +230,8 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            Game.setCurrentRoomIndex(index);
-            Game.nextMonster();
+            Game.getInst().setCurrentRoomIndex(index);
+            Game.getInst().nextMonster();
             setMonsterStats();
         }
         else
@@ -265,14 +265,17 @@ public class GameGUI extends JFrame implements ActionListener
             
         case 1:
             addLog("You defeated the " + Game.getCurrentMonsterName());
-            Game.nextMonster();
-            Game.giveLoot();
+            //TODO Loot GUI
+            Game.getInst().giveLoot();
+            Game.resetCurrentMonster();
+            
+            startGUI(roomGUI);
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
              */
             
-            startGUI(roomGUI);
+            //startGUI(roomGUI);
             break;
         }
         
@@ -390,9 +393,13 @@ public class GameGUI extends JFrame implements ActionListener
     private void newGame()
     {
         Game.getInst().newGame();
+        
         resetLog(true);
-        setPlayerStats();
-        setMonsterStats();
+        //TODO Move stat calls
+        //setPlayerStats();
+        //setMonsterStats();
+        //TODO New game menu
+        System.out.print("Starting roomGUI");
         startGUI(roomGUI);
     }
 
@@ -412,8 +419,10 @@ public class GameGUI extends JFrame implements ActionListener
     private abstract class SelectionGUI extends JFrame implements ActionListener
     {   
         private int index;
-        
+       
         public static final int SPACE = 3;
+        
+        private static final int ERROR = -2, BACK = -1;
         
         public JButton[] btns;
         public JButton back;
@@ -447,15 +456,18 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 labels[i] = new JLabel();
             }
+            
+            setVisible(false);
         }
         
 
         @Override
         public void actionPerformed(ActionEvent e)
         {
+            index = ERROR;
             if(e.getSource().equals(back))
             {
-                index = -1;
+                index = BACK;
             }
             else
             {
@@ -469,7 +481,11 @@ public class GameGUI extends JFrame implements ActionListener
                 }
             }
             
-            activate(index);
+            if(index != ERROR)
+            {
+                activate(index);
+            }
+            
         }
         
         public abstract void activate(int i);
@@ -572,7 +588,7 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            //FIXME MagicGUI setUp()
+            //TODO MagicGUI setUp()
             setManaInfo(0, 0);
             /*
             setManaInfo(Player.getMana(), Player.getMaxMana());
@@ -619,14 +635,16 @@ public class GameGUI extends JFrame implements ActionListener
                 add(labels[i]);
             }
             
-            setVisible(true);
+            setVisible(false);
         }
         
         @Override
         public void setUp()
         {
-            setBtnLabels(Game.getRoomNames());
-            setDesc(Game.getRoomDescs());
+            setBtnLabels(Game.getInst().getRoomNames());
+            setDesc(Game.getInst().getRoomDescs());
+            setVisible(true);
+            System.out.println("Room");
         }
 
         @Override

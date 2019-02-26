@@ -7,7 +7,6 @@ import objects.rooms.*;
 
 public class Dungeon
 {
-    private static Dungeon instance = new Dungeon(-1);
     /**
      * All of the available rooms
      */
@@ -19,6 +18,8 @@ public class Dungeon
             new Library(),
             new Pit(),
             */
+            new Armory(),
+            new Armory(),
             new Armory()
         };
     
@@ -36,7 +37,7 @@ public class Dungeon
      * Default constructor
      * @param seed The seed for random generation
      */
-    private Dungeon(int seed)
+    public Dungeon(int seed)
     {
         if(seed > 0)
         {
@@ -50,7 +51,6 @@ public class Dungeon
         currentRooms = new int[3];
         chosenRoom = -1;
         
-        nextRooms();
     }
    
     /**
@@ -58,17 +58,22 @@ public class Dungeon
      */
     public void nextRooms()
     {
+        System.out.println("Resetting Array");
         for(int i = 0; i < currentRooms.length; i++)
         {
             currentRooms[i] = -1;
         }
+        
+        Arrays.toString(currentRooms);
         
         for(int i = 0; i < currentRooms.length; i++)
         {
             boolean same = false;
             do
             {
+                //System.out.println("Randing");
                 int gen =  rand.nextInt(ROOMS.length);
+                //System.out.println("Randed");
                 
                 for(int x = 0; x < currentRooms.length; x++)
                 {
@@ -87,22 +92,22 @@ public class Dungeon
         } 
     }
    
-    public static Room getCurrentRoom()
+    public Room getCurrentRoom()
     {
-        return Dungeon.ROOMS[instance.currentRooms[instance.chosenRoom]];
+        return Dungeon.ROOMS[currentRooms[chosenRoom]];
     }
     
     /**
      * Returns the current room names
      * @return the current room names
      */
-    public static String[] getRoomNames()
+    public String[] getRoomNames()
     {
-        String[] output = new String[instance.currentRooms.length];
+        String[] output = new String[currentRooms.length];
         
-        for(int i = 0; i < instance.currentRooms.length; i++)
+        for(int i = 0; i < currentRooms.length; i++)
         {
-            output[i] = ROOMS[instance.currentRooms[i]].getName();
+            output[i] = ROOMS[currentRooms[i]].getName();
         }
         
         return output;
@@ -112,13 +117,13 @@ public class Dungeon
      * Returns the desc of the current rooms
      * @return the desc of the current rooms
      */
-    public static String[] getRoomDescs()
+    public String[] getRoomDescs()
     {
-        String[] output = new String[instance.currentRooms.length];
+        String[] output = new String[currentRooms.length];
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = ROOMS[instance.currentRooms[i]].getDesc();
+            output[i] = ROOMS[currentRooms[i]].getDesc();
         }
         
         return output;
@@ -128,7 +133,7 @@ public class Dungeon
      * Activates loot function of the room at the index
      * @param index The rooms index
      */
-    public static void giveLoot()
+    public void giveLoot()
     {
         /*
          * TODO Item loot generation
@@ -138,18 +143,18 @@ public class Dungeon
          */
     
         //TOMAKE more items
-        ROOMS[instance.chosenRoom].giveLoot();
+        ROOMS[chosenRoom].giveLoot();
     }
     
     /**
      * Set's the current chosen room to the index
      * @param idx
      */
-    public static void setChosenRoom(int idx)
+    public void setChosenRoom(int idx)
     {
         if(idx >= 0)
         {
-            instance.chosenRoom = idx;
+            chosenRoom = idx;
         }
         else
         {
@@ -157,9 +162,5 @@ public class Dungeon
         }
     }
 
-    public static void reset()
-    {
-        instance = new Dungeon(-1);
-    }
  
 }

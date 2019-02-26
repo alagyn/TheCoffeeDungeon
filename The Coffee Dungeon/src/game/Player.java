@@ -305,12 +305,18 @@ public class Player
     {
         for(Item n : items)
         {
-            n.cooldown();
+            if(n != null)
+            {
+                n.cooldown();
+            }
         }
         
         for(Magic n : magics)
         {
-            n.cooldown();
+            if(n != null)
+            {
+                n.cooldown();
+            }
         }
     }
     
