@@ -2,7 +2,7 @@ package gui;
 
 import game.Completion;
 import game.Game;
-import game.player.Inventory;
+import game.player.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -264,7 +264,7 @@ public class GameGUI extends JFrame implements ActionListener
             //Next Round, no action required
             break;
             
-        case 1
+        case 1:
             addLog("You defeated the " + Game.getCurrentMonsterName());
             Game.nextMonster();
             Game.giveLoot();
@@ -277,7 +277,7 @@ public class GameGUI extends JFrame implements ActionListener
             break;
         }
         
-        Inventory.cooldowns();
+        Player.cooldowns();
         
         setMonsterStats();
         setPlayerStats();
@@ -522,8 +522,8 @@ public class GameGUI extends JFrame implements ActionListener
         public void setUp()
         {
             
-            setBtnLabels(Inventory.getMagicNames());
-            setDesc(Inventory.getMagicDescs());
+            setBtnLabels(Player.getMagicNames());
+            setDesc(Player.getMagicDescs());
             
             //TODO Item use label
             setVisible(true);
@@ -573,9 +573,9 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            setManaInfo(Inventory.getMana(), Inventory.getMaxMana());
-            setBtnLabels(Inventory.getItemNames());
-            setDesc(Inventory.getItemDescs());
+            setManaInfo(Player.getMana(), Player.getMaxMana());
+            setBtnLabels(Player.getItemNames());
+            setDesc(Player.getItemDescs());
             
             setVisible(true);
         }

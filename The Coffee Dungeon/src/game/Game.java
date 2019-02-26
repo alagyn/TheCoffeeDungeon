@@ -75,7 +75,7 @@ public class Game
     {
         String[] output = new String[2];
         output[0] = "" + Player.getHealth();
-        output[1] = "" + Inventory.getMana();
+        output[1] = "" + Player.getMana();
 
         return output;
     }
@@ -104,7 +104,7 @@ public class Game
      */
     public static int attack()
     {
-       int damage = Inventory.getWeapon().attack();
+       int damage = Player.getWeapon().attack();
        damageMonster(damage);
        return damage;
     }
@@ -127,7 +127,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return Inventory.getMagic(idx).activate();
+            return Player.getMagic(idx).activate();
         }
         else
         {
@@ -143,7 +143,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return Inventory.getItems(idx).use();
+            return Player.getItems(idx).use();
         }
         else
         {
@@ -166,7 +166,7 @@ public class Game
     public static void newGame()
     {
         Player.reset();
-        Inventory.reset();
+        Player.reset();
         Dungeon.reset();   
     }
     
