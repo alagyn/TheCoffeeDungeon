@@ -7,11 +7,12 @@ public abstract class Usable
     private String name;
     private String desc;
     
-    public enum UsableType
+    public enum LootType
     {
         WEAPON,
         ITEM,
-        MAGIC   
+        MAGIC,
+        NONE
     }
     
     public Usable(String name, String desc)

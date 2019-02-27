@@ -139,7 +139,6 @@ public class Dungeon
          * Item rand weights?
          * Selection GUI (slot selection/ replace)
          */
-    
         //TOMAKE more items
         return ROOMS[chosenRoom].giveLoot();
     }

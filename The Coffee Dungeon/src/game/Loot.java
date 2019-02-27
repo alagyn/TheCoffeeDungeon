@@ -1,27 +1,35 @@
 package game;
 
 import objects.abstracts.usables.Usable;
-import objects.abstracts.usables.Usable.UsableType;
+import objects.abstracts.usables.Usable.LootType;
 
 public class Loot
 {
-    private UsableType type;
+    private LootType type;
     private Usable loot;
     
-    public Loot(UsableType type, Usable loot)
+    public Loot(LootType type, Usable loot)
     {
         if(type != null)
         {
             this.type = type;
         }
-        
-        if(loot != null)
+        else
         {
-            this.loot = loot;
+            throw new IllegalArgumentException("Null LootType");
+        }
+        
+        if(type == LootType.NONE)
+        {
+            loot = null;
+        }
+        else if(loot == null)
+        {
+            throw new IllegalArgumentException("Invalid Null loot");
         }
     }
     
-    public UsableType getType()
+    public LootType getType()
     {
         return type;
     }

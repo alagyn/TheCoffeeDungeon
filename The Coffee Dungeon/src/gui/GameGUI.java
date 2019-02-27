@@ -4,6 +4,7 @@ import game.Completion;
 import game.Game;
 import game.Player;
 import objects.abstracts.usables.Usable;
+import objects.abstracts.usables.cooldown.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -415,7 +416,7 @@ public class GameGUI extends JFrame implements ActionListener
         gui.setUp();   
     }
     
-    private void startLootGUI(Usable.UsableType type)
+    private void startLootGUI(Usable.LootType type)
     {
         if(type != null)
         {
@@ -431,6 +432,11 @@ public class GameGUI extends JFrame implements ActionListener
                     
                 case MAGIC:
                     startGUI(magicLootGUI);
+                    break;
+                    
+                case NONE:
+                    //TODO No loot
+                    //I.E stat bonus with no need for GUI
                     break;
             }
         }
@@ -691,8 +697,6 @@ public class GameGUI extends JFrame implements ActionListener
     
     private class MagicLootGUI extends SelectionGUI
     {
-        
-
         public MagicLootGUI()
         {
             super("Loot");
@@ -745,7 +749,9 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
-            
+            //TODO setting item loot
+            Game.getInst().getPlayer().removeItem(i);
+            Game.getInst().getPlayer().setItems(i, (Item)Game.getInst().getCurrentloot().getLoot());
         }
 
         @Override
