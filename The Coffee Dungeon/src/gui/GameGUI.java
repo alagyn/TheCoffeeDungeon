@@ -2,6 +2,7 @@ package gui;
 
 import game.Completion;
 import game.Game;
+import game.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +35,10 @@ public class GameGUI extends JFrame implements ActionListener
     private MagicGUI magicGUI;
     private RoomGUI roomGUI;
     
+    private ItemLootGUI itemLootGUI;
+    private MagicLootGUI magicLootGUI;
+    private WeaponLootGUI weaponLootGUI;
+    
     private JPanel playStats;
     private JButton btnOne;
     private JButton btnTwo;
@@ -50,6 +55,13 @@ public class GameGUI extends JFrame implements ActionListener
     private static final int LOG_LINES = 6;
     /**Window size and location*/
     private static final int X = 50, Y = 50, WIN_WIDTH = 600, WIN_HEIGHT = 500;
+    
+    private static enum LootType
+    {
+        WEAPON,
+        ITEM,
+        MAGIC
+    }
     
     private ArrayList<String> logText;
     
@@ -142,6 +154,10 @@ public class GameGUI extends JFrame implements ActionListener
         magicGUI = new MagicGUI();
         roomGUI = new RoomGUI();
         
+        weaponLootGUI = new WeaponLootGUI();
+        itemLootGUI = new ItemLootGUI();
+        magicLootGUI = new MagicLootGUI();
+        
         newGame();
     }
     
@@ -232,6 +248,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             Game.getInst().setCurrentRoomIndex(index);
             Game.getInst().nextMonster();
+            setPlayerStats();
             setMonsterStats();
         }
         else
@@ -248,8 +265,6 @@ public class GameGUI extends JFrame implements ActionListener
     {
         int status = Game.getInst().combatResolve();
         
-        System.out.println("Status " + status);
-        
         setMonsterStats();
         setPlayerStats();
         
@@ -265,17 +280,15 @@ public class GameGUI extends JFrame implements ActionListener
             
         case 1:
             addLog("You defeated the " + Game.getCurrentMonsterName());
-            //TODO Loot GUI
             Game.getInst().giveLoot();
+            //TODO startGUI(Loot GUI);
+            //Need to wait for completion before genning next room
             Game.resetCurrentMonster();
-            
             startGUI(roomGUI);
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
              */
-            
-            //startGUI(roomGUI);
             break;
         }
         
@@ -395,11 +408,7 @@ public class GameGUI extends JFrame implements ActionListener
         Game.getInst().newGame();
         
         resetLog(true);
-        //TODO Move stat calls
-        //setPlayerStats();
-        //setMonsterStats();
-        //TODO New game menu
-        System.out.print("Starting roomGUI");
+        //TOGUI New game menu
         startGUI(roomGUI);
     }
 
@@ -407,6 +416,27 @@ public class GameGUI extends JFrame implements ActionListener
     {
         enableBtns(false);
         gui.setUp();   
+    }
+    
+    private void startLootGUI(LootType type)
+    {
+        if(type != null)
+        {
+            switch(type)
+            {
+                case WEAPON:
+                    startGUI(weaponLootGUI);
+                    break;
+                    
+                case ITEM:
+                    startGUI(itemLootGUI);
+                    break;
+                    
+                case MAGIC:
+                    startGUI(magicLootGUI);
+                    break;
+            }
+        }
     }
     
     private void enableBtns(boolean b)
@@ -540,7 +570,7 @@ public class GameGUI extends JFrame implements ActionListener
             setBtnLabels(Game.getInst().getMagicNames());
             setDesc(Game.getInst().getMagicDescs());
             
-            //TODO Item use label
+            //TOGUI Item uses and cooldowns
             setVisible(true);
         }
 
@@ -588,13 +618,14 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            //TODO MagicGUI setUp()
-            setManaInfo(0, 0);
-            /*
-            setManaInfo(Player.getMana(), Player.getMaxMana());
-            setBtnLabels(Player.getItemNames());
-            setDesc(Player.getItemDescs());
-            */
+            Player p = Game.getInst().getPlayer(); 
+            int cur = p.getMana();
+            int max = p.getMaxMana();
+            setManaInfo(cur, max);
+            
+            setBtnLabels(p.getItemNames());
+            setDesc(p.getItemDescs());
+            //TOGUI Magic cooldowns
             setVisible(true);
         }
 
@@ -644,7 +675,8 @@ public class GameGUI extends JFrame implements ActionListener
             setBtnLabels(Game.getInst().getRoomNames());
             setDesc(Game.getInst().getRoomDescs());
             setVisible(true);
-            System.out.println("Room");
+            
+            Game.getInst().nextRooms();
         }
 
         @Override
@@ -658,5 +690,72 @@ public class GameGUI extends JFrame implements ActionListener
             setVisible(false);
             enableBtns(true);
         }
+    }
+    
+    private class MagicLootGUI extends SelectionGUI
+    {
+        
+
+        public MagicLootGUI()
+        {
+            super("Loot");
+            
+            //TOGUI LootGUI
+        }
+
+        @Override
+        public void activate(int i)
+        {
+            
+        }
+
+        @Override
+        public void setUp()
+        {
+            
+        }
+        
+    }
+    
+    private class WeaponLootGUI extends SelectionGUI
+    {
+        public WeaponLootGUI()
+        {
+            super("Weapon loot");
+        }
+        
+        @Override
+        public void activate(int i)
+        {
+            
+        }
+
+        @Override
+        public void setUp()
+        {
+            
+        }
+        
+    }
+    
+    private class ItemLootGUI extends SelectionGUI
+    {
+        public ItemLootGUI()
+        {
+            super("Item loot");
+        }
+        
+        @Override
+        public void activate(int i)
+        {
+            
+        }
+
+        @Override
+        public void setUp()
+        {
+            
+        }
+        
     }
 }

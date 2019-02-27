@@ -1,11 +1,16 @@
-package objects.abstracts.usables;
+package objects.abstracts.usables.cooldown;
 
-import game.Completion;
+import objects.abstracts.usables.Usable;
 
-public abstract class Item
+public abstract class Cooldown extends Usable
 {
     private int cooldownTime;
     
+    public Cooldown(String name, String desc)
+    {
+        super(name, desc);
+    }
+
     public void cooldown()
     {
         if(cooldownTime > 0)
@@ -26,14 +31,9 @@ public abstract class Item
         }
     }
     
-    public boolean available()
+    public int getCooldown()
     {
-        return cooldownTime == 0;
+        return cooldownTime;
     }
-    
-    public abstract Completion use();
-    
-    public abstract String getName();
-    public abstract String getDesc();
     
 }

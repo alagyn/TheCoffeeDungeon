@@ -20,6 +20,8 @@ public class Dungeon
             */
             new Armory(),
             new Armory(),
+            new Armory(),
+            new Armory(),
             new Armory()
         };
     
@@ -57,23 +59,19 @@ public class Dungeon
      * Generates the next 3 rooms
      */
     public void nextRooms()
-    {
-        System.out.println("Resetting Array");
+    {   
         for(int i = 0; i < currentRooms.length; i++)
         {
             currentRooms[i] = -1;
         }
         
-        Arrays.toString(currentRooms);
-        
         for(int i = 0; i < currentRooms.length; i++)
         {
-            boolean same = false;
+            boolean same;
             do
             {
-                //System.out.println("Randing");
+                same = false;
                 int gen =  rand.nextInt(ROOMS.length);
-                //System.out.println("Randed");
                 
                 for(int x = 0; x < currentRooms.length; x++)
                 {
@@ -86,9 +84,9 @@ public class Dungeon
                 if(!same)
                 {
                     currentRooms[i] = gen;
-                }
-                
-            }while(same);
+                }    
+            }
+            while(same);
         } 
     }
    

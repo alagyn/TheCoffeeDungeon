@@ -1,6 +1,7 @@
 package game;
 
-import objects.abstracts.usables.*;
+import objects.abstracts.Weapon;
+import objects.abstracts.usables.cooldown.*;
 import objects.usables.items.*;
 import objects.usables.magics.*;
 import objects.usables.weapons.*;

@@ -2,7 +2,7 @@ package objects.usables.weapons;
 
 import java.util.Random;
 
-import objects.abstracts.usables.Weapon;
+import objects.abstracts.Weapon;
 
 public class Sword1 extends Weapon
 {

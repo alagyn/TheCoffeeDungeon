@@ -103,14 +103,6 @@ public class Game
        return damage;
     }
     
-    /*
-     * TODO Return values for completed actions
-     * Command object?
-     * i.e. whether the action could be completed
-     * not enough mana/Cooldowns?
-     * throw exceptions? gives a third return value
-     */
-    
     /**
      * Activates the magic at the inventory index
      * @param idx the index of the magic
@@ -160,8 +152,6 @@ public class Game
     public void newGame()
     {
         player = new Player();
-        System.out.println("Const Dungeon");
-        System.out.println("Done");
     }
     
     public static void resetCurrentMonster()
@@ -213,5 +203,10 @@ public class Game
     public Player getPlayer()
     {
         return player;
+    }
+    
+    public void nextRooms()
+    {
+        dungeon.nextRooms();
     }
 }

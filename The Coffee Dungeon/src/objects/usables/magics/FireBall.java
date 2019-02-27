@@ -1,7 +1,7 @@
 package objects.usables.magics;
 
 import game.Completion;
-import objects.abstracts.usables.Magic;
+import objects.abstracts.usables.cooldown.Magic;
 
 public class FireBall extends Magic
 {
