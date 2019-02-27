@@ -1,5 +1,6 @@
 package objects.rooms;
 
+import game.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
 import objects.monsters.*;
@@ -18,12 +19,13 @@ public class Armory extends Room
     }
 
     @Override
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /* TOMAKE Armory
         player.addArmor();
         player.addGold(Room.rand(MAX_GOLD));
         */
+        return null;
     }
     
     @Override

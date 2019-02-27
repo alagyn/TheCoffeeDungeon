@@ -2,6 +2,8 @@ package objects.abstracts;
 
 import java.util.Random;
 
+import game.Loot;
+
 public abstract class Room
 {
     double[] weights;
@@ -39,7 +41,7 @@ public abstract class Room
         return monsters[output];
     }
     
-    public abstract void giveLoot();
+    public abstract Loot giveLoot();
     public abstract String getName();
     public abstract String getDesc();
     

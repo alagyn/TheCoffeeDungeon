@@ -11,9 +11,17 @@ public class Game
 
     private static Game instance = new Game();
     private Monster currentMonster;
+    private Loot currentLoot;
 
     private Player player;
     private Dungeon dungeon;
+    
+    public enum Status
+    {
+        LOSE,
+        WIN,
+        NEUTRAL
+    }
     
     /**Default Constructor*/
     private Game()
@@ -43,17 +51,17 @@ public class Game
      * Checks if the player and or monster is still alive
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
-    public int combatResolve()
+    public Status combatResolve()
     {
-        int output = 0;
+        Status output = Status.NEUTRAL;
 
         if(player.isAlive() && !currentMonster.isAlive())
         {
-            output = 1;
+            output = Status.WIN;
         } 
         else if (!player.isAlive())
         {
-            output = -1;
+            output = Status.LOSE;
         }
         
         player.cooldowns();
@@ -129,7 +137,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return player.getItems(idx).use();
+            return player.getItems(idx).activate();
         }
         else
         {
@@ -172,7 +180,12 @@ public class Game
     
     public void giveLoot()
     {
-        dungeon.giveLoot();
+        currentLoot = dungeon.getCurrentRoom().giveLoot();
+    }
+    
+    public Loot getCurrentloot()
+    {
+        return currentLoot;
     }
 
     public static String getCurrentMonsterName()

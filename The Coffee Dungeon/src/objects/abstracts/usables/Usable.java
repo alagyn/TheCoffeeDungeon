@@ -4,8 +4,15 @@ import game.Completion;
 
 public abstract class Usable
 {
-    String name;
-    String desc;
+    private String name;
+    private String desc;
+    
+    public enum UsableType
+    {
+        WEAPON,
+        ITEM,
+        MAGIC   
+    }
     
     public Usable(String name, String desc)
     {

@@ -13,12 +13,11 @@ public class HealPotion extends Item
      * Static vs field?
      */
     
-    @Override
-    public Completion use()
+    public HealPotion()
     {
-        return null;
+        super("Health Potion", "Drink up");
     }
-
+    
     @Override
     public String getName()
     {
@@ -35,6 +34,12 @@ public class HealPotion extends Item
     public boolean available()
     {
         return false;
+    }
+
+    @Override
+    public Completion activate()
+    {
+        return null;
     }
 
 }

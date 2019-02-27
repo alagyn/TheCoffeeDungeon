@@ -131,7 +131,7 @@ public class Dungeon
      * Activates loot function of the room at the index
      * @param index The rooms index
      */
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /*
          * TODO Item loot generation
@@ -141,7 +141,7 @@ public class Dungeon
          */
     
         //TOMAKE more items
-        ROOMS[chosenRoom].giveLoot();
+        return ROOMS[chosenRoom].giveLoot();
     }
     
     /**

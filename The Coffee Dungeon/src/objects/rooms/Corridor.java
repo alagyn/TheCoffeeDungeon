@@ -1,5 +1,6 @@
 package objects.rooms;
 
+import game.Loot;
 import objects.abstracts.*;
 
 public class Corridor extends Room
@@ -13,11 +14,12 @@ public class Corridor extends Room
     }
     
     @Override
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /*TOMAKE Corridor
         player.addGold(Room.rand(MAX_GOLD));
         */
+        return null;
     }
     
     @Override

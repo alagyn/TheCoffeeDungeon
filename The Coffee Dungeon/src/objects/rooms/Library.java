@@ -1,5 +1,6 @@
 package objects.rooms;
 
+import game.Loot;
 import objects.abstracts.Room;
 
 public class Library extends Room
@@ -18,11 +19,12 @@ public class Library extends Room
     }
     
     @Override
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /*TOMAKE Library
         player.addMagic();
         */
+        return null;
     }
 
     @Override

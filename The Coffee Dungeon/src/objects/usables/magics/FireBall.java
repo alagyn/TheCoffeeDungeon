@@ -1,35 +1,37 @@
 package objects.usables.magics;
 
 import game.Completion;
+import game.Game;
+import game.Player;
 import objects.abstracts.usables.cooldown.Magic;
 
 public class FireBall extends Magic
 {
     private static final int manaCost = 1;
     private static final int coolDownTime = 2;
-    private static final boolean canHaveSecond = false;
+    
     
     public FireBall()
     {
-        super(manaCost);
+        super("Fire ball", "Stop that, you pyro", false, manaCost);
     }
 
     @Override
     public Completion activate()
     {
         Completion c;
-        
-        if(available() && getPlayer().getMana() >= manaCost)
+        Player p = Game.getInst().getPlayer();
+        if(available() && p.getMana() >= manaCost)
         {
             //TOMAKE FireBall
             //Use magic
             addCooldown(coolDownTime);
-            getPlayer().useMana(manaCost);
-            c = new Completion(canHaveSecond, true);
+            p.useMana(manaCost);
+            c = new Completion(canHaveSecond(), true);
         }
         else
         {
-            c = new Completion(canHaveSecond, false);
+            c = new Completion(canHaveSecond(), false);
         }
         
         return c;
@@ -45,6 +47,12 @@ public class FireBall extends Magic
     public String getDesc()
     {
         return null;
+    }
+
+    @Override
+    public boolean available()
+    {
+        return false;
     }
 
 }

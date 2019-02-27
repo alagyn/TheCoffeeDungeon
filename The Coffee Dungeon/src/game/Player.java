@@ -1,10 +1,10 @@
 package game;
 
-import objects.abstracts.Weapon;
+import objects.abstracts.usables.*;
 import objects.abstracts.usables.cooldown.*;
-import objects.usables.items.*;
-import objects.usables.magics.*;
-import objects.usables.weapons.*;
+import objects.usables.items.HealPotion;
+import objects.usables.magics.FireBall;
+import objects.usables.weapons.Sword1;
 
 public class Player
 {

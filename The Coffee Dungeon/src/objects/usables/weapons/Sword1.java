@@ -1,8 +1,9 @@
 package objects.usables.weapons;
 
+import objects.abstracts.usables.Weapon;
 import java.util.Random;
 
-import objects.abstracts.Weapon;
+import game.Completion;
 
 public class Sword1 extends Weapon
 {
@@ -11,6 +12,7 @@ public class Sword1 extends Weapon
 
     public Sword1()
     {
+        super("Sword", "Swingy sword");
         rand = new Random();
     }
 
@@ -18,6 +20,18 @@ public class Sword1 extends Weapon
     public int attack()
     {
         return rand.nextInt(5) + 1;
+    }
+
+    @Override
+    public Completion activate()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean available()
+    {
+        return false;
     }
 
 }

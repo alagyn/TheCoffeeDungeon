@@ -1,5 +1,6 @@
 package objects.rooms;
 
+import game.Loot;
 import objects.abstracts.Room;
 
 public class Storage extends Room
@@ -13,12 +14,13 @@ public class Storage extends Room
     }
 
     @Override
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /*TOMAKE Storage
         player.addPotion();
         player.addGold(Room.rand(MAX_GOLD));
         */
+        return null;
     }
 
     @Override

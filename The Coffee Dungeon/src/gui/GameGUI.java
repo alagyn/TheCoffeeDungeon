@@ -3,6 +3,7 @@ package gui;
 import game.Completion;
 import game.Game;
 import game.Player;
+import objects.abstracts.usables.Usable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,13 +56,6 @@ public class GameGUI extends JFrame implements ActionListener
     private static final int LOG_LINES = 6;
     /**Window size and location*/
     private static final int X = 50, Y = 50, WIN_WIDTH = 600, WIN_HEIGHT = 500;
-    
-    private static enum LootType
-    {
-        WEAPON,
-        ITEM,
-        MAGIC
-    }
     
     private ArrayList<String> logText;
     
@@ -263,25 +257,28 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        int status = Game.getInst().combatResolve();
+        Game.Status status = Game.getInst().combatResolve();
         
         setMonsterStats();
         setPlayerStats();
         
         switch(status)
         {
-        case -1:
+        case LOSE:
             gameOver();
             break;
             
-        case 0:
+        case NEUTRAL:
             //Next Round, no action required
             break;
             
-        case 1:
+        case WIN:
             addLog("You defeated the " + Game.getCurrentMonsterName());
             Game.getInst().giveLoot();
-            //TODO startGUI(Loot GUI);
+            
+            startLootGUI(Game.getInst().getCurrentloot().getType());
+            
+            //TODO wait for loot
             //Need to wait for completion before genning next room
             Game.resetCurrentMonster();
             startGUI(roomGUI);
@@ -418,7 +415,7 @@ public class GameGUI extends JFrame implements ActionListener
         gui.setUp();   
     }
     
-    private void startLootGUI(LootType type)
+    private void startLootGUI(Usable.UsableType type)
     {
         if(type != null)
         {

@@ -1,6 +1,7 @@
 package objects.rooms;
 
 
+import game.Loot;
 import objects.abstracts.Room;
 
 public class Pit extends Room
@@ -13,11 +14,12 @@ public class Pit extends Room
     }
     
     @Override
-    public void giveLoot()
+    public Loot giveLoot()
     {
         /*TOMAKE Pit
         player.addWeapon();
         */
+        return null;
     }
     
     @Override
