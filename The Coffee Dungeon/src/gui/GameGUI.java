@@ -279,10 +279,6 @@ public class GameGUI extends JFrame implements ActionListener
             
             startLootGUI(Game.getInst().getCurrentloot().getType());
             
-            //TODO wait for loot
-            //Need to wait for completion before genning next room
-            Game.resetCurrentMonster();
-            startGUI(roomGUI);
             /*
              * MAYBE Allow spells/items between rooms
              * Be able to use healing actions without a monster
@@ -447,6 +443,12 @@ public class GameGUI extends JFrame implements ActionListener
         btnOne.setEnabled(b);
         btnTwo.setEnabled(b);
         btnThree.setEnabled(b);
+    }
+    
+    public void nextRooms()
+    {
+        Game.resetCurrentMonster();
+        startGUI(roomGUI);
     }
     
     private abstract class SelectionGUI extends JFrame implements ActionListener
@@ -749,9 +751,23 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
-            //TODO setting item loot
-            Game.getInst().getPlayer().removeItem(i);
-            Game.getInst().getPlayer().setItems(i, (Item)Game.getInst().getCurrentloot().getLoot());
+            if(i >= 0)
+            {
+                //TODO setting item loot
+                Game.getInst().getPlayer().removeItem(i);
+                try
+                {
+                    Game.getInst().getPlayer().setItems(i, (Item)Game.getInst().getCurrentloot().getLoot());
+                }
+                catch(ClassCastException e)
+                {
+                    throw new IllegalArgumentException();
+                }
+            }
+            
+            setVisible(false);
+            enableBtns(true);
+            nextRooms();
         }
 
         @Override
@@ -761,4 +777,6 @@ public class GameGUI extends JFrame implements ActionListener
         }
         
     }
+
+    
 }

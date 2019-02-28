@@ -4,6 +4,7 @@ import game.Completion;
 
 public abstract class Usable
 {
+    //TOMAKE more items
     private String name;
     private String desc;
     

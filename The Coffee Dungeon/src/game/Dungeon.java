@@ -133,13 +133,6 @@ public class Dungeon
      */
     public Loot giveLoot()
     {
-        /*
-         * TODO Item loot generation
-         * Loot gen up to the room?
-         * Item rand weights?
-         * Selection GUI (slot selection/ replace)
-         */
-        //TOMAKE more items
         return ROOMS[chosenRoom].giveLoot();
     }
     
