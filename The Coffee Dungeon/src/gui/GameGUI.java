@@ -556,6 +556,11 @@ public class GameGUI extends JFrame implements ActionListener
             }
         }
         
+        public void closeWindow()
+        {
+            setVisible(false);
+            enableBtns(true);
+        }
     }
 
     private class ItemGUI extends SelectionGUI
@@ -590,8 +595,7 @@ public class GameGUI extends JFrame implements ActionListener
                 }
             }
             
-            enableBtns(true);
-            setVisible(false);
+            closeWindow();
         }
         
     }
@@ -647,8 +651,7 @@ public class GameGUI extends JFrame implements ActionListener
                 }
             }
             
-            enableBtns(true);
-            setVisible(false);
+            closeWindow();
         }        
     }
 
@@ -691,8 +694,7 @@ public class GameGUI extends JFrame implements ActionListener
                 newRoom(i);
             }
             
-            setVisible(false);
-            enableBtns(true);
+            closeWindow();
         }
     }
     
@@ -753,18 +755,10 @@ public class GameGUI extends JFrame implements ActionListener
             if(i >= 0)
             {
                 Game.getInst().getPlayer().removeItem(i);
-                try
-                {
-                    Game.getInst().getPlayer().setItems(i, Game.getInst().getCurrentloot().getItemLoot());
-                }
-                catch(ClassCastException e)
-                {
-                    throw new IllegalArgumentException();
-                }
+                Game.getInst().getPlayer().setItems(i, Game.getInst().getCurrentloot().getItemLoot());
             }
             
-            setVisible(false);
-            enableBtns(true);
+            closeWindow();
             nextRooms();
         }
 
