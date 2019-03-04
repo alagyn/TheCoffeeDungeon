@@ -1,10 +1,9 @@
 package gui;
 
-import game.Completion;
 import game.Game;
 import game.Player;
+import game.loot.Completion;
 import objects.abstracts.usables.Usable;
-import objects.abstracts.usables.cooldown.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -753,11 +752,10 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                //TODO setting item loot
                 Game.getInst().getPlayer().removeItem(i);
                 try
                 {
-                    Game.getInst().getPlayer().setItems(i, (Item)Game.getInst().getCurrentloot().getLoot());
+                    Game.getInst().getPlayer().setItems(i, Game.getInst().getCurrentloot().getItemLoot());
                 }
                 catch(ClassCastException e)
                 {

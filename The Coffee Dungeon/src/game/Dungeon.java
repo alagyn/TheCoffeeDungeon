@@ -2,6 +2,7 @@ package game;
 
 import java.util.*;
 
+import game.loot.Loot;
 import objects.abstracts.*;
 import objects.rooms.*;
 

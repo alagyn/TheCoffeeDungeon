@@ -2,7 +2,7 @@ package objects.abstracts;
 
 import java.util.Random;
 
-import game.Loot;
+import game.loot.Loot;
 
 public abstract class Room
 {

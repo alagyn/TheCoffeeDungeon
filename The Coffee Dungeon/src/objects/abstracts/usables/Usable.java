@@ -1,6 +1,6 @@
 package objects.abstracts.usables;
 
-import game.Completion;
+import game.loot.Completion;
 
 public abstract class Usable
 {

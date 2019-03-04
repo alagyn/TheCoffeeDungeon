@@ -1,6 +1,6 @@
 package objects.usables.items;
 
-import game.Completion;
+import game.loot.Completion;
 import objects.abstracts.usables.cooldown.Item;
 
 public class HealPotion extends Item

@@ -1,6 +1,6 @@
 package objects.rooms;
 
-import game.Loot;
+import game.loot.Loot;
 import objects.abstracts.*;
 
 public class Corridor extends Room

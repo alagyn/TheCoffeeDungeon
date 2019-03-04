@@ -1,5 +1,7 @@
 package game;
 
+import game.loot.Completion;
+import game.loot.Loot;
 import objects.abstracts.Monster;
 
 public class Game

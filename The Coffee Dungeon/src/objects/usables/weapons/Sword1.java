@@ -3,7 +3,7 @@ package objects.usables.weapons;
 import objects.abstracts.usables.Weapon;
 import java.util.Random;
 
-import game.Completion;
+import game.loot.Completion;
 
 public class Sword1 extends Weapon
 {
