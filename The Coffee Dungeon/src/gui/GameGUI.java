@@ -633,12 +633,13 @@ public class GameGUI extends JFrame implements ActionListener
         public void setUp()
         {
             
-            setBtnLabels(Game.getInst().getMagicNames());
-            setDesc(Game.getInst().getMagicDescs());
+            setBtnLabels(Game.getInst().getItemNames());
+            setDesc(Game.getInst().getItemDescs());
             
             for(int i = 0; i < btns.length; i++)
             {
-                if(Game.getInst().getPlayer().getMagic(i) == null)
+                if(Game.getInst().getPlayer().getItems(i) == null
+                        || !Game.getInst().getPlayer().getItems(i).available())
                 {
                     btns[i].setEnabled(false);
                     textFields[i].setEnabled(false);
@@ -692,8 +693,14 @@ public class GameGUI extends JFrame implements ActionListener
             int max = p.getMaxMana();
             setManaInfo(cur, max);
             
-            setBtnLabels(p.getItemNames());
-            setDesc(p.getItemDescs());
+            setBtnLabels(p.getMagicNames());
+            setDesc(p.getMagicDescs());
+            
+            for(int i = 0; i < btns.length; i++)
+            {
+                
+            }
+            
             //TOGUI Magic cooldowns
             setVisible(true);
         }

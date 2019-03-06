@@ -13,7 +13,7 @@ public class Player
     /**Default Magics*/
     private static final Magic[] DEF_MAG = {new FireBall(), null, null};
     /**Default Items*/
-    private static final Item[] DEF_ITM = {new HealPotion(), null, null};
+    private static final Item[] DEF_ITM = {null, new HealPotion(), null};
     
     public static final int INV_LENGTH = 3;
     public static final int START_MANA = 3;
@@ -259,7 +259,14 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = items[i].getName();
+            if(items[i] == null)
+            {
+                output[i] = "";
+            }
+            else
+            {
+                output[i] = items[i].getName();
+            }
         }
         
         return output;
@@ -271,7 +278,14 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = items[i].getDesc();
+            if(items[i] == null)
+            {
+                output[i] = "";
+            }
+            else
+            {
+                output[i] = items[i].getDesc();
+            }
         }
         
         return output;

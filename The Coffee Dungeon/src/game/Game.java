@@ -214,6 +214,16 @@ public class Game
     {
         return player.getMagicDescs();
     }
+    
+    public String[] getItemNames()
+    {
+        return player.getItemNames();
+    }
+    
+    public String[] getItemDescs()
+    {
+        return player.getItemDescs();
+    }
 
     public Player getPlayer()
     {

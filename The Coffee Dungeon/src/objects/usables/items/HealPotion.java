@@ -17,18 +17,6 @@ public class HealPotion extends Item
     {
         super("Health Potion", "Drink up");
     }
-    
-    @Override
-    public String getName()
-    {
-        return null;
-    }
-
-    @Override
-    public String getDesc()
-    {
-        return null;
-    }
 
     @Override
     public boolean available()

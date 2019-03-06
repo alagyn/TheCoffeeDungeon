@@ -38,18 +38,6 @@ public class FireBall extends Magic
     }
 
     @Override
-    public String getName()
-    {
-        return null;
-    }
-
-    @Override
-    public String getDesc()
-    {
-        return null;
-    }
-
-    @Override
     public boolean available()
     {
         return false;
