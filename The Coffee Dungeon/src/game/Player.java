@@ -283,7 +283,15 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = magics[i].getName();
+            if(magics[i] == null)
+            {
+                output[i] = "";
+            }
+            else
+            {
+                output[i] = magics[i].getName();
+            }
+            
         }
         
         return output;
@@ -295,7 +303,14 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            output[i] = magics[i].getDesc();
+            if(magics[i] == null)
+            {
+                output[i] = "";
+            }
+            else
+            {
+                output[i] = magics[i].getDesc();
+            }
         }
         
         return output;

@@ -461,7 +461,7 @@ public class GameGUI extends JFrame implements ActionListener
         public JButton[] btns;
         public JButton back;
         
-        public JLabel[] labels;
+        public JTextArea[] textFields;
         
         public SelectionGUI(String title)
         {
@@ -484,11 +484,12 @@ public class GameGUI extends JFrame implements ActionListener
             back = new JButton("Back");
             back.addActionListener(this);
             
-            labels = new JLabel[SPACE];
+            textFields = new JTextArea[SPACE];
             
-            for(int i = 0; i < labels.length; i++)
+            for(int i = 0; i < textFields.length; i++)
             {
-                labels[i] = new JLabel();
+                textFields[i] = new JTextArea();
+                textFields[i].setEditable(false);
             }
             
             setVisible(false);
@@ -532,7 +533,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 for(int i = 0; i < info.length; i++)
                 {
-                    labels[i].setText(info[i]);
+                    textFields[i].setText(info[i]);
                 }
             }
             else
@@ -563,13 +564,69 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
 
-    private class ItemGUI extends SelectionGUI
+    private abstract class ActionGUI extends SelectionGUI
     {
+        private static final int WIDTH = 500, HEIGHT = 300, INSET = 5;
+        
+        public ActionGUI(String title)
+        {
+            super(title);
+
+            setSize(WIDTH, HEIGHT);
+            setLocation(GameGUI.this.getLocation().x + 500, GameGUI.this.getLocation().y);
+            
+            GridBagLayout gBag = new GridBagLayout();
+            
+            setLayout(gBag);
+            
+            GridBagConstraints cBtn = new GridBagConstraints();
+            cBtn.weightx = 0.2;
+            cBtn.fill = GridBagConstraints.BOTH;
+            cBtn.gridheight = 2;
+            cBtn.weighty = 1;
+            cBtn.insets = new Insets(INSET, INSET, INSET, INSET);
+            
+            GridBagConstraints cLabel = new GridBagConstraints();
+            cLabel.weightx = 1;
+            cLabel.weighty = 1;
+            cLabel.fill = GridBagConstraints.BOTH;
+            cLabel.gridwidth = GridBagConstraints.REMAINDER;
+            cLabel.gridheight = 2;
+            cLabel.insets = new Insets(INSET, INSET, INSET, INSET);
+            
+            GridBagConstraints cBack = new GridBagConstraints();
+            cBack.gridwidth = GridBagConstraints.REMAINDER;
+            cBack.weightx = 0;
+            //cBack.gridheight = 2;
+            cBack.weighty = 0.3;
+            cBack.fill = GridBagConstraints.BOTH;
+            cBack.insets = new Insets(10, 150, 10, 150);
+            
+            for(int i = 0; i < btns.length; i++)
+            {
+                btns[i].setText("Btn: " + i);
+                gBag.setConstraints(btns[i], cBtn);
+                add(btns[i]);
+                
+                textFields[i].setText("Label: " + i);
+                gBag.setConstraints(textFields[i], cLabel);
+                add(textFields[i]);
+            }
+            
+            gBag.setConstraints(back, cBack);
+            add(back);
+            
+        }
+    }
     
+    private class ItemGUI extends ActionGUI
+    {
         //TOGUI ItemGUI
         public ItemGUI()
         {
             super("Items");
+            
+            //setVisible(true);
         }
     
         @Override
@@ -578,6 +635,15 @@ public class GameGUI extends JFrame implements ActionListener
             
             setBtnLabels(Game.getInst().getMagicNames());
             setDesc(Game.getInst().getMagicDescs());
+            
+            for(int i = 0; i < btns.length; i++)
+            {
+                if(Game.getInst().getPlayer().getMagic(i) == null)
+                {
+                    btns[i].setEnabled(false);
+                    textFields[i].setEnabled(false);
+                }
+            }
             
             //TOGUI Item uses and cooldowns
             setVisible(true);
@@ -600,10 +666,9 @@ public class GameGUI extends JFrame implements ActionListener
         
     }
 
-    private class MagicGUI extends SelectionGUI
+    private class MagicGUI extends ActionGUI
     {
         //TOGUI MagicGUI
-        public static final int WIDTH = 500, HEIGHT = 500, X = 20, Y = 20;
         
         private JLabel mana;
         
@@ -612,10 +677,6 @@ public class GameGUI extends JFrame implements ActionListener
             super("Magics");
             
             mana = new JLabel();
-            
-            setSize(WIDTH, HEIGHT);
-            setLocation(X, Y);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
         
         public void setManaInfo(int amnt, int max)
@@ -670,7 +731,7 @@ public class GameGUI extends JFrame implements ActionListener
             for(int i = 0; i < btns.length; i++)
             {
                 add(btns[i]);
-                add(labels[i]);
+                add(textFields[i]);
             }
             
             setVisible(false);
