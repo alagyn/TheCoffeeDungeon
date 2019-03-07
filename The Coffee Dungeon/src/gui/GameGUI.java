@@ -129,6 +129,7 @@ public class GameGUI extends JFrame implements ActionListener
         playStats.add(new JLabel("Mana:"));
         playStats.add(playMana);
         
+        //FIXME Remove Potion label
         playStats.add(btnThree);
         playStats.add(new JLabel("Potions:"));
         
@@ -466,7 +467,7 @@ public class GameGUI extends JFrame implements ActionListener
         public SelectionGUI(String title)
         {
             super(title);
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             index = 0;
             
             btns = new JButton[SPACE];
@@ -698,7 +699,12 @@ public class GameGUI extends JFrame implements ActionListener
             
             for(int i = 0; i < btns.length; i++)
             {
-                
+                if(Game.getInst().getPlayer().getMagic(i) == null 
+                        || !Game.getInst().getPlayer().getMagic(i).available())
+                {
+                    textFields[i].setEnabled(false);
+                    btns[i].setEnabled(false);
+                }
             }
             
             //TOGUI Magic cooldowns

@@ -68,6 +68,13 @@ public class Game
         
         player.cooldowns();
 
+        //TODO Mana regen
+        /*
+         * More max mana
+         * 1-2 per round
+         * 3-4 when entering room
+         */
+        
         return output;
     }
 
