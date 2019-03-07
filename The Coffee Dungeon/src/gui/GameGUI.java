@@ -462,6 +462,7 @@ public class GameGUI extends JFrame implements ActionListener
         public JButton[] btns;
         public JButton back;
         
+        public JPanel[] textPanels;
         public JTextArea[] textFields;
         
         public SelectionGUI(String title)
@@ -485,12 +486,13 @@ public class GameGUI extends JFrame implements ActionListener
             back = new JButton("Back");
             back.addActionListener(this);
             
+            textPanels = new JPanel[SPACE];
             textFields = new JTextArea[SPACE];
             
-            for(int i = 0; i < textFields.length; i++)
+            for(int i = 0; i < textPanels.length; i++)
             {
+                textPanels[i] = new JPanel();
                 textFields[i] = new JTextArea();
-                textFields[i].setEditable(false);
             }
             
             setVisible(false);
@@ -569,6 +571,8 @@ public class GameGUI extends JFrame implements ActionListener
     {
         private static final int WIDTH = 500, HEIGHT = 300, INSET = 5;
         
+        public GridBagLayout[] textGBag;
+        
         public ActionGUI(String title)
         {
             super(title);
@@ -587,13 +591,13 @@ public class GameGUI extends JFrame implements ActionListener
             cBtn.weighty = 1;
             cBtn.insets = new Insets(INSET, INSET, INSET, INSET);
             
-            GridBagConstraints cLabel = new GridBagConstraints();
-            cLabel.weightx = 1;
-            cLabel.weighty = 1;
-            cLabel.fill = GridBagConstraints.BOTH;
-            cLabel.gridwidth = GridBagConstraints.REMAINDER;
-            cLabel.gridheight = 2;
-            cLabel.insets = new Insets(INSET, INSET, INSET, INSET);
+            GridBagConstraints cPanel = new GridBagConstraints();
+            cPanel.weightx = 1;
+            cPanel.weighty = 1;
+            cPanel.fill = GridBagConstraints.BOTH;
+            cPanel.gridwidth = GridBagConstraints.REMAINDER;
+            cPanel.gridheight = 2;
+            cPanel.insets = new Insets(INSET, INSET, INSET, INSET);
             
             GridBagConstraints cBack = new GridBagConstraints();
             cBack.gridwidth = GridBagConstraints.REMAINDER;
@@ -609,9 +613,19 @@ public class GameGUI extends JFrame implements ActionListener
                 gBag.setConstraints(btns[i], cBtn);
                 add(btns[i]);
                 
-                textFields[i].setText("Label: " + i);
-                gBag.setConstraints(textFields[i], cLabel);
-                add(textFields[i]);
+                //XXX
+                //textPanels[i].setText("Label: " + i);
+                
+                gBag.setConstraints(textPanels[i], cPanel);
+                add(textPanels[i]);
+            }
+            
+            textGBag = new GridBagLayout[SPACE];
+            
+            for(int i = 0; i < textPanels.length; i++)
+            {
+                textGBag[i] = new GridBagLayout();
+                textPanels[i].setLayout(textGBag[i]);
             }
             
             gBag.setConstraints(back, cBack);
@@ -627,7 +641,28 @@ public class GameGUI extends JFrame implements ActionListener
         {
             super("Items");
             
-            //setVisible(true);
+            GridBagConstraints cDesc = new GridBagConstraints();
+            cDesc.fill = GridBagConstraints.BOTH;
+            cDesc.weightx = 1.0;
+            cDesc.gridheight = 2;
+            cDesc.weighty = 1;
+            
+            GridBagConstraints cUse = new GridBagConstraints();
+            cUse.fill = GridBagConstraints.BOTH;
+            cUse.weightx = 0.3;
+            cUse.gridheight = 2;
+            cUse.weighty = 1;
+            
+            for(int i = 0; i < textPanels.length; i++)
+            {
+                textGBag[i].setConstraints(textFields[i], cDesc);
+                textPanels[i].add(textFields[i]);
+                
+                JLabel j = new JLabel("" + i);
+                textGBag[i].setConstraints(j, cUse);
+                textPanels[i].add(j);            }
+            
+            setVisible(true);
         }
     
         @Override
@@ -643,7 +678,7 @@ public class GameGUI extends JFrame implements ActionListener
                         || !Game.getInst().getPlayer().getItems(i).available())
                 {
                     btns[i].setEnabled(false);
-                    textFields[i].setEnabled(false);
+                    textPanels[i].setEnabled(false);
                 }
             }
             
@@ -702,7 +737,7 @@ public class GameGUI extends JFrame implements ActionListener
                 if(Game.getInst().getPlayer().getMagic(i) == null 
                         || !Game.getInst().getPlayer().getMagic(i).available())
                 {
-                    textFields[i].setEnabled(false);
+                    textPanels[i].setEnabled(false);
                     btns[i].setEnabled(false);
                 }
             }
@@ -744,7 +779,7 @@ public class GameGUI extends JFrame implements ActionListener
             for(int i = 0; i < btns.length; i++)
             {
                 add(btns[i]);
-                add(textFields[i]);
+                add(textPanels[i]);
             }
             
             setVisible(false);
