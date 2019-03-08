@@ -613,9 +613,6 @@ public class GameGUI extends JFrame implements ActionListener
                 gBag.setConstraints(btns[i], cBtn);
                 add(btns[i]);
                 
-                //XXX
-                //textPanels[i].setText("Label: " + i);
-                
                 gBag.setConstraints(textPanels[i], cPanel);
                 add(textPanels[i]);
             }
@@ -646,19 +643,22 @@ public class GameGUI extends JFrame implements ActionListener
             cDesc.weightx = 1.0;
             cDesc.gridheight = 2;
             cDesc.weighty = 1;
+            cDesc.insets = new Insets(0, 10, 0, 10);
             
             GridBagConstraints cUse = new GridBagConstraints();
             cUse.fill = GridBagConstraints.BOTH;
             cUse.weightx = 0.3;
             cUse.gridheight = 2;
             cUse.weighty = 1;
+            cUse.insets = new Insets(0, 10, 0, 10);
             
             for(int i = 0; i < textPanels.length; i++)
             {
                 textGBag[i].setConstraints(textFields[i], cDesc);
                 textPanels[i].add(textFields[i]);
                 
-                JLabel j = new JLabel("" + i);
+                //TODO Item use text
+                JTextArea j = new JTextArea("" + i);
                 textGBag[i].setConstraints(j, cUse);
                 textPanels[i].add(j);            }
             
