@@ -3,11 +3,14 @@ package objects.rooms;
 import game.loot.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
+import objects.abstracts.usables.Usable.LootType;
 import objects.monsters.*;
+import objects.usables.magics.FireBall;
 
 public class Armory extends Room
 {
     public static final String name = "Armory";
+    public static final String desc = "Sharp things inside";
     public static final int MAX_GOLD = 10;
     
     private static final Monster[] monsters = { new Slime()};
@@ -15,7 +18,7 @@ public class Armory extends Room
     
     public Armory()
     {
-        super(monsters, weights);
+        super(name, desc, monsters, weights);
     }
 
     @Override
@@ -25,18 +28,6 @@ public class Armory extends Room
         player.addArmor();
         player.addGold(Room.rand(MAX_GOLD));
         */
-        return null;
-    }
-    
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public String getDesc()
-    {
-        return null;
+        return new Loot(LootType.MAGIC, new FireBall());
     }
 }

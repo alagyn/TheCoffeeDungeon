@@ -6,6 +6,13 @@ import game.loot.Completion;
 import objects.abstracts.usables.Usable;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -463,7 +470,7 @@ public class GameGUI extends JFrame implements ActionListener
         public JButton back;
         
         public JPanel[] textPanels;
-        public JTextArea[] textFields;
+        public JTextPane[] descFields;
         
         public SelectionGUI(String title)
         {
@@ -487,12 +494,13 @@ public class GameGUI extends JFrame implements ActionListener
             back.addActionListener(this);
             
             textPanels = new JPanel[SPACE];
-            textFields = new JTextArea[SPACE];
+            descFields = new JTextPane[SPACE];
             
             for(int i = 0; i < textPanels.length; i++)
             {
                 textPanels[i] = new JPanel();
-                textFields[i] = new JTextArea();
+                descFields[i] = new JTextPane();
+                descFields[i].setEditable(false);
             }
             
             setVisible(false);
@@ -536,7 +544,17 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 for(int i = 0; i < info.length; i++)
                 {
-                    textFields[i].setText(info[i]);
+                    StyledDocument doc = descFields[i].getStyledDocument();
+                    Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+                    doc.addStyle("regular", def);
+                    StyleConstants.setFontFamily(def, "SansSerif");
+
+                    SimpleAttributeSet center = new SimpleAttributeSet();
+                    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                    doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                    
+                    descFields[i].setText("\n" + info[i]);
                 }
             }
             else
@@ -633,10 +651,14 @@ public class GameGUI extends JFrame implements ActionListener
     
     private class ItemGUI extends ActionGUI
     {
+        private JTextArea[] useFields;
+        
         //TOGUI ItemGUI
         public ItemGUI()
         {
             super("Items");
+            
+            useFields = new JTextArea[SPACE];
             
             GridBagConstraints cDesc = new GridBagConstraints();
             cDesc.fill = GridBagConstraints.BOTH;
@@ -654,13 +676,15 @@ public class GameGUI extends JFrame implements ActionListener
             
             for(int i = 0; i < textPanels.length; i++)
             {
-                textGBag[i].setConstraints(textFields[i], cDesc);
-                textPanels[i].add(textFields[i]);
+                textGBag[i].setConstraints(descFields[i], cDesc);
+                textPanels[i].add(descFields[i]);
                 
                 //TODO Item use text
-                JTextArea j = new JTextArea("" + i);
-                textGBag[i].setConstraints(j, cUse);
-                textPanels[i].add(j);            }
+                useFields[i] = new JTextArea();
+                useFields[i].setEditable(false);
+                textGBag[i].setConstraints(useFields[i], cUse);
+                textPanels[i].add(useFields[i]);
+            }
             
             setVisible(true);
         }
@@ -674,12 +698,12 @@ public class GameGUI extends JFrame implements ActionListener
             
             for(int i = 0; i < btns.length; i++)
             {
-                if(Game.getInst().getPlayer().getItems(i) == null
-                        || !Game.getInst().getPlayer().getItems(i).available())
-                {
-                    btns[i].setEnabled(false);
-                    textPanels[i].setEnabled(false);
-                }
+                boolean avail = Game.getInst().getPlayer().getItems(i) != null
+                        && Game.getInst().getPlayer().getItems(i).available();
+                
+                btns[i].setEnabled(avail);
+                descFields[i].setEnabled(avail);
+                
             }
             
             //TOGUI Item uses and cooldowns
@@ -779,7 +803,8 @@ public class GameGUI extends JFrame implements ActionListener
             for(int i = 0; i < btns.length; i++)
             {
                 add(btns[i]);
-                add(textPanels[i]);
+                add(descFields[i]);
+                
             }
             
             setVisible(false);

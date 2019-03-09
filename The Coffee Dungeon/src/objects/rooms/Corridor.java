@@ -10,7 +10,7 @@ public class Corridor extends Room
     
     public Corridor()
     {
-        super(null, null);
+        super(name, "asdf", null, null);
     }
     
     @Override

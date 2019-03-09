@@ -10,7 +10,7 @@ public class Pit extends Room
     
     public Pit()
     {
-        super(null, null);
+        super(name, "Asdf", null, null);
     }
     
     @Override

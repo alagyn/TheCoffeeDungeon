@@ -10,7 +10,7 @@ public class Storage extends Room
     
     public Storage()
     { 
-        super(null, null);
+        super(name, "asdf", null, null);
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Library extends Room
     
     public Library()
     {
-        super(null, null);
+        super(name, "asdf", null, null);
     }
     
     @Override
