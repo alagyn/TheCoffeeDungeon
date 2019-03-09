@@ -27,11 +27,11 @@ public class FireBall extends Magic
             //Use magic
             addCooldown(coolDownTime);
             p.useMana(manaCost);
-            c = new Completion(canHaveSecond(), true);
+            c = new Completion(true, canHaveSecond());
         }
         else
         {
-            c = new Completion(canHaveSecond(), false);
+            c = new Completion(false, canHaveSecond());
         }
         
         return c;

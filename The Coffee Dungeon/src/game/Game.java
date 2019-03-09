@@ -241,4 +241,29 @@ public class Game
     {
         dungeon.nextRooms();
     }
+
+    public String[] getItemUses()
+    {
+        String[] output = { "", "", ""};
+        
+        for(int i = 0; i < Player.INV_LENGTH; i++)
+        {
+            if(player.getItems(i) == null)
+            {
+                output[i] = null;
+                continue;
+            }
+            
+            if(player.getItems(i).isUlimited())
+            {
+                output[i] = "Unlimited";
+            }
+            else
+            {
+                output[i] = "" + player.getItems(i).getRemainingUses();
+            }
+        }
+        
+        return output;
+    }
 }

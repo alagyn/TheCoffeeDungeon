@@ -112,7 +112,9 @@ public class GameGUI extends JFrame implements ActionListener
         
         //Buttons
         playStats = new JPanel();
-        playStats.setLayout(new GridLayout(3, 3, 20, 20));
+        
+        GridBagLayout statGridBag = new GridBagLayout(); 
+        playStats.setLayout(statGridBag);
         
         btnOne = new JButton("Attack");
         btnOne.addActionListener(this);
@@ -127,17 +129,57 @@ public class GameGUI extends JFrame implements ActionListener
         playMana = new JTextField();
         playMana.setEditable(false);
         
-        playStats.add(btnOne);  
-        playStats.add(new JLabel("Health:"));
+        log.setBorder(BorderFactory.createTitledBorder("Activity Log"));
+        
+        GridBagConstraints btnC = new GridBagConstraints();
+        btnC.fill = GridBagConstraints.BOTH;
+        btnC.gridheight = 2;
+        btnC.weightx = 0.4;
+        btnC.weighty = 1;
+        btnC.insets = new Insets(10, 10, 10, 10);
+        
+        GridBagConstraints labelC = new GridBagConstraints();
+        labelC.fill = GridBagConstraints.BOTH;
+        labelC.gridheight = 2;
+        labelC.weightx = 0.2;
+        labelC.weighty = 1;
+        labelC.insets = new Insets(10, 10, 10, 10);
+        
+        GridBagConstraints fieldC = new GridBagConstraints();
+        fieldC.fill = GridBagConstraints.BOTH;
+        fieldC.weightx = 0.5;
+        fieldC.gridheight = 2;
+        fieldC.weighty = 1;
+        fieldC.gridwidth = GridBagConstraints.REMAINDER;
+        fieldC.insets = new Insets(10, 10, 10, 10);
+        
+        statGridBag.setConstraints(btnOne, btnC);
+        statGridBag.setConstraints(btnTwo, btnC);
+        statGridBag.setConstraints(btnThree, btnC);
+        
+        statGridBag.setConstraints(playHealth, fieldC);
+        statGridBag.setConstraints(playMana, fieldC);
+        
+        JLabel label1 = new JLabel("Health: "); 
+        label1.setHorizontalAlignment(SwingConstants.CENTER);
+        label1.setVerticalAlignment(SwingConstants.CENTER);
+        JLabel label2 = new JLabel("Mana: ");
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        label2.setVerticalAlignment(SwingConstants.CENTER);
+        
+        statGridBag.setConstraints(label1, labelC);
+        statGridBag.setConstraints(label2, labelC);
+        
+        playStats.add(btnOne);
+          
+        playStats.add(label1);
         playStats.add(playHealth);
         
         playStats.add(btnTwo);
-        playStats.add(new JLabel("Mana:"));
+        playStats.add(label2);
         playStats.add(playMana);
         
-        //FIXME Remove Potion label
         playStats.add(btnThree);
-        playStats.add(new JLabel("Potions:"));
         
         ////
         add(top);
@@ -678,9 +720,9 @@ public class GameGUI extends JFrame implements ActionListener
                 textGBag[i].setConstraints(descFields[i], cDesc);
                 textPanels[i].add(descFields[i]);
                 
-                //TODO Item use text
                 useFields[i] = new JTextArea();
                 useFields[i].setEditable(false);
+                
                 textGBag[i].setConstraints(useFields[i], cUse);
                 textPanels[i].add(useFields[i]);
             }
@@ -694,6 +736,7 @@ public class GameGUI extends JFrame implements ActionListener
             
             setBtnLabels(Game.getInst().getItemNames());
             setDesc(Game.getInst().getItemDescs());
+            setUseLabels(Game.getInst().getItemUses());
             
             for(int i = 0; i < btns.length; i++)
             {
@@ -702,7 +745,7 @@ public class GameGUI extends JFrame implements ActionListener
                 
                 btns[i].setEnabled(avail);
                 descFields[i].setEnabled(avail);
-                
+                useFields[i].setEnabled(avail);
             }
             
             //TOGUI Item uses and cooldowns
@@ -722,6 +765,22 @@ public class GameGUI extends JFrame implements ActionListener
             }
             
             closeWindow();
+        }
+        
+        private void setUseLabels(String[] info)
+        {
+            for(int i = 0; i < info.length; i++)
+            {
+                if(info[i] != null)
+                {
+                    useFields[i].setText("\n" + info[i] + " uses remaining");
+                }
+                else
+                {
+                    useFields[i].setText("");
+                }
+                
+            }
         }
         
     }

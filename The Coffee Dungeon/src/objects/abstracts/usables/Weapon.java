@@ -4,7 +4,7 @@ public abstract class Weapon extends Usable
 {
     public Weapon(String name, String desc)
     {
-        super(name, desc);
+        super(name, desc, LootType.WEAPON);
     }
 
     /**Returns an int damage value*/

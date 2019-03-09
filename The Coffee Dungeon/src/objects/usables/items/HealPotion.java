@@ -1,33 +1,44 @@
 package objects.usables.items;
 
+import game.Game;
 import game.loot.Completion;
 import objects.abstracts.usables.cooldown.Item;
 
 public class HealPotion extends Item
-{
-    //private int uses;
-    
+{   
     //TOMAKE HealPotion
     /*
      * Implement uses
-     * Static vs field?
      */
     
     public HealPotion()
     {
-        super("Health Potion", "Drink up");
+        super("Health Potion", "Drink up", 3, true);
     }
 
     @Override
     public boolean available()
     {
-        return false;
+        return checkCoolDown() && checkItemUse();
     }
 
     @Override
     public Completion activate()
     {
-        return null;
+        Completion output;
+        
+        if(available())
+        {
+            Game.getInst().getPlayer().addHealth(5);
+            output = new Completion(true, canHaveSecond());
+            useItem();
+        }
+        else
+        {
+            output = new Completion(false, canHaveSecond());
+        }
+        
+        return output;
     }
 
 }

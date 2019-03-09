@@ -6,9 +6,9 @@ public abstract class Cooldown extends Usable
 {
     private int cooldownTime;
     
-    public Cooldown(String name, String desc)
+    public Cooldown(String name, String desc, LootType type)
     {
-        super(name, desc);
+        super(name, desc, type);
     }
 
     public void cooldown()
@@ -34,6 +34,11 @@ public abstract class Cooldown extends Usable
     public int getCooldown()
     {
         return cooldownTime;
+    }
+    
+    public boolean checkCoolDown()
+    {
+        return cooldownTime <= 0;
     }
     
 }

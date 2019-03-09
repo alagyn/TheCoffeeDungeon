@@ -3,7 +3,6 @@ package objects.rooms;
 import game.loot.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
-import objects.abstracts.usables.Usable.LootType;
 import objects.monsters.*;
 import objects.usables.magics.FireBall;
 
@@ -28,6 +27,6 @@ public class Armory extends Room
         player.addArmor();
         player.addGold(Room.rand(MAX_GOLD));
         */
-        return new Loot(LootType.MAGIC, new FireBall());
+        return new Loot(new FireBall());
     }
 }

@@ -5,7 +5,7 @@ public class Completion
     private boolean canHaveSecond;
     private boolean actionCompleted;
     
-    public Completion(boolean canHaveSecond, boolean actionCompleted)
+    public Completion(boolean actionCompleted, boolean canHaveSecond)
     {
         this.canHaveSecond = canHaveSecond;
         this.actionCompleted = actionCompleted;

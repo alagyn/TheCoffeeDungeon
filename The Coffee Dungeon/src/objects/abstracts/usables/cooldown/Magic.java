@@ -7,7 +7,7 @@ public abstract class Magic extends Cooldown
     
     public Magic(String name, String desc, boolean canHaveSecond, int manaCost)
     {
-        super(name, desc);
+        super(name, desc, LootType.MAGIC);
         
         this.canHaveSecond = canHaveSecond;
         

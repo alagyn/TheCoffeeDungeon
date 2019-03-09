@@ -25,6 +25,11 @@ public class Player
         maxHealth, health; 
  
     
+    //TODO Armor
+    /*
+     * Prolly just a number, no items
+     */
+    
     private Weapon weapon;
     private Magic[] magics;
     private Item[] items;

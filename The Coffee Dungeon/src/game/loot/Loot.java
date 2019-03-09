@@ -11,24 +11,16 @@ public class Loot
     private LootType type;
     private Usable loot;
     
-    public Loot(LootType type, Usable loot)
+    public Loot(Usable loot)
     {
-        if(type != null)
+        if(loot == null)
         {
-            this.type = type;
+            type = LootType.NONE;
         }
         else
         {
-            throw new IllegalArgumentException("Null LootType");
-        }
-        
-        if(type == LootType.NONE)
-        {
-            loot = null;
-        }
-        else if(loot == null)
-        {
-            throw new IllegalArgumentException("Invalid Null loot");
+            this.loot = loot;
+            type = loot.getType();
         }
     }
     
