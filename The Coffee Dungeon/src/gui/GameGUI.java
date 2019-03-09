@@ -6,7 +6,6 @@ import game.loot.Completion;
 import objects.abstracts.usables.Usable;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * The main Game GUI
- * @author alagyn *
+ * @author alagyn
  */
 public class GameGUI extends JFrame implements ActionListener
 {
@@ -128,7 +127,7 @@ public class GameGUI extends JFrame implements ActionListener
         playMana = new JTextField();
         playMana.setEditable(false);
         
-        playStats.add(btnOne);
+        playStats.add(btnOne);  
         playStats.add(new JLabel("Health:"));
         playStats.add(playHealth);
         
