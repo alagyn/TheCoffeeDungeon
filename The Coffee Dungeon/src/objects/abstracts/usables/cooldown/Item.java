@@ -4,11 +4,10 @@ public abstract class Item extends Cooldown
 {
     private int remainingUses;
     private boolean unlimited;
-    private boolean canHaveSecond;
     
     public Item(String name, String desc, int uses, boolean canHaveSecond)
     {
-        super(name, desc, LootType.ITEM);
+        super(name, desc, LootType.ITEM, canHaveSecond);
         
         if(uses <= 0)
         {
@@ -18,9 +17,7 @@ public abstract class Item extends Cooldown
         else
         {
             remainingUses = uses;
-        }
-        
-        this.canHaveSecond = canHaveSecond;
+        }   
     }
     
     /**
@@ -47,11 +44,6 @@ public abstract class Item extends Cooldown
     public int getRemainingUses()
     {
         return remainingUses;
-    }
-    
-    public boolean canHaveSecond()
-    {
-        return canHaveSecond;
     }
     
     public void useItem()

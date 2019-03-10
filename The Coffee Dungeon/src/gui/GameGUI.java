@@ -53,6 +53,7 @@ public class GameGUI extends JFrame implements ActionListener
     
     private JTextField playHealth;
     private JTextField playMana;
+    private JTextField playArmor;
     
     /**Background color*/
     private static final Color backcolor = new Color(220, 220, 220);
@@ -128,6 +129,8 @@ public class GameGUI extends JFrame implements ActionListener
         playHealth.setEditable(false);
         playMana = new JTextField();
         playMana.setEditable(false);
+        playArmor = new JTextField();
+        playArmor.setEditable(false);
         
         log.setBorder(BorderFactory.createTitledBorder("Activity Log"));
         
@@ -159,6 +162,7 @@ public class GameGUI extends JFrame implements ActionListener
         
         statGridBag.setConstraints(playHealth, fieldC);
         statGridBag.setConstraints(playMana, fieldC);
+        statGridBag.setConstraints(playArmor, fieldC);
         
         JLabel label1 = new JLabel("Health: "); 
         label1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -166,9 +170,13 @@ public class GameGUI extends JFrame implements ActionListener
         JLabel label2 = new JLabel("Mana: ");
         label2.setHorizontalAlignment(SwingConstants.CENTER);
         label2.setVerticalAlignment(SwingConstants.CENTER);
+        JLabel label3 = new JLabel("Armor: ");
+        label3.setHorizontalAlignment(SwingConstants.CENTER);
+        label3.setVerticalAlignment(SwingConstants.CENTER);        
         
         statGridBag.setConstraints(label1, labelC);
         statGridBag.setConstraints(label2, labelC);
+        statGridBag.setConstraints(label3, labelC);
         
         playStats.add(btnOne);
           
@@ -180,6 +188,8 @@ public class GameGUI extends JFrame implements ActionListener
         playStats.add(playMana);
         
         playStats.add(btnThree);
+        playStats.add(label3);
+        playStats.add(playArmor);
         
         ////
         add(top);
@@ -933,8 +943,6 @@ public class GameGUI extends JFrame implements ActionListener
         public MagicLootGUI()
         {
             super("Magic Loot");
-            
-            //TOGUI LootGUI
         }
 
         @Override

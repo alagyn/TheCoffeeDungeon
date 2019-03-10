@@ -5,10 +5,13 @@ import objects.abstracts.usables.Usable;
 public abstract class Cooldown extends Usable
 {
     private int cooldownTime;
+    private boolean canHaveSecond;
     
-    public Cooldown(String name, String desc, LootType type)
+    public Cooldown(String name, String desc, LootType type, boolean canHaveSecond)
     {
         super(name, desc, type);
+        
+        this.canHaveSecond = canHaveSecond;
     }
 
     public void cooldown()
@@ -39,6 +42,11 @@ public abstract class Cooldown extends Usable
     public boolean checkCoolDown()
     {
         return cooldownTime <= 0;
+    }
+    
+    public boolean canHaveSecond()
+    {
+        return canHaveSecond;
     }
     
 }
