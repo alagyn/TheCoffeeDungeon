@@ -135,7 +135,7 @@ public class Player
      * @param idx the index
      * @return the item
      */
-    public Item getItems(int idx)
+    public Item getItem(int idx)
     {
         return items[idx];
     }
@@ -151,7 +151,7 @@ public class Player
         
         for(int i = 0; i < items.length; i++)
         {
-            if(items[i].equals(item))
+            if(items[i] != null && items[i].equals(item))
             {
                 output = false;
                 break;

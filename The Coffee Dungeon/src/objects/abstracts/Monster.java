@@ -10,10 +10,7 @@ public abstract class Monster
     /**
      * Default constructor
      * @param name Monster name
-     * @param weight Random generation weight
      * @param health Monster health
-     * @param minAtk Minimum attack
-     * @param maxAtk maximum attack
      */
     public Monster(String name, int health)
     {

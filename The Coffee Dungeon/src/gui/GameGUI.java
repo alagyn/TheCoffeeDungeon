@@ -213,7 +213,7 @@ public class GameGUI extends JFrame implements ActionListener
      * Returns the singleton instance
      * @return
      */
-    public GameGUI getInst()
+    public static GameGUI getInst()
     {
         return instance;
     }
@@ -244,7 +244,6 @@ public class GameGUI extends JFrame implements ActionListener
         {
             int dmg = Game.getInst().attack();
             addLog("You hit the " + Game.getCurrentMonsterName() + " for " + dmg);
-            playerDamage();
             canHaveSecond = false;
             endRound();
         }
@@ -269,9 +268,12 @@ public class GameGUI extends JFrame implements ActionListener
             secondAction = canHaveSecond;
         }
         
+        setPlayerStats();
+        setMonsterStats();
+        
         if(!secondAction)
         {
-          resolve();
+            resolve();
         }
     }
     
@@ -306,10 +308,8 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
+        playerDamage();
         Game.Status status = Game.getInst().combatResolve();
-        
-        setMonsterStats();
-        setPlayerStats();
         
         switch(status)
         {
@@ -432,6 +432,8 @@ public class GameGUI extends JFrame implements ActionListener
         int i = JOptionPane.showOptionDialog(null, "Game Over\nNew Game?", "Game", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, 
                 null, null, null);
         
+        Game.resetCurrentMonster();
+        
         if(i == JOptionPane.YES_OPTION)
         {
             newGame();
@@ -479,8 +481,7 @@ public class GameGUI extends JFrame implements ActionListener
                     break;
                     
                 case NONE:
-                    //TODO No loot
-                    //I.E stat bonus with no need for GUI
+                    nextRooms();
                     break;
             }
         }
@@ -517,6 +518,8 @@ public class GameGUI extends JFrame implements ActionListener
         {
             super(title);
             setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            setLocation(GameGUI.this.getLocation().x + 600, GameGUI.this.getLocation().y);
+            
             index = 0;
             
             btns = new JButton[SPACE];
@@ -637,7 +640,6 @@ public class GameGUI extends JFrame implements ActionListener
             super(title);
 
             setSize(WIDTH, HEIGHT);
-            setLocation(GameGUI.this.getLocation().x + 500, GameGUI.this.getLocation().y);
             
             GridBagLayout gBag = new GridBagLayout();
             
@@ -727,7 +729,7 @@ public class GameGUI extends JFrame implements ActionListener
                 textPanels[i].add(useFields[i]);
             }
             
-            setVisible(true);
+            setVisible(false);
         }
     
         @Override
@@ -740,8 +742,8 @@ public class GameGUI extends JFrame implements ActionListener
             
             for(int i = 0; i < btns.length; i++)
             {
-                boolean avail = Game.getInst().getPlayer().getItems(i) != null
-                        && Game.getInst().getPlayer().getItems(i).available();
+                boolean avail = Game.getInst().getPlayer().getItem(i) != null
+                        && Game.getInst().getPlayer().getItem(i).available();
                 
                 btns[i].setEnabled(avail);
                 descFields[i].setEnabled(avail);
@@ -788,28 +790,35 @@ public class GameGUI extends JFrame implements ActionListener
     private class MagicGUI extends ActionGUI
     {
         //TOGUI MagicGUI
-        
-        private JLabel mana;
+        private JTextArea[] manaUseFields;
         
         public MagicGUI()
         {
             super("Magics");
             
-            mana = new JLabel();
+            manaUseFields = new JTextArea[SPACE];
+            
+            for(int i = 0; i < SPACE; i++)
+            {
+                manaUseFields[i] = new JTextArea();
+            }
+            
+            
         }
         
-        public void setManaInfo(int amnt, int max)
+        public void setManaInfo(String[] cost)
         {
-            mana.setText("Mana: " + amnt + "/" + max);
+            for(int i = 0; i < cost.length; i++)
+            {
+                manaUseFields[i].setText(cost[i] + " mana");
+            }
         }
 
         @Override
         public void setUp()
         {
-            Player p = Game.getInst().getPlayer(); 
-            int cur = p.getMana();
-            int max = p.getMaxMana();
-            setManaInfo(cur, max);
+            Player p = Game.getInst().getPlayer();
+            setManaInfo(Game.getInst().getManaCosts());
             
             setBtnLabels(p.getMagicNames());
             setDesc(p.getMagicDescs());
@@ -854,7 +863,6 @@ public class GameGUI extends JFrame implements ActionListener
         {
             super("Rooms");
             setSize(500, 300);
-            setLocation(GameGUI.this.getLocation());
             
             setLayout(new GridLayout(3, 2));
             
@@ -939,25 +947,64 @@ public class GameGUI extends JFrame implements ActionListener
         public ItemLootGUI()
         {
             super("Item loot");
+            
+            setSize(400, 200);
+            setLayout(new GridLayout(3, 2));
+            
+            for(int i = 0; i < SPACE; i++)
+            {
+                add(btns[i]);
+                add(descFields[i]);
+                
+            }
+            
+            setVisible(true);
         }
         
         @Override
         public void activate(int i)
         {
+            boolean change = false;
+            
             if(i >= 0)
             {
-                Game.getInst().getPlayer().removeItem(i);
-                Game.getInst().getPlayer().setItems(i, Game.getInst().getCurrentloot().getItemLoot());
+                if(Game.getInst().getPlayer().getItem(i) != null)
+                {
+                    int x = JOptionPane.showOptionDialog(null, "Replace Item", "Game"
+                            , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE
+                            , null, null, null);
+                    
+                    if(x == JOptionPane.YES_OPTION)
+                    {
+                        change = true;
+                    }
+                }
+                else
+                {
+                    change = true;
+                }
+
+                if(change)
+                {
+                    Game.getInst().getPlayer().removeItem(i);
+                    Game.getInst().getPlayer().setItems(i, Game.getInst().getCurrentloot().getItemLoot());
+                }
             }
             
-            closeWindow();
-            nextRooms();
+            if(change)
+            {
+                closeWindow();
+                nextRooms();
+            }
         }
 
         @Override
         public void setUp()
         {
+            setBtnLabels(Game.getInst().getPlayer().getItemNames());
             
+            setVisible(true);
+            enableBtns(false);
         }
         
     }

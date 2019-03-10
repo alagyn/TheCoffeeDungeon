@@ -55,6 +55,8 @@ public class Game
      */
     public Status combatResolve()
     {
+        
+        
         Status output = Status.NEUTRAL;
 
         if(player.isAlive() && !currentMonster.isAlive())
@@ -69,6 +71,7 @@ public class Game
         player.cooldowns();
 
         //TODO Mana regen
+        //TODO Health regen
         /*
          * More max mana
          * 1-2 per round
@@ -146,7 +149,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return player.getItems(idx).activate();
+            return player.getItem(idx).activate();
         }
         else
         {
@@ -248,22 +251,39 @@ public class Game
         
         for(int i = 0; i < Player.INV_LENGTH; i++)
         {
-            if(player.getItems(i) == null)
+            if(player.getItem(i) == null)
             {
                 output[i] = null;
                 continue;
             }
             
-            if(player.getItems(i).isUlimited())
+            if(player.getItem(i).isUlimited())
             {
                 output[i] = "Unlimited";
             }
             else
             {
-                output[i] = "" + player.getItems(i).getRemainingUses();
+                output[i] = "" + player.getItem(i).getRemainingUses();
             }
         }
         
         return output;
     }
+
+
+    public String[] getManaCosts()
+    {
+        String[] output = { "", "", ""};
+        
+        for(int i = 0; i < output.length; i++)
+        {
+            if(player.getMagic(i) != null)
+            {
+                output[i] = "" + player.getMagic(i).getCost();
+            }
+        }
+        
+        return output;
+    }
+
 }

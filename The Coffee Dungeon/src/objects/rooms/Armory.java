@@ -4,7 +4,7 @@ import game.loot.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
 import objects.monsters.*;
-import objects.usables.magics.FireBall;
+import objects.usables.items.HealPotion;
 
 public class Armory extends Room
 {
@@ -23,10 +23,11 @@ public class Armory extends Room
     @Override
     public Loot giveLoot()
     {
-        /* TOMAKE Armory
-        player.addArmor();
-        player.addGold(Room.rand(MAX_GOLD));
+        /* 
+         * TOMAKE Armory
+         * player.addArmor();
+         * player.addGold(Room.rand(MAX_GOLD));
         */
-        return new Loot(new FireBall());
+        return new Loot(new HealPotion());
     }
 }
