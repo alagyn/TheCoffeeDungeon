@@ -1,7 +1,7 @@
 package game;
 
-import objects.abstracts.usables.*;
 import objects.abstracts.usables.cooldown.*;
+import objects.abstracts.usables.weapon.Weapon;
 import objects.usables.items.HealPotion;
 import objects.usables.magics.FireBall;
 import objects.usables.weapons.Sword1;
@@ -402,4 +402,14 @@ public class Player
         }
     }
 
+    public Item[] getItemArray()
+    {
+        return items;
+    }
+    
+    public Magic[] getMagicArray()
+    {
+        return magics;
+    }
+    
 }

@@ -263,7 +263,7 @@ public class Game
             }
             else
             {
-                output[i] = "" + player.getItem(i).getRemainingUses();
+                output[i] = player.getItem(i).getRemainingUses() + " remaining uses";
             }
         }
         
@@ -279,7 +279,7 @@ public class Game
         {
             if(player.getMagic(i) != null)
             {
-                output[i] = "" + player.getMagic(i).getCost();
+                output[i] = player.getMagic(i).getCost() + " mana";
             }
         }
         

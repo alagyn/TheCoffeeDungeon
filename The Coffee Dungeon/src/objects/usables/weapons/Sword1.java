@@ -1,9 +1,9 @@
 package objects.usables.weapons;
 
-import objects.abstracts.usables.Weapon;
 import java.util.Random;
 
 import game.loot.Completion;
+import objects.abstracts.usables.weapon.Weapon;
 
 public class Sword1 extends Weapon
 {

@@ -1,4 +1,6 @@
-package objects.abstracts.usables;
+package objects.abstracts.usables.weapon;
+
+import objects.abstracts.usables.Usable;
 
 public abstract class Weapon extends Usable
 {

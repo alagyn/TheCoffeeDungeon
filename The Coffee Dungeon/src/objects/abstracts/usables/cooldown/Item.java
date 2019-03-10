@@ -54,7 +54,6 @@ public abstract class Item extends Cooldown
         return canHaveSecond;
     }
     
-    //TODO useItem
     public void useItem()
     {
         if(!unlimited)

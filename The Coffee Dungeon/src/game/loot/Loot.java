@@ -2,9 +2,9 @@ package game.loot;
 
 import objects.abstracts.usables.Usable;
 import objects.abstracts.usables.Usable.LootType;
-import objects.abstracts.usables.Weapon;
 import objects.abstracts.usables.cooldown.Item;
 import objects.abstracts.usables.cooldown.Magic;
+import objects.abstracts.usables.weapon.Weapon;
 
 public class Loot
 {

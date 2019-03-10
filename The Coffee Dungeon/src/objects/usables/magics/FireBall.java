@@ -40,7 +40,7 @@ public class FireBall extends Magic
     @Override
     public boolean available()
     {
-        return false;
+        return checkCoolDown();
     }
 
 }

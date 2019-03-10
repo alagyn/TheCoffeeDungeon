@@ -26,4 +26,5 @@ public abstract class Magic extends Cooldown
     {
         return canHaveSecond;
     }
+    
 }

@@ -574,6 +574,7 @@ public class GameGUI extends JFrame implements ActionListener
             if(index != ERROR)
             {
                 activate(index);
+                index = ERROR;
             }
             
         }
@@ -634,6 +635,7 @@ public class GameGUI extends JFrame implements ActionListener
         private static final int WIDTH = 500, HEIGHT = 300, INSET = 5;
         
         public GridBagLayout[] textGBag;
+        private JTextArea[] useFields;
         
         public ActionGUI(String title)
         {
@@ -689,18 +691,7 @@ public class GameGUI extends JFrame implements ActionListener
             gBag.setConstraints(back, cBack);
             add(back);
             
-        }
-    }
-    
-    private class ItemGUI extends ActionGUI
-    {
-        private JTextArea[] useFields;
-        
-        //TOGUI ItemGUI
-        public ItemGUI()
-        {
-            super("Items");
-            
+
             useFields = new JTextArea[SPACE];
             
             GridBagConstraints cDesc = new GridBagConstraints();
@@ -729,28 +720,59 @@ public class GameGUI extends JFrame implements ActionListener
                 textPanels[i].add(useFields[i]);
             }
             
+        }
+    
+        //TOGUI Magic/item cooldown counter
+        
+        public void enableFields(Usable[] usable)
+        {
+            for(int i = 0; i < btns.length; i++)
+            {
+                boolean avail = usable[i] != null
+                        && usable[i].available();
+                
+                btns[i].setEnabled(avail);
+                descFields[i].setEnabled(avail);
+                useFields[i].setEnabled(avail);
+            }
+        }
+        
+        public void setUseFields(String[] info)
+        {
+            for(int i = 0; i < info.length; i++)
+            {
+                if(info[i] != null)
+                {
+                    //TODO update for magic use
+                    useFields[i].setText("\n" + info[i]);
+                }
+                else
+                {
+                    useFields[i].setText("");
+                }
+                
+            }
+        }
+    }
+    
+    private class ItemGUI extends ActionGUI
+    {
+        public ItemGUI()
+        {
+            super("Items");
+            
             setVisible(false);
         }
     
         @Override
         public void setUp()
         {
-            
             setBtnLabels(Game.getInst().getItemNames());
             setDesc(Game.getInst().getItemDescs());
-            setUseLabels(Game.getInst().getItemUses());
+            setUseFields(Game.getInst().getItemUses());
             
-            for(int i = 0; i < btns.length; i++)
-            {
-                boolean avail = Game.getInst().getPlayer().getItem(i) != null
-                        && Game.getInst().getPlayer().getItem(i).available();
-                
-                btns[i].setEnabled(avail);
-                descFields[i].setEnabled(avail);
-                useFields[i].setEnabled(avail);
-            }
+            enableFields(Game.getInst().getPlayer().getItemArray());
             
-            //TOGUI Item uses and cooldowns
             setVisible(true);
         }
 
@@ -769,71 +791,27 @@ public class GameGUI extends JFrame implements ActionListener
             closeWindow();
         }
         
-        private void setUseLabels(String[] info)
-        {
-            for(int i = 0; i < info.length; i++)
-            {
-                if(info[i] != null)
-                {
-                    useFields[i].setText("\n" + info[i] + " uses remaining");
-                }
-                else
-                {
-                    useFields[i].setText("");
-                }
-                
-            }
-        }
-        
     }
 
     private class MagicGUI extends ActionGUI
     {
-        //TOGUI MagicGUI
-        private JTextArea[] manaUseFields;
-        
         public MagicGUI()
         {
             super("Magics");
             
-            manaUseFields = new JTextArea[SPACE];
-            
-            for(int i = 0; i < SPACE; i++)
-            {
-                manaUseFields[i] = new JTextArea();
-            }
-            
-            
-        }
-        
-        public void setManaInfo(String[] cost)
-        {
-            for(int i = 0; i < cost.length; i++)
-            {
-                manaUseFields[i].setText(cost[i] + " mana");
-            }
+            setVisible(true);
         }
 
         @Override
         public void setUp()
         {
             Player p = Game.getInst().getPlayer();
-            setManaInfo(Game.getInst().getManaCosts());
+            setUseFields(Game.getInst().getManaCosts());
             
             setBtnLabels(p.getMagicNames());
             setDesc(p.getMagicDescs());
             
-            for(int i = 0; i < btns.length; i++)
-            {
-                if(Game.getInst().getPlayer().getMagic(i) == null 
-                        || !Game.getInst().getPlayer().getMagic(i).available())
-                {
-                    textPanels[i].setEnabled(false);
-                    btns[i].setEnabled(false);
-                }
-            }
-            
-            //TOGUI Magic cooldowns
+            enableFields(Game.getInst().getPlayer().getMagicArray());
             setVisible(true);
         }
 
@@ -841,6 +819,8 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
+            boolean close = true;
+            
             if(i >= 0)
             {
                 Completion c = Game.getInst().magic(i);
@@ -849,9 +829,18 @@ public class GameGUI extends JFrame implements ActionListener
                     canHaveSecond = c.canHaveSecond();
                     endRound();
                 }
+                else
+                {
+                    JOptionPane.showMessageDialog(magicGUI, "Not Enough Mana");
+                    close = false;
+                }
             }
             
-            closeWindow();
+            if(close)
+            {
+                closeWindow();
+            }
+            
         }        
     }
 
