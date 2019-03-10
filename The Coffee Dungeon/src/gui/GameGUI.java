@@ -898,11 +898,52 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
     
-    private class MagicLootGUI extends SelectionGUI
+    private abstract class LootGUI extends SelectionGUI
+    {
+
+        public LootGUI(String title)
+        {
+            super(title);
+            
+            setSize(400, 200);
+            setLayout(new GridLayout(3, 2));
+            
+            for(int i = 0; i < SPACE; i++)
+            {
+                add(btns[i]);
+                add(descFields[i]);
+                
+            }
+            
+        }
+        
+        public boolean replaceMessage(String type)
+        {
+            boolean output = false;
+            if(type == null || type.length() <= 0)
+            {
+                throw new IllegalArgumentException("Invalid LootGUI type string");
+            }
+            
+            int x = JOptionPane.showOptionDialog(null, "Replace " + type, "Game"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE
+                    , null, null, null);
+            
+            if(x == JOptionPane.YES_OPTION)
+            {
+                output = true;
+            }
+            
+            return output;
+        }
+
+    }
+    
+    private class MagicLootGUI extends LootGUI
     {
         public MagicLootGUI()
         {
-            super("Loot");
+            super("Magic Loot");
             
             //TOGUI LootGUI
         }
@@ -910,7 +951,31 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
+            boolean change = false;
             
+            if(i >= 0)
+            {
+                if(Game.getInst().getPlayer().getMagic(i) != null)
+                {
+                    change = replaceMessage("Magic");
+                }
+                else
+                {
+                    change = true;
+                }
+
+                if(change)
+                {
+                    Game.getInst().getPlayer().removeMagic(i);
+                    Game.getInst().getPlayer().setMagics(i, Game.getInst().getCurrentloot().getMagicLoot());
+                }
+            }
+            
+            if(change)
+            {
+                closeWindow();
+                nextRooms();
+            }
         }
 
         @Override
@@ -921,7 +986,7 @@ public class GameGUI extends JFrame implements ActionListener
         
     }
     
-    private class WeaponLootGUI extends SelectionGUI
+    private class WeaponLootGUI extends LootGUI
     {
         public WeaponLootGUI()
         {
@@ -942,21 +1007,11 @@ public class GameGUI extends JFrame implements ActionListener
         
     }
     
-    private class ItemLootGUI extends SelectionGUI
+    private class ItemLootGUI extends LootGUI
     {
         public ItemLootGUI()
         {
             super("Item loot");
-            
-            setSize(400, 200);
-            setLayout(new GridLayout(3, 2));
-            
-            for(int i = 0; i < SPACE; i++)
-            {
-                add(btns[i]);
-                add(descFields[i]);
-                
-            }
             
             setVisible(true);
         }
@@ -970,14 +1025,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 if(Game.getInst().getPlayer().getItem(i) != null)
                 {
-                    int x = JOptionPane.showOptionDialog(null, "Replace Item", "Game"
-                            , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE
-                            , null, null, null);
-                    
-                    if(x == JOptionPane.YES_OPTION)
-                    {
-                        change = true;
-                    }
+                    change = replaceMessage("Item");
                 }
                 else
                 {
@@ -997,7 +1045,7 @@ public class GameGUI extends JFrame implements ActionListener
                 nextRooms();
             }
         }
-
+        
         @Override
         public void setUp()
         {
