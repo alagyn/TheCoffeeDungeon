@@ -1,4 +1,4 @@
-package game;
+package game.player;
 
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
@@ -19,16 +19,12 @@ public class Player
     public static final int START_MANA = 3;
     
     public static final int 
-        START_HEALTH = 20;
+        START_HEALTH = 20,
+        START_HEALTH_REGEN = 5,
+        START_MANA_REGEN = 1;
 
     private int 
-        maxHealth, health; 
- 
-    
-    //TODO Armor
-    /*
-     * Prolly just a number, no items
-     */
+        maxHealth, health, healthRegen, manaRegen; 
     
     private Weapon weapon;
     private Magic[] magics;
@@ -47,12 +43,14 @@ public class Player
         this.weapon = DEF_WEP;
         this.magics = DEF_MAG;
         this.items = DEF_ITM;
-        this.armor = 0;
+        this.armor = 1;
         
         maxMana = START_MANA;
         mana = START_MANA;
         maxHealth = START_HEALTH;
         health = START_HEALTH;
+        healthRegen = START_HEALTH_REGEN;
+        manaRegen = START_MANA_REGEN;
     }
     
     public int getArmor()
@@ -359,7 +357,7 @@ public class Player
      * Damages the player a set amount
      * @param damage The incoming damage
      */
-    public void damage(int damage)
+    public void damageThroughArmor(int damage)
     {
         health -= damage;
     }
@@ -412,4 +410,18 @@ public class Player
         return magics;
     }
     
+    public void damageWithArmor(int damage)
+    {
+        health -= damage - armor;
+    }
+    
+    public void regenHealth()
+    {
+        addHealth(healthRegen);
+    }
+    
+    public void regenMana()
+    {
+        addMana(manaRegen);
+    }
 }

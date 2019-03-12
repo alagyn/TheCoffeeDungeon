@@ -2,6 +2,7 @@ package game;
 
 import game.loot.Completion;
 import game.loot.Loot;
+import game.player.Player;
 import objects.abstracts.Monster;
 
 public class Game
@@ -10,7 +11,7 @@ public class Game
      * Number of rooms per floor
      */
     public static final int NUM_ROOMS = 3;
-
+    
     private static Game instance = new Game();
     private Monster currentMonster;
     private Loot currentLoot;
@@ -54,9 +55,7 @@ public class Game
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
     public Status combatResolve()
-    {
-        
-        
+    {   
         Status output = Status.NEUTRAL;
 
         if(player.isAlive() && !currentMonster.isAlive())
@@ -69,10 +68,9 @@ public class Game
         }
         
         player.cooldowns();
-
-        //TODO Mana regen
-        //TODO Health regen
-        /*
+        player.regenMana();
+        
+        /* TODO Refactor mana scaling
          * More max mana
          * 1-2 per round
          * 3-4 when entering room

@@ -18,7 +18,7 @@ public class Slime extends Monster
     public void attack()
     {
         //TOMAKE monsters
-        Game.getInst().getPlayer().damage(2);
+        Game.getInst().getPlayer().damageWithArmor(5);
         GameGUI.getInst().addLog("Sliiime");
     }
 

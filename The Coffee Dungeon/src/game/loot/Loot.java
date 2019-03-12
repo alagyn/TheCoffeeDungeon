@@ -8,25 +8,21 @@ import objects.abstracts.usables.weapon.Weapon;
 
 public class Loot
 {
-    private LootType type;
-    private Usable loot;
+    public final LootType type;
+    private final Usable loot;
     
     public Loot(Usable loot)
     {
         if(loot == null)
         {
             type = LootType.NONE;
+            this.loot = null;
         }
         else
         {
             this.loot = loot;
             type = loot.getType();
         }
-    }
-    
-    public LootType getType()
-    {
-        return type;
     }
     
     public Item getItemLoot()

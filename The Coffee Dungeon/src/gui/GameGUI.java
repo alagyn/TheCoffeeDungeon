@@ -1,8 +1,8 @@
 package gui;
 
 import game.Game;
-import game.Player;
 import game.loot.Completion;
+import game.player.Player;
 import objects.abstracts.usables.Usable;
 
 import javax.swing.*;
@@ -303,6 +303,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             Game.getInst().setCurrentRoomIndex(index);
             Game.getInst().nextMonster();
+            Game.getInst().getPlayer().regenHealth();
             setPlayerStats();
             setMonsterStats();
         }
@@ -335,7 +336,7 @@ public class GameGUI extends JFrame implements ActionListener
             addLog("You defeated the " + Game.getCurrentMonsterName());
             Game.getInst().giveLoot();
             
-            startLootGUI(Game.getInst().getCurrentloot().getType());
+            startLootGUI(Game.getInst().getCurrentloot().type);
             
             /*
              * MAYBE Allow spells/items between rooms
@@ -753,7 +754,6 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 if(info[i] != null)
                 {
-                    //TODO update for magic use
                     useFields[i].setText("\n" + info[i]);
                 }
                 else
@@ -791,9 +791,9 @@ public class GameGUI extends JFrame implements ActionListener
             if(i >= 0)
             {
                 Completion c = Game.getInst().item(i);
-                if(c.actionCompleted())
+                if(c.actionCompleted)
                 {
-                    canHaveSecond = c.canHaveSecond();
+                    canHaveSecond = c.canHaveSecond;
                     endRound();
                 }
             }
@@ -834,9 +834,9 @@ public class GameGUI extends JFrame implements ActionListener
             if(i >= 0)
             {
                 Completion c = Game.getInst().magic(i);
-                if(c.actionCompleted())
+                if(c.actionCompleted)
                 {
-                    canHaveSecond = c.canHaveSecond();
+                    canHaveSecond = c.canHaveSecond;
                     endRound();
                 }
                 else
