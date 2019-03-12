@@ -3,6 +3,7 @@ package game;
 import game.loot.Completion;
 import game.loot.Loot;
 import game.player.Player;
+import game.player.PlayerStatus;
 import objects.abstracts.Monster;
 
 public class Game
@@ -80,16 +81,12 @@ public class Game
     }
 
     /**
-     * Gets the current player stats
-     * @return An array of 0:Health, 1:Mana 
+     * Gets the current player status
+     * @return a PlayerStatus of the current stats 
      */
-    public String[] getPlayerStats()
+    public PlayerStatus getPlayerStatus()
     {
-        String[] output = new String[2];
-        output[0] = "" + player.getHealth();
-        output[1] = "" + player.getMana();
-
-        return output;
+        return new PlayerStatus(player.getHealth(), player.getMana(), player.getArmor());
     }
 
     /**

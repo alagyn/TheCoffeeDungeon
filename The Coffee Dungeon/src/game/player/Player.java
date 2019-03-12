@@ -1,5 +1,6 @@
 package game.player;
 
+import game.loot.Loot;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
 import objects.usables.items.HealPotion;
@@ -27,8 +28,8 @@ public class Player
         maxHealth, health, healthRegen, manaRegen; 
     
     private Weapon weapon;
-    private Magic[] magics;
-    private Item[] items;
+    private MagicArray magicArray;
+    private ItemArray itemArray;
     
     private int armor;
     
@@ -41,8 +42,8 @@ public class Player
     public Player()
     {
         this.weapon = DEF_WEP;
-        this.magics = DEF_MAG;
-        this.items = DEF_ITM;
+        this.magicArray = new MagicArray(DEF_MAG);
+        this.itemArray = new ItemArray(DEF_ITM);
         this.armor = 1;
         
         maxMana = START_MANA;
@@ -97,7 +98,7 @@ public class Player
      */
     public Magic getMagic(int idx)
     {
-        return magics[idx];
+        return magicArray.get(idx);
     }
     
     /**
@@ -424,4 +425,133 @@ public class Player
     {
         addMana(manaRegen);
     }
+
+    public interface UsableArray
+    {
+        boolean checkNull(int i);
+        void set(int i, Loot loot);
+    }
+    
+    private class ItemArray implements UsableArray
+    {
+        private Item[] items;
+        
+        public ItemArray(Item[] items)
+        {
+            if(items.length == INV_LENGTH)
+            {
+                this.items = items;
+            }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
+        }
+        
+        @Override
+        public boolean checkNull(int i)
+        {
+            if(i >= 0 && i < items.length)
+            {
+                return items[i] == null;
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+            
+        }
+
+        @Override
+        public void set(int i, Loot loot)
+        {
+            if(i >= 0 && i < items.length)
+            {
+                if(loot == null)
+                {
+                    throw new IllegalArgumentException();
+                }
+                
+                items[i] = loot.getItemLoot();
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+        
+        public Item get(int i)
+        {
+            if(i >= 0 && i < items.length)
+            {
+                return items[i];
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+    }
+    
+    private class MagicArray implements UsableArray
+    {
+        private Magic[] magics;
+        
+        public Magic get(int i)
+        {
+            if(i >= 0 && i < magics.length)
+            {
+                return magics[i];
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+        
+        public MagicArray(Magic[] magics)
+        {
+            if(magics.length == INV_LENGTH)
+            {
+                this.magics = magics;
+            }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
+        }
+        
+        @Override
+        public boolean checkNull(int i)
+        {
+            if(i >= 0 && i < magics.length)
+            {
+                return magics[i] == null;
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public void set(int i, Loot loot)
+        {
+            if(i >= 0 && i < magics.length)
+            {
+                if(loot == null)
+                {
+                    throw new IllegalArgumentException();
+                }
+                
+                magics[i] = loot.getMagicLoot();
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+        
+    }
+
 }

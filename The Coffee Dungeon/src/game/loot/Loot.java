@@ -60,4 +60,14 @@ public class Loot
             throw new IllegalArgumentException();
         }
     }
+    
+    public String getLootName()
+    {
+        return loot.getName();
+    }
+    
+    public String getLootDesc()
+    {
+        return loot.getDesc();
+    }
 }

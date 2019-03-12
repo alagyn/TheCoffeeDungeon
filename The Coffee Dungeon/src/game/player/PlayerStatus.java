@@ -2,13 +2,13 @@ package game.player;
 
 public class PlayerStatus
 {
-    public final int health, mana, armor;
+    public final String health, mana, armor;
     
     public PlayerStatus(int health, int mana, int armor)
     {
         if(health >= 0)
         {
-            this.health = health;
+            this.health = "" + health;
         }
         else
         {
@@ -17,7 +17,7 @@ public class PlayerStatus
         
         if(mana >= 0)
         {
-            this.mana = mana;
+            this.mana = "" + mana;
         }
         else
         {
@@ -26,7 +26,7 @@ public class PlayerStatus
         
         if(armor >= 0)
         {
-            this.armor = armor;
+            this.armor = "" + armor;
         }
         else
         {
