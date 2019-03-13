@@ -101,32 +101,6 @@ public class Player
         return magicArray.get(idx);
     }
     
-    /**
-     * Sets the magic at the index
-     * @param idx the index
-     * @param magic the new magic
-     */
-    public boolean setMagics(int idx, Magic magic)
-    {
-        boolean output = true;
-        
-        for(int i = 0; i < magics.length; i++)
-        {
-            if(magics[i].equals(magic))
-            {
-                output = false;
-                break;
-            }
-        }
-        
-        if(output)
-        {
-            this.magics[idx] = magic;
-        }
-        
-        return output;
-    }
-    
     //Items////////
     
     /**
@@ -136,35 +110,9 @@ public class Player
      */
     public Item getItem(int idx)
     {
-        return items[idx];
+        return itemArray.get(idx);
     }
     
-    /**
-     * Sets the item at the index
-     * @param idx the index
-     * @param item the item
-     */
-    public boolean setItems(int idx, Item item)
-    {
-        boolean output = true;
-        
-        for(int i = 0; i < items.length; i++)
-        {
-            if(items[i] != null && items[i].equals(item))
-            {
-                output = false;
-                break;
-            }
-        }
-        
-        if(output)
-        {
-            this.items[idx] = item;
-        }
-        
-        return output;
-    }
-
     //Gold
     /**
      * Returns the player's gold
@@ -247,29 +195,19 @@ public class Player
         return maxMana;
     }
 
-    public void removeItem(int idx)
-    {
-        items[idx] = null;
-    }
-    
-    public void removeMagic(int idx)
-    {
-        magics[idx] = null;
-    }
-
     public String[] getItemNames()
     {
         String[] output = new String[INV_LENGTH];
         
         for(int i = 0; i < output.length; i++)
         {
-            if(items[i] == null)
+            if(itemArray.get(i) == null)
             {
                 output[i] = "";
             }
             else
             {
-                output[i] = items[i].getName();
+                output[i] = itemArray.get(i).getName();
             }
         }
         
@@ -282,13 +220,13 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            if(items[i] == null)
+            if(itemArray.get(i) == null)
             {
                 output[i] = "";
             }
             else
             {
-                output[i] = items[i].getDesc();
+                output[i] = itemArray.get(i).getDesc();
             }
         }
         
@@ -301,13 +239,13 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            if(magics[i] == null)
+            if(magicArray.get(i) == null)
             {
                 output[i] = "";
             }
             else
             {
-                output[i] = magics[i].getName();
+                output[i] = magicArray.get(i).getName();
             }
             
         }
@@ -321,13 +259,13 @@ public class Player
         
         for(int i = 0; i < output.length; i++)
         {
-            if(magics[i] == null)
+            if(magicArray.get(i) == null)
             {
                 output[i] = "";
             }
             else
             {
-                output[i] = magics[i].getDesc();
+                output[i] = magicArray.get(i).getDesc();
             }
         }
         
@@ -337,19 +275,16 @@ public class Player
     
     public void cooldowns()
     {
-        for(Item n : items)
+        for(int i = 0; i < INV_LENGTH; i++)
         {
-            if(n != null)
+            if(itemArray.get(i) != null)
             {
-                n.cooldown();
+                itemArray.get(i).cooldown();
             }
-        }
-        
-        for(Magic n : magics)
-        {
-            if(n != null)
+            
+            if(magicArray.get(i) != null)
             {
-                n.cooldown();
+                magicArray.get(i).cooldown();
             }
         }
     }
@@ -401,14 +336,14 @@ public class Player
         }
     }
 
-    public Item[] getItemArray()
+    public ItemArray getItemArray()
     {
-        return items;
+        return itemArray;
     }
     
-    public Magic[] getMagicArray()
+    public MagicArray getMagicArray()
     {
-        return magics;
+        return magicArray;
     }
     
     public void damageWithArmor(int damage)
@@ -429,6 +364,7 @@ public class Player
     public interface UsableArray
     {
         boolean checkNull(int i);
+        boolean available(int i);
         void set(int i, Loot loot);
     }
     
@@ -491,6 +427,26 @@ public class Player
                 throw new IndexOutOfBoundsException();
             }
         }
+
+        @Override
+        public boolean available(int i)
+        {
+            if(i >= 0 && i < INV_LENGTH)
+            {
+                boolean output = false;
+                
+                if(items[i] != null)
+                {
+                    output = items[i].available();
+                }
+                
+                return output;
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
     }
     
     private class MagicArray implements UsableArray
@@ -545,6 +501,26 @@ public class Player
                 }
                 
                 magics[i] = loot.getMagicLoot();
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public boolean available(int i)
+        {
+            if(i >= 0 && i < INV_LENGTH)
+            {
+                boolean output = false;
+                
+                if(magics[i] != null)
+                {
+                    output = magics[i].available(); 
+                }
+                
+                return output;
             }
             else
             {

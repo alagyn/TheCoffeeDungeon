@@ -4,8 +4,9 @@ import game.Game;
 import game.loot.Completion;
 import game.loot.Loot;
 import game.player.Player;
+import game.player.Player.UsableArray;
 import game.player.PlayerStatus;
-import objects.abstracts.usables.Usable;
+import objects.abstracts.usables.Usable.LootType;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -44,9 +45,7 @@ public class GameGUI extends JFrame implements ActionListener
     private MagicGUI magicGUI;
     private RoomGUI roomGUI;
     
-    private ItemLootGUI itemLootGUI;
-    private MagicLootGUI magicLootGUI;
-    private WeaponLootGUI weaponLootGUI;
+    private LootGUI lootGUI;
     
     private JPanel playStats;
     private JButton btnOne;
@@ -209,9 +208,7 @@ public class GameGUI extends JFrame implements ActionListener
         magicGUI = new MagicGUI();
         roomGUI = new RoomGUI();
         
-        weaponLootGUI = new WeaponLootGUI();
-        itemLootGUI = new ItemLootGUI();
-        magicLootGUI = new MagicLootGUI();
+        lootGUI = new LootGUI();
         
         newGame();
     }
@@ -338,7 +335,7 @@ public class GameGUI extends JFrame implements ActionListener
             addLog("You defeated the " + Game.getCurrentMonsterName());
             Game.getInst().giveLoot();
             
-            startLootGUI(Game.getInst().getCurrentloot().type);
+            startLootGUI(Game.getInst().getCurrentloot());
             
             /*
              * MAYBE Allow spells/items between rooms
@@ -477,31 +474,16 @@ public class GameGUI extends JFrame implements ActionListener
         gui.setUp();   
     }
     
-    private void startLootGUI(Usable.LootType type)
+    private void startLootGUI(Loot loot)
     {
-        if(type != null)
+        if(loot.type == LootType.NONE)
         {
-            switch(type)
-            {
-                case WEAPON:
-                    weaponLootGUI.setLoot(Game.getInst().getCurrentloot());
-                    startGUI(weaponLootGUI);
-                    break;
-                    
-                case ITEM:
-                    itemLootGUI.setLoot(Game.getInst().getCurrentloot());
-                    startGUI(itemLootGUI);
-                    break;
-                    
-                case MAGIC:
-                    magicLootGUI.setLoot(Game.getInst().getCurrentloot());
-                    startGUI(magicLootGUI);
-                    break;
-                    
-                case NONE:
-                    nextRooms();
-                    break;
-            }
+            nextRooms();
+        }
+        else
+        {
+            lootGUI.setLoot(loot);
+            startGUI(lootGUI);
         }
     }
     
@@ -742,12 +724,11 @@ public class GameGUI extends JFrame implements ActionListener
     
         //TOGUI Magic/item cooldown counter
         
-        public void enableFields(Usable[] usable)
+        public void enableFields(UsableArray usable)
         {
             for(int i = 0; i < btns.length; i++)
             {
-                boolean avail = usable[i] != null
-                        && usable[i].available();
+                boolean avail = !usable.checkNull(i) && usable.available(i);
                 
                 btns[i].setEnabled(avail);
                 descFields[i].setEnabled(avail);
@@ -830,7 +811,6 @@ public class GameGUI extends JFrame implements ActionListener
             setVisible(true);
         }
 
-        
         @Override
         public void activate(int i)
         {
@@ -904,14 +884,17 @@ public class GameGUI extends JFrame implements ActionListener
     
     private class LootGUI extends SelectionGUI
     {
+        private static final String itemMessage = "Item";
+        private static final String magicMessage = "Magic";
+        
         private JTextArea lootName, lootDesc;
 
         private Loot loot;
         private JPanel lootPanel;
         
-        public LootGUI(String title)
+        public LootGUI()
         {
-            super(title);
+            super("");
             
             setSize(400, 200);
             setLayout(new GridLayout(4, 1));
@@ -940,10 +923,10 @@ public class GameGUI extends JFrame implements ActionListener
             
         }
         
-        public void setLootDesc(String name, String desc)
+        public void setLootDesc()
         {
-            lootName.setText(name);
-            lootDesc.setText(desc);
+            lootName.setText(loot.getLootName());
+            lootDesc.setText(loot.getLootDesc());
         }
         
         public boolean replaceMessage(String type)
@@ -970,18 +953,18 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(loot != null)
             {
-                setLootDesc(loot.getLootName(), loot.getLootDesc());
                 this.loot = loot;
+                setLootDesc();
                 
                 switch(loot.type)
                 {
                     case ITEM:
-                        setLootTitle("Item");
+                        setLootTitle(itemMessage);
                         setTitle("Item Loot");
                         break;
                         
                     case MAGIC:
-                        setLootTitle("Magic");
+                        setLootTitle(magicMessage);
                         setTitle("Magic Loot");
                         break;
                         
@@ -1012,18 +995,28 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 Player p = Game.getInst().getPlayer();
                 
-                UsableArray u;
+                UsableArray a;
+                String message;
                 
-                switch (loot.type)
+                switch(loot.type)
                 {
-                    
-                    default:
+                    case ITEM:
+                        a = p.getItemArray();
+                        message = itemMessage;
                         break;
+                        
+                    case MAGIC:
+                        a = p.getMagicArray();
+                        message = magicMessage;
+                        break;
+                        
+                    default:
+                        throw new IllegalArgumentException("Invalid LootGUI start");
                 }
                 
-                if(p.getMagic(i) != null)
+                if(!a.checkNull(i))
                 {
-                    change = replaceMessage("Magic");
+                    change = replaceMessage(message);
                 }
                 else
                 {
@@ -1032,78 +1025,53 @@ public class GameGUI extends JFrame implements ActionListener
 
                 if(change)
                 {
-                    p.removeMagic(i);
-                    p.setMagics(i, loot.getMagicLoot());
+                    a.set(i, loot);
+                    closeWindow();
+                    nextRooms();
                 }
             }
             
-            if(change)
-            {
-                closeWindow();
-                nextRooms();
-            }
         }
 
-        
-        @Override
         public void setUp()
         {
-            // TODO Auto-generated method stub
+            boolean item = false;
             
+            switch (loot.type)
+            {
+                case ITEM:
+                    setLootTitle(itemMessage);
+                    item = true;
+                    break;
+
+                case MAGIC:
+                    setLootTitle(magicMessage);
+                    break;
+                    
+                default:
+                    throw new IllegalArgumentException();
+            }
+            
+            Player p = Game.getInst().getPlayer();
+            
+            if(item)
+            {
+                setDesc(p.getItemDescs());
+                setBtnLabels(p.getItemNames());
+            }
+            else
+            {
+                setDesc(p.getMagicDescs());
+                setBtnLabels(p.getMagicNames());
+            }
+            
+            setLootDesc();
+            
+            
+            
+            setVisible(true);
         }
 
 
     }
-    
-    private class ItemLootGUI extends LootGUI
-    {
-        public ItemLootGUI()
-        {
-            super("Item loot");
-            
-            setVisible(true);
-        }
-        
-        @Override
-        public void activate(int i)
-        {
-            boolean change = false;
-            
-            if(i >= 0)
-            {
-                if(Game.getInst().getPlayer().getItem(i) != null)
-                {
-                    change = replaceMessage("Item");
-                }
-                else
-                {
-                    change = true;
-                }
-
-                if(change)
-                {
-                    Game.getInst().getPlayer().removeItem(i);
-                    Game.getInst().getPlayer().setItems(i, getLoot().getItemLoot());
-                }
-            }
-            
-            if(change)
-            {
-                closeWindow();
-                nextRooms();
-            }
-        }
-        
-        @Override
-        public void setUp()
-        {
-            setBtnLabels(Game.getInst().getPlayer().getItemNames());
-            
-            setVisible(true);
-            enableBtns(false);
-        }
-        
-    }
-
-    
 }

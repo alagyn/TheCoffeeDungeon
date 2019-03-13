@@ -184,7 +184,6 @@ public class Game
         instance.currentMonster.damage(damage);
     }
 
-    
     public void giveLoot()
     {
         currentLoot = dungeon.getCurrentRoom().giveLoot();
@@ -264,7 +263,6 @@ public class Game
         
         return output;
     }
-
 
     public String[] getManaCosts()
     {
