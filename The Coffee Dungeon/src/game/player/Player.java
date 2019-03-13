@@ -1,5 +1,6 @@
 package game.player;
 
+import game.loot.Completion;
 import game.loot.Loot;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
@@ -96,11 +97,12 @@ public class Player
      * @param idx the index
      * @return the magic
      */
+    /*
     public Magic getMagic(int idx)
     {
         return magicArray.get(idx);
     }
-    
+    */
     //Items////////
     
     /**
@@ -361,11 +363,27 @@ public class Player
         addMana(manaRegen);
     }
 
+    public String[] getManaCosts()
+    {
+        String[] output = {"", "", ""};
+        
+        for(int i = 0; i < INV_LENGTH; i++)
+        {
+            if(!magicArray.checkNull(i))
+            {
+                output[i] += magicArray.get(i).getCost() + " mana";
+            }
+        }
+        
+        return output;
+    }
+    
     public interface UsableArray
     {
         boolean checkNull(int i);
         boolean available(int i);
         void set(int i, Loot loot);
+        Completion use(int i);
     }
     
     private class ItemArray implements UsableArray
@@ -376,7 +394,7 @@ public class Player
         {
             if(items.length == INV_LENGTH)
             {
-                this.items = items;
+                this.items = items.clone();
             }
             else
             {
@@ -447,6 +465,19 @@ public class Player
                 throw new IndexOutOfBoundsException();
             }
         }
+
+        @Override
+        public Completion use(int i)
+        {
+            if(i >= 0 && i < INV_LENGTH)
+            {
+                return items[i].activate();
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
     }
     
     private class MagicArray implements UsableArray
@@ -469,7 +500,7 @@ public class Player
         {
             if(magics.length == INV_LENGTH)
             {
-                this.magics = magics;
+                this.magics = magics.clone();
             }
             else
             {
@@ -527,7 +558,25 @@ public class Player
                 throw new IndexOutOfBoundsException();
             }
         }
+
+        @Override
+        public Completion use(int i)
+        {
+            if(i >= 0 && i < INV_LENGTH)
+            {
+                return magics[i].activate();
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
         
+    }
+
+    public Completion useMagic(int idx)
+    {
+        return magicArray.use(idx);
     }
 
 }

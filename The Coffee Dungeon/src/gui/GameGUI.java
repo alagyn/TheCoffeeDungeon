@@ -802,7 +802,7 @@ public class GameGUI extends JFrame implements ActionListener
         public void setUp()
         {
             Player p = Game.getInst().getPlayer();
-            setUseFields(Game.getInst().getManaCosts());
+            setUseFields(Game.getInst().getPlayer().getManaCosts());
             
             setBtnLabels(p.getMagicNames());
             setDesc(p.getMagicDescs());

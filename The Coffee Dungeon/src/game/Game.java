@@ -128,7 +128,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return player.getMagic(idx).activate();
+            return player.useMagic(idx);
         }
         else
         {
@@ -258,21 +258,6 @@ public class Game
             else
             {
                 output[i] = player.getItem(i).getRemainingUses() + " remaining uses";
-            }
-        }
-        
-        return output;
-    }
-
-    public String[] getManaCosts()
-    {
-        String[] output = { "", "", ""};
-        
-        for(int i = 0; i < output.length; i++)
-        {
-            if(player.getMagic(i) != null)
-            {
-                output[i] = player.getMagic(i).getCost() + " mana";
             }
         }
         
