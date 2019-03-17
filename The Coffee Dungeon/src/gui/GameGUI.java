@@ -47,6 +47,8 @@ public class GameGUI extends JFrame implements ActionListener
     
     private LootGUI lootGUI;
     
+    private NewGameGUI newGameGUI;
+    
     private JPanel playStats;
     private JButton btnOne;
     private JButton btnTwo;
@@ -209,6 +211,8 @@ public class GameGUI extends JFrame implements ActionListener
         roomGUI = new RoomGUI();
         
         lootGUI = new LootGUI();
+        
+        newGameGUI = new NewGameGUI();
         
         newGame();
     }
@@ -464,7 +468,9 @@ public class GameGUI extends JFrame implements ActionListener
         Game.getInst().newGame();
         
         resetLog(true);
-        //TOGUI New game menu
+
+        newGameGUI.start();
+        //TODO Move to NewGameGUI
         startGUI(roomGUI);
     }
 
@@ -1073,5 +1079,44 @@ public class GameGUI extends JFrame implements ActionListener
         }
 
 
+    }
+
+    private class NewGameGUI extends JFrame implements ActionListener
+    {
+        //TOGUI New game menu
+        public NewGameGUI()
+        {
+            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            setSize(300, 300);
+            setLayout(new GridLayout(3, 1));
+            
+            ImageIcon icon = new ImageIcon("projectDocs/BDD_Logo.png");
+            Image image = icon.getImage();
+            Image newImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(newImage);
+            
+            JLabel labelIcon = new JLabel(icon);
+            
+            add(labelIcon);
+            
+            JLabel label = new JLabel("The Coffee Dungeon");
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            
+            add(label);
+            
+            setVisible(true);
+        }
+        
+        public void start()
+        {
+            //TODO NewGameGUI start()
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event)
+        {
+            //TODO NewGameGUI actions
+        }
+        
     }
 }
