@@ -1,5 +1,7 @@
 TheCoffeeDungeon  
 ================
+<img src="https://github.com/alagyn/TheCoffeeDungeon/blob/master/The%20Coffee%20Dungeon/projectDocs/CoffeeDungeonLogo.png" alt="Coffee Dungeon Logo" width=150>
+
 The sequel to my hit game, The Dungeon: a slightly  
 terrible console based text game written in C++, but now  
 resurrected with dark magic in Java. It will include many
