@@ -5,7 +5,6 @@ import objects.abstracts.Monster;
 import objects.abstracts.Room;
 import objects.monsters.*;
 import objects.usables.items.HealPotion;
-import objects.usables.magics.FireBall;
 
 public class Armory extends Room
 {

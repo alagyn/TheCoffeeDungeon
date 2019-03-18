@@ -65,7 +65,7 @@ public class GameGUI extends JFrame implements ActionListener
     /**Lines allowed in log*/
     private static final int LOG_LINES = 6;
     /**Window size and location*/
-    private static final int X = 50, Y = 50, WIN_WIDTH = 600, WIN_HEIGHT = 500;
+    private static final int X = 50, Y = 50, WIN_WIDTH = 500, WIN_HEIGHT = 400;
     
     private ArrayList<String> logText;
     
@@ -198,7 +198,7 @@ public class GameGUI extends JFrame implements ActionListener
         add(top);
         add(playStats);
         
-        setVisible(true);
+        setVisible(false);
         ////
         
         secondAction = false;
@@ -448,7 +448,7 @@ public class GameGUI extends JFrame implements ActionListener
         int i = JOptionPane.showOptionDialog(null, "Game Over\nNew Game?", "Game", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, 
                 null, null, null);
         
-        Game.resetCurrentMonster();
+        Game.getInst().resetCurrentMonster();
         
         if(i == JOptionPane.YES_OPTION)
         {
@@ -468,10 +468,8 @@ public class GameGUI extends JFrame implements ActionListener
         Game.getInst().newGame();
         
         resetLog(true);
-
+        visible(false);
         newGameGUI.start();
-        //TODO Move to NewGameGUI
-        startGUI(roomGUI);
     }
 
     private void startGUI(SelectionGUI gui)
@@ -500,10 +498,15 @@ public class GameGUI extends JFrame implements ActionListener
         btnThree.setEnabled(b);
     }
     
-    public void nextRooms()
+    private void nextRooms()
     {
-        Game.resetCurrentMonster();
+        Game.getInst().resetCurrentMonster();
         startGUI(roomGUI);
+    }
+    
+    public void visible(boolean b)
+    {
+        setVisible(b);
     }
     
     private abstract class SelectionGUI extends JFrame implements ActionListener
@@ -524,7 +527,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             super(title);
             setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            setLocation(GameGUI.this.getLocation().x + 600, GameGUI.this.getLocation().y);
+            setLocation(GameGUI.this.getLocation().x + 500, GameGUI.this.getLocation().y);
             
             index = 0;
             
@@ -639,6 +642,12 @@ public class GameGUI extends JFrame implements ActionListener
     private abstract class ActionGUI extends SelectionGUI
     {
         private static final int WIDTH = 500, HEIGHT = 300, INSET = 5;
+        
+        //MAYBE Action Icons
+        /*
+         * Item/Magic icons
+         * 
+         */
         
         public GridBagLayout[] textGBag;
         private JTextArea[] useFields;
@@ -852,18 +861,34 @@ public class GameGUI extends JFrame implements ActionListener
         public RoomGUI()
         {
             super("Rooms");
-            setSize(500, 300);
+            setSize(400, 250);
             
-            setLayout(new GridLayout(3, 2));
+            GridBagLayout layout = new GridBagLayout();
+            
+            setLayout(layout);
+            
+            GridBagConstraints btnC = new GridBagConstraints();
+            btnC.fill = GridBagConstraints.BOTH;
+            btnC.weightx = .8;
+            btnC.weighty = 1;
+            btnC.insets = new Insets(10, 20, 10, 20);
+            
+            GridBagConstraints descC = new GridBagConstraints();
+            descC.gridwidth = GridBagConstraints.REMAINDER;
+            descC.weightx = 1;
+            descC.fill = GridBagConstraints.BOTH;
+            descC.weighty = 1;
+            descC.insets = new Insets(10, 20, 10, 20);
             
             for(int i = 0; i < btns.length; i++)
             {
+                layout.setConstraints(btns[i], btnC);
+                layout.setConstraints(descFields[i], descC);
                 add(btns[i]);
-                add(descFields[i]);
-                
+                add(descFields[i]);    
             }
             
-            setVisible(false);
+            setVisible(true);
         }
         
         @Override
@@ -1083,39 +1108,92 @@ public class GameGUI extends JFrame implements ActionListener
 
     private class NewGameGUI extends JFrame implements ActionListener
     {
-        //TOGUI New game menu
+        private static final String NEWGAME_LOGO = "projectDocs/BDD_Logo.png";
+
+        private JButton startBtn, quitBtn;
+        
         public NewGameGUI()
         {
-            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
             setSize(300, 300);
-            setLayout(new GridLayout(3, 1));
+            setLocation(200, 200);
             
-            ImageIcon icon = new ImageIcon("projectDocs/BDD_Logo.png");
+            GridBagLayout newGameBag = new GridBagLayout();
+            
+            setLayout(newGameBag);
+            
+            ImageIcon icon = new ImageIcon(NEWGAME_LOGO);
             Image image = icon.getImage();
             Image newImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
             icon = new ImageIcon(newImage);
             
-            JLabel labelIcon = new JLabel(icon);
+            JLabel labelIcon = new JLabel("The Coffee Dungeon", icon, JLabel.CENTER);
+            labelIcon.setVerticalTextPosition(JLabel.BOTTOM);
+            labelIcon.setHorizontalTextPosition(JLabel.CENTER);
+            
+            startBtn = new JButton("New Game");
+            quitBtn = new JButton("Quit");
+            
+            startBtn.addActionListener(this);
+            quitBtn.addActionListener(this);
+            
+            GridBagConstraints logoC = new GridBagConstraints();
+            logoC.weightx = 1;
+            logoC.weighty = .5;
+            logoC.fill = GridBagConstraints.BOTH;
+            logoC.gridwidth = GridBagConstraints.REMAINDER;
+            
+            GridBagConstraints btnC = new GridBagConstraints();
+            btnC.weightx = 1;
+            btnC.fill = GridBagConstraints.BOTH;
+            btnC.gridwidth = GridBagConstraints.REMAINDER;
+            btnC.insets = new Insets(5, 50, 5, 50);
+            
+            GridBagConstraints panelC = new GridBagConstraints();
+            panelC.weightx = 1;
+            panelC.weighty = .7;
+            panelC.gridwidth = GridBagConstraints.REMAINDER;
+            
+            JPanel panel = new JPanel();
+            GridBagLayout panelG = new GridBagLayout();
+            panel.setLayout(panelG);
+            
+            panelG.setConstraints(startBtn, btnC);
+            panelG.setConstraints(quitBtn, btnC);
+            
+            panel.add(startBtn);
+            panel.add(quitBtn);
+            
+            panel.setBorder(BorderFactory.createEtchedBorder());
+            
+            newGameBag.setConstraints(labelIcon, logoC);
+            newGameBag.setConstraints(panel, panelC);
             
             add(labelIcon);
+            add(panel);
             
-            JLabel label = new JLabel("The Coffee Dungeon");
-            label.setHorizontalAlignment(SwingConstants.CENTER);
-            
-            add(label);
-            
-            setVisible(true);
+            setVisible(false);
         }
         
         public void start()
         {
-            //TODO NewGameGUI start()
+            setVisible(true);
         }
 
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            //TODO NewGameGUI actions
+            if(event.getSource().equals(quitBtn))
+            {
+                System.exit(0);
+            }
+            else if(event.getSource().equals(startBtn))
+            {
+                //TODO Tutorial
+                startGUI(roomGUI);
+                visible(true);
+                setVisible(false);
+            }
         }
         
     }

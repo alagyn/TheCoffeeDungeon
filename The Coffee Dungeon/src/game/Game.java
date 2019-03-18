@@ -71,7 +71,7 @@ public class Game
         player.cooldowns();
         player.regenMana();
         
-        /* TODO Refactor mana scaling
+        /* TOMAKE Refactor mana scaling
          * More max mana
          * 1-2 per round
          * 3-4 when entering room
@@ -169,9 +169,9 @@ public class Game
         player = new Player();
     }
     
-    public static void resetCurrentMonster()
+    public void resetCurrentMonster()
     {
-        instance.currentMonster.reset();
+        currentMonster.reset();
     }
     
     public static boolean isCurrentAlive()
