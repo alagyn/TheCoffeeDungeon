@@ -305,15 +305,34 @@ public class GameGUI extends JFrame implements ActionListener
         if(index >= 0)
         {
             Game.getInst().setCurrentRoomIndex(index);
-            Game.getInst().nextMonster();
+            boolean next = Game.getInst().nextMonster();
+            
             Game.getInst().getPlayer().regenHealth();
             setPlayerStats();
-            setMonsterStats();
+            
+            if(!next)
+            {
+                if(Game.getInst().monstersAvail())
+                {
+                    throw new NullPointerException("Null monster");
+                }
+                else
+                {
+                    Game.getInst().giveLoot();
+                    startLootGUI(Game.getInst().getCurrentloot());
+                }
+            }
+            else
+            {
+                setMonsterStats();
+            }
         }
         else
         {
             throw new IllegalArgumentException("Invalid index");
         }
+        
+        
         
     }
     
@@ -950,8 +969,7 @@ public class GameGUI extends JFrame implements ActionListener
                 add(p);
                 p.add(btns[i]);
                 p.add(descFields[i]);
-            }
-            
+            }   
         }
         
         public void setLootDesc()
@@ -1061,7 +1079,6 @@ public class GameGUI extends JFrame implements ActionListener
                     nextRooms();
                 }
             }
-            
         }
 
         public void setUp()
@@ -1097,9 +1114,6 @@ public class GameGUI extends JFrame implements ActionListener
             }
             
             setLootDesc();
-            
-            
-            
             setVisible(true);
         }
 

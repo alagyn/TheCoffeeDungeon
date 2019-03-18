@@ -3,8 +3,10 @@ package objects.rooms;
 import game.loot.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
+import objects.abstracts.RoomEvent;
+import objects.events.FindPotion;
 import objects.monsters.*;
-import objects.usables.items.HealPotion;
+
 
 public class Armory extends Room
 {
@@ -17,7 +19,7 @@ public class Armory extends Room
     
     public Armory()
     {
-        super(name, desc, monsters, weights);
+        super(name, desc, monsters, weights, new RoomEvent[] {new FindPotion()}, new double[] {1});
     }
 
     @Override
@@ -28,6 +30,6 @@ public class Armory extends Room
          * player.addArmor();
          * player.addGold(Room.rand(MAX_GOLD));
         */
-        return new Loot(new HealPotion());
+        return startEvent(0);
     }
 }

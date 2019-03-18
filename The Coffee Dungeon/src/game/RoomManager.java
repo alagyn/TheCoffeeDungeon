@@ -6,7 +6,7 @@ import game.loot.Loot;
 import objects.abstracts.*;
 import objects.rooms.*;
 
-public class Dungeon
+public class RoomManager
 {
     /**
      * All of the available rooms
@@ -40,7 +40,7 @@ public class Dungeon
      * Default constructor
      * @param seed The seed for random generation
      */
-    public Dungeon(int seed)
+    public RoomManager(int seed)
     {
         if(seed > 0)
         {
@@ -93,7 +93,7 @@ public class Dungeon
    
     public Room getCurrentRoom()
     {
-        return Dungeon.ROOMS[currentRooms[chosenRoom]];
+        return RoomManager.ROOMS[currentRooms[chosenRoom]];
     }
     
     /**

@@ -18,7 +18,7 @@ public class Player
     private static final Item[] DEF_ITM = {null, new HealPotion(), null};
     
     public static final int INV_LENGTH = 3;
-    public static final int START_MANA = 3;
+    public static final int START_MANA = 1;
     
     public static final int 
         START_HEALTH = 20,
@@ -32,6 +32,11 @@ public class Player
     private MagicArray magicArray;
     private ItemArray itemArray;
     
+    
+    /*
+     * MAYBE Rand percent of armor
+     * differing amounts of damage reduction
+     */
     private int armor;
     
     private int gold;

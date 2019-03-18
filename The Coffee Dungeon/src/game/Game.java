@@ -18,7 +18,7 @@ public class Game
     private Loot currentLoot;
 
     private Player player;
-    private Dungeon dungeon;
+    private RoomManager roomManager;
     
     public enum Status
     {
@@ -30,16 +30,30 @@ public class Game
     /**Default Constructor*/
     private Game()
     {
-        dungeon = new Dungeon(-1);
+        roomManager = new RoomManager(-1);
     }
     
     /**
      * Generates the next monster
      * @return the next random monster
      */
-    public void nextMonster()
+    public boolean nextMonster()
     {
-        instance.currentMonster = dungeon.getCurrentRoom().nextMonster();
+        currentMonster = roomManager.getCurrentRoom().nextMonster();
+        
+        boolean output = true;
+        
+        if(currentMonster == null)
+        {
+            output = false;
+        }
+        
+        return output;
+    }
+    
+    public boolean monstersAvail()
+    {
+        return roomManager.getCurrentRoom().monstersAvail();
     }
 
     /**
@@ -48,7 +62,7 @@ public class Game
      */
     public void setCurrentRoomIndex(int roomIdx)
     {
-        dungeon.setChosenRoom(roomIdx);
+        roomManager.setChosenRoom(roomIdx);
     }
 
     /**
@@ -95,7 +109,7 @@ public class Game
      */
     public String[] getRoomNames()
     {
-        return dungeon.getRoomNames();
+        return roomManager.getRoomNames();
     }
 
     /**
@@ -104,7 +118,7 @@ public class Game
      */
     public String[] getRoomDescs()
     {
-        return dungeon.getRoomDescs();
+        return roomManager.getRoomDescs();
     }
     
     /**
@@ -171,7 +185,10 @@ public class Game
     
     public void resetCurrentMonster()
     {
-        currentMonster.reset();
+        if(currentMonster != null)
+        {
+            currentMonster.reset();
+        }
     }
     
     public static boolean isCurrentAlive()
@@ -186,7 +203,7 @@ public class Game
 
     public void giveLoot()
     {
-        currentLoot = dungeon.getCurrentRoom().giveLoot();
+        currentLoot = roomManager.getCurrentRoom().giveLoot();
     }
     
     public Loot getCurrentloot()
@@ -236,7 +253,7 @@ public class Game
     
     public void nextRooms()
     {
-        dungeon.nextRooms();
+        roomManager.nextRooms();
     }
 
     public String[] getItemUses()

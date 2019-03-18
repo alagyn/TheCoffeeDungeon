@@ -6,23 +6,54 @@ import game.loot.Loot;
 
 public abstract class Room
 {
-    double[] weights;
-    Monster[] monsters;
+    private Monster[] monsters;
+    private double[] monsterWeights;
+    
+    private RoomEvent[] events;
+    private double[] eventWeights;
+    
+    private boolean monstersAvail, eventsAvail;
+    
     private static Random rand = new Random();
     
     private String name;
     private String desc;
     
-    public Room(String name, String desc, Monster[] monsters, double[] weights)
+    //TODO Events
+    //MAYBE Monster based events
+    /*
+     * Event that only happens if a certain monster is killed
+     */
+    
+    public Room(String name, String desc, 
+            Monster[] monsters, double[] monsterWeights, 
+            RoomEvent[] events, double[] eventWeights)
     {
-        if(monsters.length > 0 && weights.length == monsters.length)
+        if((monsters == null && monsterWeights == null) ||
+                ((monsters != null && monsters.length > 0) &&
+                (monsterWeights != null && monsterWeights.length == monsters.length)))
         {
             this.monsters = monsters;
-            this.weights = weights;
+            this.monsterWeights = monsterWeights;
+            
+            monstersAvail = monsters != null;
         }
         else
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid Monsters: " + name);
+        }
+        
+        if((events != null && events.length > 0) &&
+                (eventWeights != null && eventWeights.length == events.length))
+        {
+            this.events = events;
+            this.eventWeights = eventWeights;
+            
+            eventsAvail = events != null;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid Room Events: " + name);
         }
         
         if(name != null && name.length() > 0)
@@ -44,22 +75,34 @@ public abstract class Room
         }
     }
     
+    public Room(String name, String desc, RoomEvent[] events, double[] eventWeights)
+    {
+        this(name, desc, null, null, events, eventWeights);
+    }
+    
     public Monster nextMonster()
     {
-        double sum = 0;
-        double num = rand.nextDouble();
-        int output = -1;
+        Monster output = null;
         
-        for(int i = 0; i < weights.length; i++)
+        if(monsters != null)
         {
-            sum += weights[i];
-            if(num <= sum)
+            double sum = 0;
+            double num = rand.nextDouble();
+            int index = -1;
+            
+            for(int i = 0; i < monsterWeights.length; i++)
             {
-                output = i;
+                sum += monsterWeights[i];
+                if(num <= sum)
+                {
+                    index = i;
+                }
             }
+            
+            output = monsters[index];
         }
         
-        return monsters[output];
+        return output;
     }
     
     public abstract Loot giveLoot();
@@ -72,5 +115,20 @@ public abstract class Room
     public String getDesc()
     {
         return desc;
+    }
+    
+    public boolean monstersAvail()
+    {
+        return monstersAvail;
+    }
+    
+    public boolean eventsAvail()
+    {
+        return eventsAvail;
+    }
+    
+    public Loot startEvent(int idx)
+    {
+        return events[idx].startEvent();
     }
 }
