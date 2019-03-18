@@ -888,7 +888,7 @@ public class GameGUI extends JFrame implements ActionListener
                 add(descFields[i]);    
             }
             
-            setVisible(true);
+            setVisible(false);
         }
         
         @Override
@@ -1108,14 +1108,15 @@ public class GameGUI extends JFrame implements ActionListener
 
     private class NewGameGUI extends JFrame implements ActionListener
     {
-        private static final String NEWGAME_LOGO = "projectDocs/BDD_Logo.png";
+        private static final String NEWGAME_LOGO = "projectDocs/CoffeeDungeonLogo.png";
 
         private JButton startBtn, quitBtn;
         
         public NewGameGUI()
         {
+            super("New Game");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setSize(300, 300);
+            setSize(300, 350);
             setLocation(200, 200);
             
             GridBagLayout newGameBag = new GridBagLayout();
@@ -1124,12 +1125,14 @@ public class GameGUI extends JFrame implements ActionListener
             
             ImageIcon icon = new ImageIcon(NEWGAME_LOGO);
             Image image = icon.getImage();
-            Image newImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            Image newImage = image.getScaledInstance(150, 136, Image.SCALE_DEFAULT);
             icon = new ImageIcon(newImage);
             
             JLabel labelIcon = new JLabel("The Coffee Dungeon", icon, JLabel.CENTER);
             labelIcon.setVerticalTextPosition(JLabel.BOTTOM);
             labelIcon.setHorizontalTextPosition(JLabel.CENTER);
+            
+            labelIcon.setFont(new Font("Lucida Calligraphy",  Font.PLAIN, 20));
             
             startBtn = new JButton("New Game");
             quitBtn = new JButton("Quit");
@@ -1139,7 +1142,7 @@ public class GameGUI extends JFrame implements ActionListener
             
             GridBagConstraints logoC = new GridBagConstraints();
             logoC.weightx = 1;
-            logoC.weighty = .5;
+            logoC.weighty = 1;
             logoC.fill = GridBagConstraints.BOTH;
             logoC.gridwidth = GridBagConstraints.REMAINDER;
             
@@ -1151,7 +1154,7 @@ public class GameGUI extends JFrame implements ActionListener
             
             GridBagConstraints panelC = new GridBagConstraints();
             panelC.weightx = 1;
-            panelC.weighty = .7;
+            panelC.weighty = .3;
             panelC.gridwidth = GridBagConstraints.REMAINDER;
             
             JPanel panel = new JPanel();
