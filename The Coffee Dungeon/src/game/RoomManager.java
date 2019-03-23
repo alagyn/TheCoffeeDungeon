@@ -3,6 +3,7 @@ package game;
 import java.util.*;
 
 import game.loot.Loot;
+import game.util.RandUtil;
 import objects.abstracts.*;
 import objects.rooms.*;
 
@@ -31,10 +32,6 @@ public class RoomManager
      */
     private int[] currentRooms;
     private int chosenRoom;
-    /**
-     * Random generator
-     */
-    private Random rand;
     
     /**
      * Default constructor
@@ -42,18 +39,8 @@ public class RoomManager
      */
     public RoomManager(int seed)
     {
-        if(seed > 0)
-        {
-            rand = new Random(seed);
-        }
-        else
-        {
-            rand = new Random();
-        }
-        
         currentRooms = new int[3];
         chosenRoom = -1;
-        
     }
    
     /**
@@ -72,7 +59,7 @@ public class RoomManager
             do
             {
                 same = false;
-                int gen =  rand.nextInt(ROOMS.length);
+                int gen =  RandUtil.integerRand(ROOMS.length - 1);
                 
                 for(int x = 0; x < currentRooms.length; x++)
                 {

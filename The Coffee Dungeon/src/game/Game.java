@@ -83,6 +83,7 @@ public class Game
         }
         
         player.cooldowns();
+        //TODO call passives
         player.regenMana();
         
         /* TOMAKE Refactor mana scaling
@@ -158,7 +159,7 @@ public class Game
     {
         if(idx >= 0)
         {
-            return player.getItem(idx).activate();
+            return player.useItem(idx);
         }
         else
         {
@@ -226,26 +227,6 @@ public class Game
         return instance;
     }
 
-    public String[] getMagicNames()
-    {
-        return player.getMagicNames();
-    }
-
-    public String[] getMagicDescs()
-    {
-        return player.getMagicDescs();
-    }
-    
-    public String[] getItemNames()
-    {
-        return player.getItemNames();
-    }
-    
-    public String[] getItemDescs()
-    {
-        return player.getItemDescs();
-    }
-
     public Player getPlayer()
     {
         return player;
@@ -256,29 +237,15 @@ public class Game
         roomManager.nextRooms();
     }
 
-    public String[] getItemUses()
+    public String getWeaponName()
     {
-        String[] output = { "", "", ""};
-        
-        for(int i = 0; i < Player.INV_LENGTH; i++)
-        {
-            if(player.getItem(i) == null)
-            {
-                output[i] = null;
-                continue;
-            }
-            
-            if(player.getItem(i).isUlimited())
-            {
-                output[i] = "Unlimited";
-            }
-            else
-            {
-                output[i] = player.getItem(i).getRemainingUses() + " remaining uses";
-            }
-        }
-        
-        return output;
+        return player.getWeapon().getName();
+    }
+    
+    
+    public String getWeaponDesc()
+    {
+        return player.getWeapon().getDesc();
     }
 
 }

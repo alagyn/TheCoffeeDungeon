@@ -7,6 +7,7 @@ import game.player.Player;
 import game.player.Player.UsableArray;
 import game.player.PlayerStatus;
 import objects.abstracts.usables.Usable.LootType;
+import objects.abstracts.usables.weapon.Weapon;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -799,9 +800,11 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            setBtnLabels(Game.getInst().getItemNames());
-            setDesc(Game.getInst().getItemDescs());
-            setUseFields(Game.getInst().getItemUses());
+            Player p = Game.getInst().getPlayer();
+            
+            setBtnLabels(p.getItemNames());
+            setDesc(p.getItemDescs());
+            setUseFields(p.getItemUses());
             
             enableFields(Game.getInst().getPlayer().getItemArray());
             
@@ -884,7 +887,8 @@ public class GameGUI extends JFrame implements ActionListener
             
             GridBagLayout layout = new GridBagLayout();
             
-            setLayout(layout);
+            JPanel panel = new JPanel();
+            panel.setLayout(layout);
             
             GridBagConstraints btnC = new GridBagConstraints();
             btnC.fill = GridBagConstraints.BOTH;
@@ -903,9 +907,12 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 layout.setConstraints(btns[i], btnC);
                 layout.setConstraints(descFields[i], descC);
-                add(btns[i]);
-                add(descFields[i]);    
+                panel.add(btns[i]);
+                panel.add(descFields[i]);    
             }
+            
+            panel.setBorder(BorderFactory.createTitledBorder("Select Next Room"));
+            add(panel);
             
             setVisible(false);
         }
@@ -942,6 +949,11 @@ public class GameGUI extends JFrame implements ActionListener
         private Loot loot;
         private JPanel lootPanel;
         
+        private boolean isWeapon;
+        private boolean isItem;
+        
+        private WLootGUI wLootGUI;
+        
         public LootGUI()
         {
             super("");
@@ -970,6 +982,11 @@ public class GameGUI extends JFrame implements ActionListener
                 p.add(btns[i]);
                 p.add(descFields[i]);
             }   
+            
+            wLootGUI = new WLootGUI();
+            
+            isWeapon = false;
+            isItem = false;
         }
         
         public void setLootDesc()
@@ -1005,11 +1022,15 @@ public class GameGUI extends JFrame implements ActionListener
                 this.loot = loot;
                 setLootDesc();
                 
+                isWeapon = false;
+                isItem = false;
+                
                 switch(loot.type)
                 {
                     case ITEM:
                         setLootTitle(itemMessage);
                         setTitle("Item Loot");
+                        isItem = true;
                         break;
                         
                     case MAGIC:
@@ -1018,7 +1039,7 @@ public class GameGUI extends JFrame implements ActionListener
                         break;
                         
                     case WEAPON:
-                        //TOGUI Weapon Loot GUI
+                        isWeapon = true;
                         break;
                         
                     default:
@@ -1083,29 +1104,16 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void setUp()
         {
-            boolean item = false;
-            
-            switch (loot.type)
-            {
-                case ITEM:
-                    setLootTitle(itemMessage);
-                    item = true;
-                    break;
-
-                case MAGIC:
-                    setLootTitle(magicMessage);
-                    break;
-                    
-                default:
-                    throw new IllegalArgumentException();
-            }
-            
             Player p = Game.getInst().getPlayer();
             
-            if(item)
+            if(isItem)
             {
                 setDesc(p.getItemDescs());
                 setBtnLabels(p.getItemNames());
+            }
+            else if(isWeapon)
+            {
+                wLootGUI.setUp(loot.getWeaponLoot());
             }
             else
             {
@@ -1113,10 +1121,160 @@ public class GameGUI extends JFrame implements ActionListener
                 setBtnLabels(p.getMagicNames());
             }
             
-            setLootDesc();
-            setVisible(true);
+            if(isItem || !isWeapon)
+            {
+                setLootDesc();
+                setVisible(true);
+            }
+            
         }
 
+        private class WLootGUI extends JFrame implements ActionListener
+        {
+
+            private static final int WIDTH = 400, HEIGHT = 300;
+            
+            private JTextArea oldName, oldDesc, newName, newDesc;
+            private JButton yesBtn, noBtn;
+            
+            public WLootGUI()
+            {
+                super("Weapon Loot");
+                setSize(WIDTH, HEIGHT);
+                setLocation(30, 30);
+                setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                
+                oldName = new JTextArea();
+                oldName.setEditable(false);
+                
+                oldDesc = new JTextArea();
+                oldDesc.setEditable(false);
+                
+                newName = new JTextArea();
+                newName.setEditable(false);
+                
+                newDesc = new JTextArea();
+                newDesc.setEditable(false);
+                
+                yesBtn = new JButton("Yes");
+                yesBtn.addActionListener(this);
+                
+                noBtn = new JButton("No");
+                noBtn.addActionListener(this);
+                
+                GridBagLayout gridBag = new GridBagLayout();
+                setLayout(gridBag);
+                
+                JPanel newPanel = new JPanel(), oldPanel = new JPanel(), 
+                        btnPanel = new JPanel();
+                
+                GridBagConstraints lootC = new GridBagConstraints();
+                lootC.fill = GridBagConstraints.BOTH;
+                lootC.gridwidth = GridBagConstraints.REMAINDER;
+                lootC.weighty = 1;
+                lootC.weightx = 1;
+                
+                GridBagConstraints bPanelC = new GridBagConstraints();
+                bPanelC.fill = GridBagConstraints.BOTH;
+                bPanelC.gridwidth = GridBagConstraints.REMAINDER;
+                bPanelC.weighty = 0.7;
+                bPanelC.weightx = 1;
+                
+                gridBag.setConstraints(oldPanel, lootC);
+                gridBag.setConstraints(newPanel, lootC);
+                gridBag.setConstraints(btnPanel, bPanelC);
+                
+                add(oldPanel);
+                add(newPanel);
+                add(btnPanel);
+                
+                oldPanel.setBorder(BorderFactory.createTitledBorder("Current Weapon"));
+                newPanel.setBorder(BorderFactory.createTitledBorder("New Weapon"));
+                btnPanel.setBorder(BorderFactory.createTitledBorder("Replace Current?"));
+                
+                GridBagLayout oldBag = new GridBagLayout();
+                GridBagLayout newBag = new GridBagLayout();
+                GridBagLayout btnBag = new  GridBagLayout();
+                
+                oldPanel.setLayout(oldBag);
+                newPanel.setLayout(newBag);
+                btnPanel.setLayout(btnBag);
+                
+                GridBagConstraints nameC = new GridBagConstraints();
+                nameC.fill = GridBagConstraints.BOTH;
+                nameC.weightx = 0.8;
+                nameC.weighty = 1;
+                nameC.gridheight = 2;
+                nameC.insets = new Insets(5, 5, 5, 5);
+                
+                GridBagConstraints descC = new GridBagConstraints();
+                descC.fill = GridBagConstraints.BOTH;
+                descC.weightx = 1;
+                descC.weighty = 1;
+                descC.gridwidth = GridBagConstraints.REMAINDER;
+                descC.gridheight = 2;
+                descC.insets = new Insets(5, 5, 5, 5);
+                
+                GridBagConstraints btnC = new GridBagConstraints();
+                btnC.fill = GridBagConstraints.BOTH;
+                btnC.weightx = 1;
+                btnC.gridheight = 2;
+                btnC.weighty = 1;
+                btnC.insets = new Insets(10, 25, 10, 25);
+                
+                oldBag.setConstraints(oldName, nameC);
+                oldBag.setConstraints(oldDesc, descC);
+                newBag.setConstraints(newName, nameC);
+                newBag.setConstraints(newDesc, descC);
+                btnBag.setConstraints(yesBtn, btnC);
+                btnBag.setConstraints(noBtn, btnC);
+                
+                oldPanel.add(oldName);
+                oldPanel.add(oldDesc);
+                newPanel.add(newName);
+                newPanel.add(newDesc);
+                btnPanel.add(yesBtn);
+                btnPanel.add(noBtn);
+                
+                oldName.setText("oldN");
+                oldDesc.setText("oldDesc");
+                newName.setText("newName");
+                newDesc.setText("newDesc");
+                
+                setVisible(false);
+            }
+            
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if(e.getSource() == yesBtn)
+                {
+                    Game.getInst().getPlayer().setWeapon(loot.getWeaponLoot());
+                }
+                
+                
+                closeWindow();
+                nextRooms();
+            }
+
+            public void setUp(Weapon w)
+            {
+                oldName.setText(Game.getInst().getWeaponName());
+                oldDesc.setText(Game.getInst().getWeaponDesc());
+                
+                newName.setText(w.getName());
+                newDesc.setText(w.getDesc());
+                
+                setVisible(true);
+            }
+            
+            public void closeWindow()
+            {
+                setVisible(false);
+                enableBtns(true);
+            }
+            
+        }
 
     }
 

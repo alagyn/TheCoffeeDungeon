@@ -1,8 +1,7 @@
 package objects.abstracts;
 
-import java.util.Random;
-
 import game.loot.Loot;
+import game.util.RandUtil;
 
 public abstract class Room
 {
@@ -14,16 +13,8 @@ public abstract class Room
     
     private boolean monstersAvail, eventsAvail;
     
-    private static Random rand = new Random();
-    
     private String name;
     private String desc;
-    
-    //TODO Events
-    //MAYBE Monster based events
-    /*
-     * Event that only happens if a certain monster is killed
-     */
     
     public Room(String name, String desc, 
             Monster[] monsters, double[] monsterWeights, 
@@ -82,27 +73,7 @@ public abstract class Room
     
     public Monster nextMonster()
     {
-        Monster output = null;
-        
-        if(monsters != null)
-        {
-            double sum = 0;
-            double num = rand.nextDouble();
-            int index = -1;
-            
-            for(int i = 0; i < monsterWeights.length; i++)
-            {
-                sum += monsterWeights[i];
-                if(num <= sum)
-                {
-                    index = i;
-                }
-            }
-            
-            output = monsters[index];
-        }
-        
-        return output;
+        return monsters[RandUtil.weightRand(monsterWeights)];
     }
     
     public abstract Loot giveLoot();
@@ -130,5 +101,10 @@ public abstract class Room
     public Loot startEvent(int idx)
     {
         return events[idx].startEvent();
+    }
+    
+    public double[] getEventWeights()
+    {
+        return eventWeights;
     }
 }

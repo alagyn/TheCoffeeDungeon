@@ -2,11 +2,13 @@ package game.player;
 
 import game.loot.Completion;
 import game.loot.Loot;
+import objects.abstracts.usables.PassiveItem;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
 import objects.usables.items.HealPotion;
 import objects.usables.magics.FireBall;
 import objects.usables.weapons.Sword1;
+import java.util.ArrayList;
 
 public class Player
 {
@@ -31,7 +33,7 @@ public class Player
     private Weapon weapon;
     private MagicArray magicArray;
     private ItemArray itemArray;
-    
+    private ArrayList<PassiveItem> passives;
     
     /*
      * MAYBE Rand percent of armor
@@ -50,6 +52,7 @@ public class Player
         this.weapon = DEF_WEP;
         this.magicArray = new MagicArray(DEF_MAG);
         this.itemArray = new ItemArray(DEF_ITM);
+        this.passives = new ArrayList<PassiveItem>();
         this.armor = 1;
         
         maxMana = START_MANA;
@@ -115,10 +118,12 @@ public class Player
      * @param idx the index
      * @return the item
      */
+    /*
     public Item getItem(int idx)
     {
         return itemArray.get(idx);
     }
+    */
     
     //Gold
     /**
@@ -383,6 +388,41 @@ public class Player
         return output;
     }
     
+    public Completion useMagic(int idx)
+    {
+        return magicArray.use(idx);
+    }
+
+    public Completion useItem(int idx)
+    {
+        return itemArray.use(idx);
+    }
+    
+    public String[] getItemUses()
+    {
+        String[] output = { "", "", ""};
+        
+        for(int i = 0; i < Player.INV_LENGTH; i++)
+        {
+            if(itemArray.get(i) == null)
+            {
+                output[i] = null;
+                continue;
+            }
+            
+            if(itemArray.get(i).isUlimited())
+            {
+                output[i] = "Unlimited";
+            }
+            else
+            {
+                output[i] = itemArray.get(i).getRemainingUses() + " remaining uses";
+            }
+        }
+        
+        return output;
+    }
+    
     public interface UsableArray
     {
         boolean checkNull(int i);
@@ -578,10 +618,4 @@ public class Player
         }
         
     }
-
-    public Completion useMagic(int idx)
-    {
-        return magicArray.use(idx);
-    }
-
 }
