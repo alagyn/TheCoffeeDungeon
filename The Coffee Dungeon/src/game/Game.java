@@ -129,6 +129,10 @@ public class Game
     public int attack()
     {
        int damage = player.getWeapon().attack();
+       //TODO call attack passives
+       /*
+        * 
+        */
        damageMonster(damage);
        return damage;
     }
@@ -141,6 +145,7 @@ public class Game
      */
     public Completion magic(int idx)
     {
+        //TODO call magic passives
         if(idx >= 0)
         {
             return player.useMagic(idx);

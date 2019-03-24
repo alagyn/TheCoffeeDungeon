@@ -99,32 +99,6 @@ public class Player
         this.weapon = weapon;
     }
     
-    //Magic
-    /**
-     * Returns the magic at the index
-     * @param idx the index
-     * @return the magic
-     */
-    /*
-    public Magic getMagic(int idx)
-    {
-        return magicArray.get(idx);
-    }
-    */
-    //Items////////
-    
-    /**
-     * Returns the item at the index
-     * @param idx the index
-     * @return the item
-     */
-    /*
-    public Item getItem(int idx)
-    {
-        return itemArray.get(idx);
-    }
-    */
-    
     //Gold
     /**
      * Returns the player's gold
@@ -310,6 +284,11 @@ public class Player
         health -= damage;
     }
     
+    public void damageWithArmor(int damage)
+    {
+        health -= damage - armor;
+    }
+
     /**
      * Checks if the player's health is above zero
      * @return True is health is above zero
@@ -328,6 +307,16 @@ public class Player
         return health;
     }
     
+    public void regenHealth()
+    {
+        addHealth(healthRegen);
+    }
+    
+    public void regenMana()
+    {
+        addMana(manaRegen);
+    }
+
     /**
      * Adds to the current health
      * @param health the health to add
@@ -356,21 +345,6 @@ public class Player
     public MagicArray getMagicArray()
     {
         return magicArray;
-    }
-    
-    public void damageWithArmor(int damage)
-    {
-        health -= damage - armor;
-    }
-    
-    public void regenHealth()
-    {
-        addHealth(healthRegen);
-    }
-    
-    public void regenMana()
-    {
-        addMana(manaRegen);
     }
 
     public String[] getManaCosts()
@@ -421,6 +395,11 @@ public class Player
         }
         
         return output;
+    }
+    
+    public void activatePassives()
+    {
+        
     }
     
     public interface UsableArray
