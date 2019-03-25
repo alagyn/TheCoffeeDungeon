@@ -2,8 +2,8 @@ package game.player;
 
 import game.loot.Completion;
 import game.loot.Loot;
+import objects.abstracts.passives.PassiveItem;
 import objects.abstracts.usables.cooldown.*;
-import objects.abstracts.usables.passives.PassiveItem;
 import objects.abstracts.usables.weapon.Weapon;
 import objects.concretes.usables.items.HealPotion;
 import objects.concretes.usables.magics.FireBall;

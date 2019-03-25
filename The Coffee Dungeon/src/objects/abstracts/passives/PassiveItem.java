@@ -1,4 +1,4 @@
-package objects.abstracts.usables.passives;
+package objects.abstracts.passives;
 
 public abstract class PassiveItem
 {
