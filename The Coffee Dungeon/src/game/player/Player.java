@@ -2,8 +2,8 @@ package game.player;
 
 import game.loot.Completion;
 import game.loot.Loot;
-import objects.abstracts.usables.PassiveItem;
 import objects.abstracts.usables.cooldown.*;
+import objects.abstracts.usables.passives.PassiveItem;
 import objects.abstracts.usables.weapon.Weapon;
 import objects.usables.items.HealPotion;
 import objects.usables.magics.FireBall;
@@ -33,7 +33,7 @@ public class Player
     private Weapon weapon;
     private MagicArray magicArray;
     private ItemArray itemArray;
-    private ArrayList<PassiveItem> passives;
+    private ArrayList<PassiveItem> attackPassives, magicPassives, roundPassives;
     
     /*
      * MAYBE Rand percent of armor
@@ -52,7 +52,11 @@ public class Player
         this.weapon = DEF_WEP;
         this.magicArray = new MagicArray(DEF_MAG);
         this.itemArray = new ItemArray(DEF_ITM);
-        this.passives = new ArrayList<PassiveItem>();
+        
+        this.attackPassives = new ArrayList<PassiveItem>();
+        this.magicPassives = new ArrayList<PassiveItem>();
+        this.roundPassives = new ArrayList<PassiveItem>();
+        
         this.armor = 1;
         
         maxMana = START_MANA;
@@ -397,9 +401,27 @@ public class Player
         return output;
     }
     
-    public void activatePassives()
+    public void addPassive(PassiveItem p)
     {
+        if(p == null)
+        {
+            throw new NullPointerException();
+        }
         
+        switch (p.type)
+        {
+            case ATTACK:
+                attackPassives.add(p);
+                break;
+                
+            case MAGIC:
+                magicPassives.add(p);
+                break;
+                
+            case ROUND:
+                roundPassives.add(p);
+                break;
+        }
     }
     
     public interface UsableArray

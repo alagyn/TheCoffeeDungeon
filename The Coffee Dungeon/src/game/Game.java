@@ -1,6 +1,5 @@
 package game;
 
-import game.loot.Completion;
 import game.loot.Loot;
 import game.player.Player;
 import game.player.PlayerStatus;
@@ -138,41 +137,6 @@ public class Game
     }
     
     /**
-     * Activates the magic at the inventory index
-     * @param idx the index of the magic
-     * @return true if another action is available
-     * @throws IllegalArgumentException when not enough mana
-     */
-    public Completion magic(int idx)
-    {
-        //TODO call magic passives
-        if(idx >= 0)
-        {
-            return player.useMagic(idx);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid index");
-        }
-    }
-    
-    /**
-     * Activates the item at the  inventory index
-     * @param idx the index
-     */
-    public Completion item(int idx)
-    {
-        if(idx >= 0)
-        {
-            return player.useItem(idx);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid index");
-        }
-    }
-    
-    /**
      * Activates a monster attack with the current monster
      * @return The damage done to the player
      */
@@ -217,14 +181,14 @@ public class Game
         return currentLoot;
     }
 
-    public static String getCurrentMonsterName()
+    public String getCurrentMonsterName()
     {
-        return instance.currentMonster.getName();
+        return currentMonster.getName();
     }
 
-    public static String getCurrentMonsterHealth()
+    public String getCurrentMonsterHealth()
     {
-        return "" + instance.currentMonster.getHealth();
+        return "" + currentMonster.getHealth();
     }
 
     public static Game getInst()

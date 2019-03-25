@@ -1,7 +1,5 @@
 package game;
 
-import java.util.*;
-
 import game.loot.Loot;
 import game.util.RandUtil;
 import objects.abstracts.*;

@@ -257,7 +257,7 @@ public class GameGUI extends JFrame implements ActionListener
         if(attack)
         {
             int dmg = Game.getInst().attack();
-            addLog("You hit the " + Game.getCurrentMonsterName() + " for " + dmg);
+            addLog("You hit the " + Game.getInst().getCurrentMonsterName() + " for " + dmg);
             canHaveSecond = false;
             endRound();
         }
@@ -356,7 +356,7 @@ public class GameGUI extends JFrame implements ActionListener
             break;
             
         case WIN:
-            addLog("You defeated the " + Game.getCurrentMonsterName());
+            addLog("You defeated the " + Game.getInst().getCurrentMonsterName());
             Game.getInst().giveLoot();
             
             startLootGUI(Game.getInst().getCurrentloot());
@@ -390,8 +390,8 @@ public class GameGUI extends JFrame implements ActionListener
     private void setMonsterStats()
     {
         
-        monName.setText(Game.getCurrentMonsterName());
-        monHealth.setText(Game.getCurrentMonsterHealth());
+        monName.setText(Game.getInst().getCurrentMonsterName());
+        monHealth.setText(Game.getInst().getCurrentMonsterHealth());
     }
     
     /**
@@ -815,7 +815,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Completion c = Game.getInst().item(i);
+                Completion c = Game.getInst().getPlayer().useItem(i);
                 if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
@@ -855,7 +855,7 @@ public class GameGUI extends JFrame implements ActionListener
             
             if(i >= 0)
             {
-                Completion c = Game.getInst().magic(i);
+                Completion c = Game.getInst().getPlayer().useMagic(i);
                 if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
