@@ -81,8 +81,8 @@ public class Game
             output = Status.LOSE;
         }
         
-        player.cooldowns();
-        //TODO call passives
+        player.allCooldowns();
+        //TODO call round passives
         player.regenMana();
         
         /* TOMAKE Refactor mana scaling

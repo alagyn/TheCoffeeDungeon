@@ -1,4 +1,4 @@
-package objects.rooms;
+package objects.concretes.rooms;
 
 import game.loot.Loot;
 import objects.abstracts.*;

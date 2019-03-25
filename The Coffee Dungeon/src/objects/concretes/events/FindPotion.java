@@ -1,8 +1,8 @@
-package objects.events;
+package objects.concretes.events;
 
 import game.loot.Loot;
 import objects.abstracts.RoomEvent;
-import objects.usables.items.HealPotion;
+import objects.concretes.usables.items.HealPotion;
 
 public class FindPotion extends RoomEvent
 {

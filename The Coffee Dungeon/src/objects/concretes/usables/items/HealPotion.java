@@ -1,4 +1,4 @@
-package objects.usables.items;
+package objects.concretes.usables.items;
 
 import game.Game;
 import game.loot.Completion;

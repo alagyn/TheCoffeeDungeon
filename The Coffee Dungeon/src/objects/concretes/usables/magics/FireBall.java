@@ -1,4 +1,4 @@
-package objects.usables.magics;
+package objects.concretes.usables.magics;
 
 import game.Game;
 import game.loot.Completion;

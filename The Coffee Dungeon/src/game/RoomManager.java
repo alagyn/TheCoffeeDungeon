@@ -3,7 +3,7 @@ package game;
 import game.loot.Loot;
 import game.util.RandUtil;
 import objects.abstracts.*;
-import objects.rooms.*;
+import objects.concretes.rooms.*;
 
 public class RoomManager
 {

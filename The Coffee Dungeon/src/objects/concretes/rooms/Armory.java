@@ -1,12 +1,12 @@
-package objects.rooms;
+package objects.concretes.rooms;
 
 import game.loot.Loot;
 import objects.abstracts.Monster;
 import objects.abstracts.Room;
 import objects.abstracts.RoomEvent;
-import objects.events.FindPotion;
-import objects.monsters.*;
-import objects.usables.weapons.Sword1;
+import objects.concretes.events.FindPotion;
+import objects.concretes.monsters.*;
+import objects.concretes.usables.weapons.Sword1;
 
 public class Armory extends Room
 {

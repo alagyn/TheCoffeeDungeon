@@ -1,4 +1,4 @@
-package objects.usables.weapons;
+package objects.concretes.usables.weapons;
 
 import game.loot.Completion;
 import game.util.RandUtil;

@@ -5,9 +5,10 @@ import game.loot.Loot;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.passives.PassiveItem;
 import objects.abstracts.usables.weapon.Weapon;
-import objects.usables.items.HealPotion;
-import objects.usables.magics.FireBall;
-import objects.usables.weapons.Sword1;
+import objects.concretes.usables.items.HealPotion;
+import objects.concretes.usables.magics.FireBall;
+import objects.concretes.usables.weapons.Sword1;
+
 import java.util.ArrayList;
 
 public class Player
@@ -38,6 +39,9 @@ public class Player
     /*
      * MAYBE Rand percent of armor
      * differing amounts of damage reduction
+     */
+    /*
+     * TODO armor GUI display 
      */
     private int armor;
     
@@ -261,9 +265,8 @@ public class Player
         
         return output;
     }
-
     
-    public void cooldowns()
+    public void allCooldowns()
     {
         for(int i = 0; i < INV_LENGTH; i++)
         {

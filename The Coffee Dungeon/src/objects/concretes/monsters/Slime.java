@@ -1,4 +1,4 @@
-package objects.monsters;
+package objects.concretes.monsters;
 
 import game.Game;
 import gui.GameGUI;
