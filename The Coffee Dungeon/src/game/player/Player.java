@@ -371,6 +371,7 @@ public class Player
     
     public Completion useMagic(int idx)
     {
+        //TODO call magic passives
         return magicArray.use(idx);
     }
 

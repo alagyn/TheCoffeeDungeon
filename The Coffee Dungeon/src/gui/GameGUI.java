@@ -6,10 +6,12 @@ import game.loot.Loot;
 import game.player.Player;
 import game.player.Player.UsableArray;
 import game.player.PlayerStatus;
+
 import objects.abstracts.usables.Usable.LootType;
 import objects.abstracts.usables.weapon.Weapon;
 
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -628,7 +630,7 @@ public class GameGUI extends JFrame implements ActionListener
                     StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
                     doc.setParagraphAttributes(0, doc.getLength(), center, false);
                     
-                    descFields[i].setText("\n" + info[i]);
+                    descFields[i].setText(info[i]);
                 }
             }
             else
@@ -878,8 +880,6 @@ public class GameGUI extends JFrame implements ActionListener
 
     private class RoomGUI extends SelectionGUI
     {
-        //TOGUI RoomGUI
-        
         public RoomGUI()
         {
             super("Rooms");
@@ -909,6 +909,7 @@ public class GameGUI extends JFrame implements ActionListener
                 layout.setConstraints(descFields[i], descC);
                 panel.add(btns[i]);
                 panel.add(descFields[i]);    
+                descFields[i].setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
             }
             
             panel.setBorder(BorderFactory.createTitledBorder("Select Next Room"));
