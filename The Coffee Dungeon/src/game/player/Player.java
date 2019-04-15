@@ -2,7 +2,7 @@ package game.player;
 
 import game.loot.Completion;
 import game.loot.Loot;
-import objects.abstracts.passives.PassiveCompletion;
+
 import objects.abstracts.passives.PassiveItem;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
@@ -373,25 +373,32 @@ public class Player
     public Completion useMagic(int idx)
     {
         Completion c = magicArray.use(idx);
+        if(c.actionCompleted)
+        {
+            int x = useMagPassives(c.damage);
+        }
         return c;
     }
 
-    public void useMagPassives(int damage)
+    public int useMagPassives(int damage)
     {
+        int d = 0;
         for (PassiveItem x : magicPassives)
         {
-            x.activate(damage);
+            d += x.activate(damage);
         }
+        
+        return d;
     }
 
     public int useAtkPassives(int damage)
     {
+        int d = 0;
         for (PassiveItem x : attackPassives)
         {
-            PassiveCompletion c = x.activate(damage);
+            d += x.activate(damage);
         }
         
-        int d = 0;
         return d;
     }
 

@@ -11,7 +11,7 @@ public abstract class PassiveItem
     
     public final PassiveType type;
     
-    public abstract PassiveCompletion activate(int damage);
+    public abstract int activate(int damage);
     
     public PassiveItem(PassiveType type)
     {
