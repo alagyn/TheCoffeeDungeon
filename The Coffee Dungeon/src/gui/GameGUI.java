@@ -294,9 +294,9 @@ public class GameGUI extends JFrame implements ActionListener
     }
     
     /**Generates player damage and adds a log*/
-    private void playerDamage()
+    private int playerDamage()
     {
-        Game.monsterAttack();
+        return Game.getInst().monsterAttack();
     }
     
     /**
@@ -344,8 +344,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        playerDamage();
-        Game.Status status = Game.getInst().combatResolve();
+        Game.Status status = Game.getInst().combatResolve(playerDamage());
         
         switch(status)
         {

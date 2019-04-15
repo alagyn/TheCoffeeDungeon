@@ -63,5 +63,5 @@ public abstract class Monster
         health = maxHealth;
     }
 
-    public abstract void attack();
+    public abstract int attack();
 }

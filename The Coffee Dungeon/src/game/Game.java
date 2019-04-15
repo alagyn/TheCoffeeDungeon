@@ -68,7 +68,7 @@ public class Game
      * Checks if the player and or monster is still alive
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
-    public Status combatResolve()
+    public Status combatResolve(int playerDamage)
     {   
         Status output = Status.NEUTRAL;
 
@@ -82,8 +82,7 @@ public class Game
         }
         
         player.allCooldowns();
-        //TODO get player damage?
-        player.useRoundPassives(0);
+        player.useRoundPassives(playerDamage);
         player.regenMana();
         
         /* TOMAKE Refactor mana scaling
@@ -138,9 +137,9 @@ public class Game
      * Activates a monster attack with the current monster
      * @return The damage done to the player
      */
-    public static void monsterAttack()
+    public int monsterAttack()
     {
-        instance.currentMonster.attack();
+        return currentMonster.attack();
     }
     
     /**
