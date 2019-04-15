@@ -82,7 +82,8 @@ public class Game
         }
         
         player.allCooldowns();
-        //TODO call round passives
+        //TODO get player damage?
+        player.useRoundPassives(0);
         player.regenMana();
         
         /* TOMAKE Refactor mana scaling
@@ -128,10 +129,7 @@ public class Game
     public int attack()
     {
        int damage = player.getWeapon().attack();
-       //TODO call attack passives
-       /*
-        * 
-        */
+       damage += damage + player.useAtkPassives(damage);
        damageMonster(damage);
        return damage;
     }
