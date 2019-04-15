@@ -158,14 +158,14 @@ public class Game
         }
     }
     
-    public static boolean isCurrentAlive()
+    public boolean isCurrentAlive()
     {
-        return instance.currentMonster.isAlive();
+        return currentMonster.isAlive();
     }
 
-    public static void damageMonster(int damage)
+    public void damageMonster(int damage)
     {
-        instance.currentMonster.damage(damage);
+        currentMonster.damage(damage);
     }
 
     public void giveLoot()

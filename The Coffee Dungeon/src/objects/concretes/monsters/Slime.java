@@ -15,11 +15,12 @@ public class Slime extends Monster
     }
 
     @Override
-    public void attack()
+    public int attack()
     {
         //TOMAKE monsters
         Game.getInst().getPlayer().damageWithArmor(5);
         GameGUI.getInst().addLog("Sliiime");
+        return 5;
     }
 
 }

@@ -23,10 +23,9 @@ public class FireBall extends Magic
         Player p = Game.getInst().getPlayer();
         if(available() && p.getMana() >= manaCost)
         {
-            Game.damageMonster(10);
             addCooldown(coolDownTime);
             p.useMana(manaCost);
-            c = new Completion(true, canHaveSecond());
+            c = new Completion(true, canHaveSecond(), 10);
         }
         else
         {

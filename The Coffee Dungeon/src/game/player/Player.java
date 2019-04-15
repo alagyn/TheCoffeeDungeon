@@ -1,5 +1,6 @@
 package game.player;
 
+import game.Game;
 import game.loot.Completion;
 import game.loot.Loot;
 
@@ -372,11 +373,16 @@ public class Player
 
     public Completion useMagic(int idx)
     {
+        //TODO update magic calls
         Completion c = magicArray.use(idx);
+        
         if(c.actionCompleted)
         {
             int x = useMagPassives(c.damage);
+            Game.getInst().damageMonster(c.damage + x);
+            return new Completion(c.actionCompleted, c.canHaveSecond, c.damage + x);
         }
+        
         return c;
     }
 
