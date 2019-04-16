@@ -591,6 +591,17 @@ public class GameGUI extends JFrame implements ActionListener
 
                 descFields[i] = new JTextPane();
                 descFields[i].setEditable(false);
+                
+                StyledDocument doc = descFields[i].getStyledDocument();
+                Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+                doc.addStyle("regular", def);
+                StyleConstants.setFontFamily(def, "SansSerif");
+
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
             }
             setVisible(false);
         }
@@ -633,16 +644,6 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 for(int i = 0; i < info.length; i++)
                 {
-                    StyledDocument doc = descFields[i].getStyledDocument();
-                    Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-
-                    doc.addStyle("regular", def);
-                    StyleConstants.setFontFamily(def, "SansSerif");
-
-                    SimpleAttributeSet center = new SimpleAttributeSet();
-                    StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-                    doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
                     descFields[i].setText(info[i]);
                 }
             }
@@ -771,6 +772,17 @@ public class GameGUI extends JFrame implements ActionListener
 
                 holderPanels[i].add(cooldownFields[i]);
                 holderLayouts[i].last(holderPanels[i]);
+                
+                StyledDocument doc = cooldownFields[i].getStyledDocument();
+                Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+                doc.addStyle("regular", def);
+                StyleConstants.setFontFamily(def, "SansSerif");
+
+                SimpleAttributeSet center = new SimpleAttributeSet();
+                StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                doc.setParagraphAttributes(0, doc.getLength(), center, false);
+                
                 textGBag[i].setConstraints(useFields[i], cUse);
                 textPanels[i].add(useFields[i]);
             }
@@ -795,15 +807,6 @@ public class GameGUI extends JFrame implements ActionListener
                     if(n > 0)
                     {
                         holderLayouts[i].last(holderPanels[i]);
-                        StyledDocument doc = cooldownFields[i].getStyledDocument();
-                        Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-
-                        doc.addStyle("regular", def);
-                        StyleConstants.setFontFamily(def, "SansSerif");
-
-                        SimpleAttributeSet center = new SimpleAttributeSet();
-                        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-                        doc.setParagraphAttributes(0, doc.getLength(), center, false);
 
                         cooldownFields[i].setText("\nCooldown remaining: " + n + " rounds");
                     }
