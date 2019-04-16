@@ -25,7 +25,8 @@ public class FireBall extends Magic
         {
             addCooldown(coolDownTime);
             p.useMana(manaCost);
-            c = new Completion(true, canHaveSecond(), 10);
+            Game.getInst().damageMonster(10);
+            c = new Completion(true, canHaveSecond());
         }
         else
         {

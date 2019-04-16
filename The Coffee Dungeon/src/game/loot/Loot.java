@@ -9,19 +9,19 @@ import objects.abstracts.usables.weapon.Weapon;
 public class Loot
 {
     public final LootType type;
-    private final Usable loot;
+    private final Usable itemLoot;
     
-    public Loot(Usable loot)
+    public Loot(Usable itemLoot)
     {
-        if(loot == null)
+        if(itemLoot == null)
         {
             type = LootType.NONE;
-            this.loot = null;
+            this.itemLoot = null;
         }
         else
         {
-            this.loot = loot;
-            type = loot.getType();
+            this.itemLoot = itemLoot;
+            type = itemLoot.getType();
         }
     }
     
@@ -29,7 +29,7 @@ public class Loot
     {
         if(type == LootType.ITEM)
         {
-            return (Item)loot;
+            return (Item)itemLoot;
         }
         else
         {
@@ -41,7 +41,7 @@ public class Loot
     {
         if(type == LootType.WEAPON)
         {
-            return (Weapon)loot;
+            return (Weapon)itemLoot;
         }
         else
         {
@@ -53,7 +53,7 @@ public class Loot
     {
         if(type == LootType.MAGIC)
         {
-            return (Magic)loot;
+            return (Magic)itemLoot;
         }
         else
         {
@@ -63,11 +63,11 @@ public class Loot
     
     public String getLootName()
     {
-        return loot.getName();
+        return itemLoot.getName();
     }
     
     public String getLootDesc()
     {
-        return loot.getDesc();
+        return itemLoot.getDesc();
     }
 }

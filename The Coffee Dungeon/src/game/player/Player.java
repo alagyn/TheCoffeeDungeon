@@ -1,17 +1,13 @@
 package game.player;
 
-import game.Game;
 import game.loot.Completion;
 import game.loot.Loot;
 
-import objects.abstracts.passives.PassiveItem;
 import objects.abstracts.usables.cooldown.*;
 import objects.abstracts.usables.weapon.Weapon;
 import objects.concretes.usables.items.HealPotion;
 import objects.concretes.usables.magics.FireBall;
 import objects.concretes.usables.weapons.Sword1;
-
-import java.util.ArrayList;
 
 public class Player
 {
@@ -34,7 +30,6 @@ public class Player
     private Weapon weapon;
     private MagicArray magicArray;
     private ItemArray itemArray;
-    private ArrayList<PassiveItem> attackPassives, magicPassives, roundPassives;
 
     /*
      * MAYBE Rand percent of armor differing amounts of damage reduction
@@ -54,10 +49,6 @@ public class Player
         this.magicArray = new MagicArray(DEF_MAG);
         this.itemArray = new ItemArray(DEF_ITM);
 
-        this.attackPassives = new ArrayList<PassiveItem>();
-        this.magicPassives = new ArrayList<PassiveItem>();
-        this.roundPassives = new ArrayList<PassiveItem>();
-
         this.armor = 1;
 
         maxMana = START_MANA;
@@ -75,10 +66,11 @@ public class Player
 
     public void addArmor(int i)
     {
-        if (i > 0)
+        if(i > 0)
         {
             armor += i;
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Invalid armor");
         }
@@ -123,10 +115,11 @@ public class Player
      */
     public void addGold(int gold)
     {
-        if (gold >= 0)
+        if(gold >= 0)
         {
             this.gold += gold;
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Invalid Gold");
         }
@@ -149,14 +142,15 @@ public class Player
      */
     public void addMana(int mana)
     {
-        if (mana >= 0)
+        if(mana >= 0)
         {
             this.mana += mana;
-            if (this.mana > maxMana)
+            if(this.mana > maxMana)
             {
                 this.mana = maxMana;
             }
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Invalid mana amount");
         }
@@ -172,7 +166,7 @@ public class Player
     {
         boolean output = false;
 
-        if (this.mana - mana >= 0)
+        if(this.mana - mana >= 0)
         {
             this.mana -= mana;
             output = true;
@@ -195,12 +189,13 @@ public class Player
     {
         String[] output = new String[INV_LENGTH];
 
-        for (int i = 0; i < output.length; i++)
+        for(int i = 0; i < output.length; i++)
         {
-            if (itemArray.get(i) == null)
+            if(itemArray.get(i) == null)
             {
                 output[i] = "";
-            } else
+            }
+            else
             {
                 output[i] = itemArray.get(i).getName();
             }
@@ -213,12 +208,13 @@ public class Player
     {
         String[] output = new String[INV_LENGTH];
 
-        for (int i = 0; i < output.length; i++)
+        for(int i = 0; i < output.length; i++)
         {
-            if (itemArray.get(i) == null)
+            if(itemArray.get(i) == null)
             {
                 output[i] = "";
-            } else
+            }
+            else
             {
                 output[i] = itemArray.get(i).getDesc();
             }
@@ -231,12 +227,13 @@ public class Player
     {
         String[] output = new String[INV_LENGTH];
 
-        for (int i = 0; i < output.length; i++)
+        for(int i = 0; i < output.length; i++)
         {
-            if (magicArray.get(i) == null)
+            if(magicArray.get(i) == null)
             {
                 output[i] = "";
-            } else
+            }
+            else
             {
                 output[i] = magicArray.get(i).getName();
             }
@@ -250,12 +247,13 @@ public class Player
     {
         String[] output = new String[INV_LENGTH];
 
-        for (int i = 0; i < output.length; i++)
+        for(int i = 0; i < output.length; i++)
         {
-            if (magicArray.get(i) == null)
+            if(magicArray.get(i) == null)
             {
                 output[i] = "";
-            } else
+            }
+            else
             {
                 output[i] = magicArray.get(i).getDesc();
             }
@@ -266,14 +264,14 @@ public class Player
 
     public void allCooldowns()
     {
-        for (int i = 0; i < INV_LENGTH; i++)
+        for(int i = 0; i < INV_LENGTH; i++)
         {
-            if (itemArray.get(i) != null)
+            if(itemArray.get(i) != null)
             {
                 itemArray.get(i).cooldown();
             }
 
-            if (magicArray.get(i) != null)
+            if(magicArray.get(i) != null)
             {
                 magicArray.get(i).cooldown();
             }
@@ -332,14 +330,15 @@ public class Player
      */
     public void addHealth(int health)
     {
-        if (health >= 0)
+        if(health >= 0)
         {
             this.health += health;
-            if (this.health > maxHealth)
+            if(this.health > maxHealth)
             {
                 this.health = maxHealth;
             }
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Invalid health");
         }
@@ -360,9 +359,9 @@ public class Player
         String[] output =
         { "", "", "" };
 
-        for (int i = 0; i < INV_LENGTH; i++)
+        for(int i = 0; i < INV_LENGTH; i++)
         {
-            if (!magicArray.checkNull(i))
+            if(!magicArray.checkNull(i))
             {
                 output[i] += magicArray.get(i).getCost() + " mana";
             }
@@ -373,47 +372,7 @@ public class Player
 
     public Completion useMagic(int idx)
     {
-        //TODO update magic calls
-        Completion c = magicArray.use(idx);
-        
-        if(c.actionCompleted)
-        {
-            int x = useMagPassives(c.damage);
-            Game.getInst().damageMonster(c.damage + x);
-            return new Completion(c.actionCompleted, c.canHaveSecond, c.damage + x);
-        }
-        
-        return c;
-    }
-
-    public int useMagPassives(int damage)
-    {
-        int d = 0;
-        for (PassiveItem x : magicPassives)
-        {
-            d += x.activate(damage);
-        }
-        
-        return d;
-    }
-
-    public int useAtkPassives(int damage)
-    {
-        int d = 0;
-        for (PassiveItem x : attackPassives)
-        {
-            d += x.activate(damage);
-        }
-        
-        return d;
-    }
-
-    public void useRoundPassives(int damage)
-    {
-        for (PassiveItem x : roundPassives)
-        {
-            x.activate(damage);
-        }
+        return magicArray.use(idx);
     }
 
     public Completion useItem(int idx)
@@ -426,18 +385,19 @@ public class Player
         String[] output =
         { "", "", "" };
 
-        for (int i = 0; i < Player.INV_LENGTH; i++)
+        for(int i = 0; i < Player.INV_LENGTH; i++)
         {
-            if (itemArray.get(i) == null)
+            if(itemArray.get(i) == null)
             {
                 output[i] = null;
                 continue;
             }
 
-            if (itemArray.get(i).isUlimited())
+            if(itemArray.get(i).isUlimited())
             {
                 output[i] = "Unlimited";
-            } else
+            }
+            else
             {
                 output[i] = itemArray.get(i).getRemainingUses() + " remaining uses";
             }
@@ -446,34 +406,13 @@ public class Player
         return output;
     }
 
-    public void addPassive(PassiveItem p)
-    {
-        if (p == null)
-        {
-            throw new NullPointerException();
-        }
-
-        switch (p.type)
-        {
-            case ATTACK:
-                attackPassives.add(p);
-                break;
-
-            case MAGIC:
-                magicPassives.add(p);
-                break;
-
-            case ROUND:
-                roundPassives.add(p);
-                break;
-        }
-    }
-
     public interface UsableArray
     {
         boolean checkNull(int i);
 
         boolean available(int i);
+
+        int cooldownCheck(int i);
 
         void set(int i, Loot loot);
 
@@ -486,10 +425,11 @@ public class Player
 
         public ItemArray(Item[] items)
         {
-            if (items.length == INV_LENGTH)
+            if(items.length == INV_LENGTH)
             {
                 this.items = items.clone();
-            } else
+            }
+            else
             {
                 throw new IllegalArgumentException();
             }
@@ -498,10 +438,11 @@ public class Player
         @Override
         public boolean checkNull(int i)
         {
-            if (i >= 0 && i < items.length)
+            if(i >= 0 && i < items.length)
             {
                 return items[i] == null;
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -511,15 +452,16 @@ public class Player
         @Override
         public void set(int i, Loot loot)
         {
-            if (i >= 0 && i < items.length)
+            if(i >= 0 && i < items.length)
             {
-                if (loot == null)
+                if(loot == null)
                 {
                     throw new IllegalArgumentException();
                 }
 
                 items[i] = loot.getItemLoot();
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -527,10 +469,11 @@ public class Player
 
         public Item get(int i)
         {
-            if (i >= 0 && i < items.length)
+            if(i >= 0 && i < items.length)
             {
                 return items[i];
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -539,17 +482,18 @@ public class Player
         @Override
         public boolean available(int i)
         {
-            if (i >= 0 && i < INV_LENGTH)
+            if(i >= 0 && i < INV_LENGTH)
             {
                 boolean output = false;
 
-                if (items[i] != null)
+                if(items[i] != null)
                 {
                     output = items[i].available();
                 }
 
                 return output;
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -558,12 +502,33 @@ public class Player
         @Override
         public Completion use(int i)
         {
-            if (i >= 0 && i < INV_LENGTH)
+            if(i >= 0 && i < INV_LENGTH)
             {
                 return items[i].activate();
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public int cooldownCheck(int i)
+        {
+            if(i >= 0 && i < items.length)
+            {
+                if(items[i] != null)
+                {
+                    return items[i].getCooldown();
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException("Invalid index");
             }
         }
     }
@@ -574,10 +539,11 @@ public class Player
 
         public Magic get(int i)
         {
-            if (i >= 0 && i < magics.length)
+            if(i >= 0 && i < magics.length)
             {
                 return magics[i];
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -585,10 +551,11 @@ public class Player
 
         public MagicArray(Magic[] magics)
         {
-            if (magics.length == INV_LENGTH)
+            if(magics.length == INV_LENGTH)
             {
                 this.magics = magics.clone();
-            } else
+            }
+            else
             {
                 throw new IllegalArgumentException();
             }
@@ -597,10 +564,11 @@ public class Player
         @Override
         public boolean checkNull(int i)
         {
-            if (i >= 0 && i < magics.length)
+            if(i >= 0 && i < magics.length)
             {
                 return magics[i] == null;
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -609,15 +577,16 @@ public class Player
         @Override
         public void set(int i, Loot loot)
         {
-            if (i >= 0 && i < magics.length)
+            if(i >= 0 && i < magics.length)
             {
-                if (loot == null)
+                if(loot == null)
                 {
                     throw new IllegalArgumentException();
                 }
 
                 magics[i] = loot.getMagicLoot();
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -626,17 +595,18 @@ public class Player
         @Override
         public boolean available(int i)
         {
-            if (i >= 0 && i < INV_LENGTH)
+            if(i >= 0 && i < INV_LENGTH)
             {
                 boolean output = false;
 
-                if (magics[i] != null)
+                if(magics[i] != null)
                 {
                     output = magics[i].available();
                 }
 
                 return output;
-            } else
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }
@@ -645,10 +615,31 @@ public class Player
         @Override
         public Completion use(int i)
         {
-            if (i >= 0 && i < INV_LENGTH)
+            if(i >= 0 && i < INV_LENGTH)
             {
                 return magics[i].activate();
-            } else
+            }
+            else
+            {
+                throw new IndexOutOfBoundsException();
+            }
+        }
+
+        @Override
+        public int cooldownCheck(int i)
+        {
+            if(i >= 0 && i < magics.length)
+            {
+                if(magics[i] != null)
+                {
+                    return magics[i].getCooldown();
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
             {
                 throw new IndexOutOfBoundsException();
             }

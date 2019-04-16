@@ -244,27 +244,31 @@ public class GameGUI extends JFrame implements ActionListener
         boolean attack = false, magic = false, item = false;
         canHaveSecond = false;
 
-        if (event.getSource().equals(btnOne))
+        if(event.getSource().equals(btnOne))
         {
             attack = true;
-        } else if (event.getSource().equals(btnTwo))
+        }
+        else if(event.getSource().equals(btnTwo))
         {
             magic = true;
-        } else if (event.getSource().equals(btnThree))
+        }
+        else if(event.getSource().equals(btnThree))
         {
             item = true;
         }
 
-        if (attack)
+        if(attack)
         {
             int dmg = Game.getInst().attack();
             addLog("You hit the " + Game.getInst().getCurrentMonsterName() + " for " + dmg);
             canHaveSecond = false;
             endRound();
-        } else if (magic)
+        }
+        else if(magic)
         {
             startGUI(magicGUI);
-        } else if (item)
+        }
+        else if(item)
         {
             startGUI(itemGUI);
         }
@@ -272,10 +276,11 @@ public class GameGUI extends JFrame implements ActionListener
 
     private void endRound()
     {
-        if (secondAction)
+        if(secondAction)
         {
             secondAction = false;
-        } else
+        }
+        else
         {
             secondAction = canHaveSecond;
         }
@@ -283,7 +288,7 @@ public class GameGUI extends JFrame implements ActionListener
         setPlayerStats();
         setMonsterStats();
 
-        if (!secondAction)
+        if(!secondAction)
         {
             resolve();
         }
@@ -302,7 +307,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newRoom(int index)
     {
-        if (index >= 0)
+        if(index >= 0)
         {
             Game.getInst().setCurrentRoomIndex(index);
             boolean next = Game.getInst().nextMonster();
@@ -310,21 +315,24 @@ public class GameGUI extends JFrame implements ActionListener
             Game.getInst().getPlayer().regenHealth();
             setPlayerStats();
 
-            if (!next)
+            if(!next)
             {
-                if (Game.getInst().monstersAvail())
+                if(Game.getInst().monstersAvail())
                 {
                     throw new NullPointerException("Null monster");
-                } else
+                }
+                else
                 {
                     Game.getInst().giveLoot();
                     startLootGUI(Game.getInst().getCurrentloot());
                 }
-            } else
+            }
+            else
             {
                 setMonsterStats();
             }
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Invalid index");
         }
@@ -338,7 +346,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         Game.Status status = Game.getInst().combatResolve(playerDamage());
 
-        switch (status)
+        switch(status)
         {
             case LOSE:
                 gameOver();
@@ -394,10 +402,11 @@ public class GameGUI extends JFrame implements ActionListener
      */
     public void addLog(String entry)
     {
-        if (logText.size() < LOG_LINES)
+        if(logText.size() < LOG_LINES)
         {
             logText.add(entry);
-        } else
+        }
+        else
         {
             logText.remove(0);
             logText.add(entry);
@@ -413,7 +422,7 @@ public class GameGUI extends JFrame implements ActionListener
     {
         String output = "";
 
-        for (int i = 0; i < logText.size(); i++)
+        for(int i = 0; i < logText.size(); i++)
         {
             output += logText.get(i) + "\n";
         }
@@ -428,7 +437,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resetLog(boolean x)
     {
-        if (x)
+        if(x)
         {
             setLog("");
             logText.clear();
@@ -455,6 +464,7 @@ public class GameGUI extends JFrame implements ActionListener
         JOptionPane.showMessageDialog(null, message);
         System.exit(1);
     }
+    
 
     /**
      * Shows a game over message box
@@ -466,10 +476,11 @@ public class GameGUI extends JFrame implements ActionListener
 
         Game.getInst().resetCurrentMonster();
 
-        if (i == JOptionPane.YES_OPTION)
+        if(i == JOptionPane.YES_OPTION)
         {
             newGame();
-        } else
+        }
+        else
         {
             System.exit(1);
         }
@@ -495,14 +506,16 @@ public class GameGUI extends JFrame implements ActionListener
 
     private void startLootGUI(Loot loot)
     {
-        if (loot.type == LootType.NONE)
+        if(loot.type == LootType.NONE)
         {
             nextRooms();
-        } else
+        }
+        else 
         {
             lootGUI.setLoot(loot);
             startGUI(lootGUI);
         }
+        
     }
 
     private void enableBtns(boolean b)
@@ -534,6 +547,7 @@ public class GameGUI extends JFrame implements ActionListener
         public JButton[] btns;
         public JButton back;
 
+        public CardLayout[] holderLayouts;
         public JPanel[] holderPanels;
         public JPanel[] textPanels;
         public JTextPane[] descFields;
@@ -548,12 +562,12 @@ public class GameGUI extends JFrame implements ActionListener
 
             btns = new JButton[SPACE];
 
-            for (int i = 0; i < btns.length; i++)
+            for(int i = 0; i < btns.length; i++)
             {
                 btns[i] = new JButton();
             }
 
-            for (int i = 0; i < btns.length; i++)
+            for(int i = 0; i < btns.length; i++)
             {
                 btns[i].addActionListener(this);
             }
@@ -563,20 +577,21 @@ public class GameGUI extends JFrame implements ActionListener
 
             textPanels = new JPanel[SPACE];
             holderPanels = new JPanel[SPACE];
+            holderLayouts = new CardLayout[SPACE];
             descFields = new JTextPane[SPACE];
 
-            for (int i = 0; i < textPanels.length; i++)
+            for(int i = 0; i < textPanels.length; i++)
             {
                 textPanels[i] = new JPanel();
 
                 holderPanels[i] = new JPanel();
-                holderPanels[i].setLayout(new CardLayout());
+                holderLayouts[i] = new CardLayout();
+                holderPanels[i].setLayout(holderLayouts[i]);
                 holderPanels[i].add(textPanels[i]);
 
                 descFields[i] = new JTextPane();
                 descFields[i].setEditable(false);
             }
-            //TOGUI CardLayout stuff for cooldowns
             setVisible(false);
         }
 
@@ -584,14 +599,15 @@ public class GameGUI extends JFrame implements ActionListener
         public void actionPerformed(ActionEvent e)
         {
             index = ERROR;
-            if (e.getSource().equals(back))
+            if(e.getSource().equals(back))
             {
                 index = BACK;
-            } else
+            }
+            else
             {
-                for (int i = 0; i < btns.length; i++)
+                for(int i = 0; i < btns.length; i++)
                 {
-                    if (e.getSource().equals(btns[i]))
+                    if(e.getSource().equals(btns[i]))
                     {
                         index = i;
                         break;
@@ -599,7 +615,7 @@ public class GameGUI extends JFrame implements ActionListener
                 }
             }
 
-            if (index != ERROR)
+            if(index != ERROR)
             {
                 activate(index);
                 index = ERROR;
@@ -613,9 +629,9 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void setDesc(String[] info)
         {
-            if (info.length <= SPACE)
+            if(info.length <= SPACE)
             {
-                for (int i = 0; i < info.length; i++)
+                for(int i = 0; i < info.length; i++)
                 {
                     StyledDocument doc = descFields[i].getStyledDocument();
                     Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
@@ -629,7 +645,8 @@ public class GameGUI extends JFrame implements ActionListener
 
                     descFields[i].setText(info[i]);
                 }
-            } else
+            }
+            else
             {
                 throw new IllegalArgumentException();
             }
@@ -637,13 +654,14 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void setBtnLabels(String[] info)
         {
-            if (info.length <= SPACE)
+            if(info.length <= SPACE)
             {
-                for (int i = 0; i < info.length; i++)
+                for(int i = 0; i < info.length; i++)
                 {
                     btns[i].setText(info[i]);
                 }
-            } else
+            }
+            else
             {
                 throw new IllegalArgumentException();
             }
@@ -668,6 +686,7 @@ public class GameGUI extends JFrame implements ActionListener
 
         public GridBagLayout[] textGBag;
         private JTextArea[] useFields;
+        private JTextArea[] cooldownFields;
 
         public ActionGUI(String title)
         {
@@ -702,19 +721,19 @@ public class GameGUI extends JFrame implements ActionListener
             cBack.fill = GridBagConstraints.BOTH;
             cBack.insets = new Insets(10, 150, 10, 150);
 
-            for (int i = 0; i < btns.length; i++)
+            for(int i = 0; i < btns.length; i++)
             {
                 btns[i].setText("Btn: " + i);
                 gBag.setConstraints(btns[i], cBtn);
                 add(btns[i]);
 
-                gBag.setConstraints(textPanels[i], cPanel);
-                add(textPanels[i]);
+                gBag.setConstraints(holderPanels[i], cPanel);
+                add(holderPanels[i]);
             }
 
             textGBag = new GridBagLayout[SPACE];
 
-            for (int i = 0; i < textPanels.length; i++)
+            for(int i = 0; i < textPanels.length; i++)
             {
                 textGBag[i] = new GridBagLayout();
                 textPanels[i].setLayout(textGBag[i]);
@@ -724,6 +743,7 @@ public class GameGUI extends JFrame implements ActionListener
             add(back);
 
             useFields = new JTextArea[SPACE];
+            cooldownFields = new JTextArea[SPACE];
 
             GridBagConstraints cDesc = new GridBagConstraints();
             cDesc.fill = GridBagConstraints.BOTH;
@@ -739,14 +759,18 @@ public class GameGUI extends JFrame implements ActionListener
             cUse.weighty = 1;
             cUse.insets = new Insets(0, 10, 0, 10);
 
-            for (int i = 0; i < textPanels.length; i++)
+            for(int i = 0; i < textPanels.length; i++)
             {
                 textGBag[i].setConstraints(descFields[i], cDesc);
                 textPanels[i].add(descFields[i]);
 
                 useFields[i] = new JTextArea();
                 useFields[i].setEditable(false);
+                cooldownFields[i] = new JTextArea();
+                cooldownFields[i].setEditable(false);
 
+                holderPanels[i].add(cooldownFields[i]);
+                holderLayouts[i].last(holderPanels[i]);
                 textGBag[i].setConstraints(useFields[i], cUse);
                 textPanels[i].add(useFields[i]);
             }
@@ -760,24 +784,40 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void enableFields(UsableArray usable)
         {
-            for (int i = 0; i < btns.length; i++)
+            for(int i = 0; i < btns.length; i++)
             {
                 boolean avail = !usable.checkNull(i) && usable.available(i);
 
                 btns[i].setEnabled(avail);
-                descFields[i].setEnabled(avail);
-                useFields[i].setEnabled(avail);
+                if(!avail)
+                {
+                    int n = usable.cooldownCheck(i);
+                    if(n > 0)
+                    {
+                        holderLayouts[i].last(holderPanels[i]);
+                        cooldownFields[i].setText("Cooldown remaining: " + n + " rounds");
+                    }
+                    descFields[i].setEnabled(avail);
+                    useFields[i].setEnabled(avail);
+                }
+                else
+                {
+                    holderLayouts[i].first(holderPanels[i]);
+                    descFields[i].setEnabled(avail);
+                    useFields[i].setEnabled(avail);
+                }
             }
         }
 
         public void setUseFields(String[] info)
         {
-            for (int i = 0; i < info.length; i++)
+            for(int i = 0; i < info.length; i++)
             {
-                if (info[i] != null)
+                if(info[i] != null)
                 {
                     useFields[i].setText("\n" + info[i]);
-                } else
+                }
+                else
                 {
                     useFields[i].setText("");
                 }
@@ -811,10 +851,10 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void activate(int i)
         {
-            if (i >= 0)
+            if(i >= 0)
             {
                 Completion c = Game.getInst().getPlayer().useItem(i);
-                if (c.actionCompleted)
+                if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
                     endRound();
@@ -851,21 +891,22 @@ public class GameGUI extends JFrame implements ActionListener
         {
             boolean close = true;
 
-            if (i >= 0)
+            if(i >= 0)
             {
                 Completion c = Game.getInst().getPlayer().useMagic(i);
-                if (c.actionCompleted)
+                if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
                     endRound();
-                } else
+                }
+                else
                 {
                     JOptionPane.showMessageDialog(magicGUI, "Not Enough Mana");
                     close = false;
                 }
             }
 
-            if (close)
+            if(close)
             {
                 closeWindow();
             }
@@ -898,7 +939,7 @@ public class GameGUI extends JFrame implements ActionListener
             descC.weighty = 1;
             descC.insets = new Insets(10, 20, 10, 20);
 
-            for (int i = 0; i < btns.length; i++)
+            for(int i = 0; i < btns.length; i++)
             {
                 layout.setConstraints(btns[i], btnC);
                 layout.setConstraints(descFields[i], descC);
@@ -926,7 +967,7 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void activate(int i)
         {
-            if (i >= 0)
+            if(i >= 0)
             {
                 newRoom(i);
             }
@@ -970,7 +1011,7 @@ public class GameGUI extends JFrame implements ActionListener
             lootPanel.add(lootName);
             lootPanel.add(lootDesc);
 
-            for (int i = 0; i < SPACE; i++)
+            for(int i = 0; i < SPACE; i++)
             {
                 JPanel p = new JPanel();
                 p.setLayout(new GridLayout(1, 2));
@@ -994,7 +1035,7 @@ public class GameGUI extends JFrame implements ActionListener
         public boolean replaceMessage(String type)
         {
             boolean output = false;
-            if (type == null || type.length() <= 0)
+            if(type == null || type.length() <= 0)
             {
                 throw new IllegalArgumentException("Invalid LootGUI type string");
             }
@@ -1002,7 +1043,7 @@ public class GameGUI extends JFrame implements ActionListener
             int x = JOptionPane.showOptionDialog(null, "Replace " + type, "Game", JOptionPane.YES_NO_OPTION,
                     JOptionPane.ERROR_MESSAGE, null, null, null);
 
-            if (x == JOptionPane.YES_OPTION)
+            if(x == JOptionPane.YES_OPTION)
             {
                 output = true;
             }
@@ -1012,7 +1053,7 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void setLoot(Loot loot)
         {
-            if (loot != null)
+            if(loot != null)
             {
                 this.loot = loot;
                 setLootDesc();
@@ -1020,7 +1061,7 @@ public class GameGUI extends JFrame implements ActionListener
                 isWeapon = false;
                 isItem = false;
 
-                switch (loot.type)
+                switch(loot.type)
                 {
                     case ITEM:
                         setLootTitle(itemMessage);
@@ -1040,7 +1081,8 @@ public class GameGUI extends JFrame implements ActionListener
                     default:
                         throw new IllegalArgumentException("Invalid Loot GUI start");
                 }
-            } else
+            }
+            else
             {
                 throw new NullPointerException("Null Loot");
             }
@@ -1055,14 +1097,14 @@ public class GameGUI extends JFrame implements ActionListener
         {
             boolean change = false;
 
-            if (i >= 0)
+            if(i >= 0)
             {
                 Player p = Game.getInst().getPlayer();
 
                 UsableArray a;
                 String message;
 
-                switch (loot.type)
+                switch(loot.type)
                 {
                     case ITEM:
                         a = p.getItemArray();
@@ -1078,15 +1120,16 @@ public class GameGUI extends JFrame implements ActionListener
                         throw new IllegalArgumentException("Invalid LootGUI start");
                 }
 
-                if (!a.checkNull(i))
+                if(!a.checkNull(i))
                 {
                     change = replaceMessage(message);
-                } else
+                }
+                else
                 {
                     change = true;
                 }
 
-                if (change)
+                if(change)
                 {
                     a.set(i, loot);
                     closeWindow();
@@ -1099,20 +1142,22 @@ public class GameGUI extends JFrame implements ActionListener
         {
             Player p = Game.getInst().getPlayer();
 
-            if (isItem)
+            if(isItem)
             {
                 setDesc(p.getItemDescs());
                 setBtnLabels(p.getItemNames());
-            } else if (isWeapon)
+            }
+            else if(isWeapon)
             {
                 wLootGUI.setUp(loot.getWeaponLoot());
-            } else
+            }
+            else
             {
                 setDesc(p.getMagicDescs());
                 setBtnLabels(p.getMagicNames());
             }
 
-            if (isItem || !isWeapon)
+            if(isItem || !isWeapon)
             {
                 setLootDesc();
                 setVisible(true);
@@ -1237,7 +1282,7 @@ public class GameGUI extends JFrame implements ActionListener
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                if (e.getSource() == yesBtn)
+                if(e.getSource() == yesBtn)
                 {
                     Game.getInst().getPlayer().setWeapon(loot.getWeaponLoot());
                 }
@@ -1347,10 +1392,11 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            if (event.getSource().equals(quitBtn))
+            if(event.getSource().equals(quitBtn))
             {
                 System.exit(0);
-            } else if (event.getSource().equals(startBtn))
+            }
+            else if(event.getSource().equals(startBtn))
             {
                 // TODO Tutorial
                 startGUI(roomGUI);

@@ -7,6 +7,10 @@ import objects.abstracts.Monster;
 
 public class Game
 {
+    /*
+     * TODO Bosses, win conditions
+     */
+    
     /**
      * Number of rooms per floor
      */
@@ -82,7 +86,6 @@ public class Game
         }
         
         player.allCooldowns();
-        player.useRoundPassives(playerDamage);
         player.regenMana();
         
         /* TOMAKE Refactor mana scaling
@@ -128,7 +131,6 @@ public class Game
     public int attack()
     {
        int damage = player.getWeapon().attack();
-       damage += damage + player.useAtkPassives(damage);
        damageMonster(damage);
        return damage;
     }
