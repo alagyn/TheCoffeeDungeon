@@ -686,7 +686,7 @@ public class GameGUI extends JFrame implements ActionListener
 
         public GridBagLayout[] textGBag;
         private JTextArea[] useFields;
-        private JTextArea[] cooldownFields;
+        private JTextPane[] cooldownFields;
 
         public ActionGUI(String title)
         {
@@ -743,7 +743,7 @@ public class GameGUI extends JFrame implements ActionListener
             add(back);
 
             useFields = new JTextArea[SPACE];
-            cooldownFields = new JTextArea[SPACE];
+            cooldownFields = new JTextPane[SPACE];
 
             GridBagConstraints cDesc = new GridBagConstraints();
             cDesc.fill = GridBagConstraints.BOTH;
@@ -766,7 +766,7 @@ public class GameGUI extends JFrame implements ActionListener
 
                 useFields[i] = new JTextArea();
                 useFields[i].setEditable(false);
-                cooldownFields[i] = new JTextArea();
+                cooldownFields[i] = new JTextPane();
                 cooldownFields[i].setEditable(false);
 
                 holderPanels[i].add(cooldownFields[i]);
@@ -795,7 +795,17 @@ public class GameGUI extends JFrame implements ActionListener
                     if(n > 0)
                     {
                         holderLayouts[i].last(holderPanels[i]);
-                        cooldownFields[i].setText("Cooldown remaining: " + n + " rounds");
+                        StyledDocument doc = cooldownFields[i].getStyledDocument();
+                        Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+
+                        doc.addStyle("regular", def);
+                        StyleConstants.setFontFamily(def, "SansSerif");
+
+                        SimpleAttributeSet center = new SimpleAttributeSet();
+                        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+                        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+
+                        cooldownFields[i].setText("\nCooldown remaining: " + n + " rounds");
                     }
                     descFields[i].setEnabled(avail);
                     useFields[i].setEnabled(avail);
