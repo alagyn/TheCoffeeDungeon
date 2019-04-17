@@ -72,7 +72,7 @@ public class Game
      * Checks if the player and or monster is still alive
      * @return 1 if player win. -1 if player lose, 0 if neither lose
      */
-    public Status combatResolve(int playerDamage)
+    public Status combatResolve()
     {   
         Status output = Status.NEUTRAL;
 

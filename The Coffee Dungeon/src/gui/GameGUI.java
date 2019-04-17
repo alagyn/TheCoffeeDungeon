@@ -33,6 +33,8 @@ public class GameGUI extends JFrame implements ActionListener
 
     private static GameGUI instance = new GameGUI();
 
+    private Game game;
+    
     /** True if an action has already happened */
     private boolean secondAction;
     private boolean canHaveSecond;
@@ -217,6 +219,8 @@ public class GameGUI extends JFrame implements ActionListener
 
         newGameGUI = new NewGameGUI();
 
+        game = Game.getInst();
+        
         newGame();
     }
 
@@ -259,8 +263,8 @@ public class GameGUI extends JFrame implements ActionListener
 
         if(attack)
         {
-            int dmg = Game.getInst().attack();
-            addLog("You hit the " + Game.getInst().getCurrentMonsterName() + " for " + dmg);
+            int dmg = game.attack();
+            addLog("You hit the " + game.getCurrentMonsterName() + " for " + dmg);
             canHaveSecond = false;
             endRound();
         }
@@ -294,12 +298,6 @@ public class GameGUI extends JFrame implements ActionListener
         }
     }
 
-    /** Generates player damage and adds a log */
-    private int playerDamage()
-    {
-        return Game.getInst().monsterAttack();
-    }
-
     /**
      * Sets the room at index to the current rooms
      * 
@@ -309,22 +307,22 @@ public class GameGUI extends JFrame implements ActionListener
     {
         if(index >= 0)
         {
-            Game.getInst().setCurrentRoomIndex(index);
-            boolean next = Game.getInst().nextMonster();
+            game.setCurrentRoomIndex(index);
+            boolean next = game.nextMonster();
 
-            Game.getInst().getPlayer().regenHealth();
+            game.getPlayer().regenHealth();
             setPlayerStats();
 
             if(!next)
             {
-                if(Game.getInst().monstersAvail())
+                if(game.monstersAvail())
                 {
                     throw new NullPointerException("Null monster");
                 }
                 else
                 {
-                    Game.getInst().giveLoot();
-                    startLootGUI(Game.getInst().getCurrentloot());
+                    game.giveLoot();
+                    startLootGUI(game.getCurrentloot());
                 }
             }
             else
@@ -344,7 +342,8 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void resolve()
     {
-        Game.Status status = Game.getInst().combatResolve(playerDamage());
+        game.monsterAttack();
+        Game.Status status = game.combatResolve();
 
         switch(status)
         {
@@ -357,10 +356,10 @@ public class GameGUI extends JFrame implements ActionListener
                 break;
 
             case WIN:
-                addLog("You defeated the " + Game.getInst().getCurrentMonsterName());
-                Game.getInst().giveLoot();
+                addLog("You defeated the " + game.getCurrentMonsterName());
+                game.giveLoot();
 
-                startLootGUI(Game.getInst().getCurrentloot());
+                startLootGUI(game.getCurrentloot());
 
                 /*
                  * MAYBE Allow spells/items between rooms Be able to use healing actions without
@@ -378,7 +377,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void setPlayerStats()
     {
-        PlayerStatus stats = Game.getInst().getPlayerStatus();
+        PlayerStatus stats = game.getPlayerStatus();
 
         playHealth.setText(stats.health);
         playMana.setText(stats.mana);
@@ -391,8 +390,8 @@ public class GameGUI extends JFrame implements ActionListener
     private void setMonsterStats()
     {
 
-        monName.setText(Game.getInst().getCurrentMonsterName());
-        monHealth.setText(Game.getInst().getCurrentMonsterHealth());
+        monName.setText(game.getCurrentMonsterName());
+        monHealth.setText(game.getCurrentMonsterHealth());
     }
 
     /**
@@ -474,7 +473,7 @@ public class GameGUI extends JFrame implements ActionListener
         int i = JOptionPane.showOptionDialog(null, "Game Over\nNew Game?", "Game", JOptionPane.YES_NO_OPTION,
                 JOptionPane.ERROR_MESSAGE, null, null, null);
 
-        Game.getInst().resetCurrentMonster();
+        game.resetCurrentMonster();
 
         if(i == JOptionPane.YES_OPTION)
         {
@@ -491,7 +490,7 @@ public class GameGUI extends JFrame implements ActionListener
      */
     private void newGame()
     {
-        Game.getInst().newGame();
+        game.newGame();
 
         resetLog(true);
         visible(false);
@@ -527,7 +526,7 @@ public class GameGUI extends JFrame implements ActionListener
 
     private void nextRooms()
     {
-        Game.getInst().resetCurrentMonster();
+        game.resetCurrentMonster();
         startGUI(roomGUI);
     }
 
@@ -601,7 +600,6 @@ public class GameGUI extends JFrame implements ActionListener
                 SimpleAttributeSet center = new SimpleAttributeSet();
                 StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
                 doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
             }
             setVisible(false);
         }
@@ -786,14 +784,8 @@ public class GameGUI extends JFrame implements ActionListener
                 textGBag[i].setConstraints(useFields[i], cUse);
                 textPanels[i].add(useFields[i]);
             }
-
         }
-
-        // TOGUI Magic/item cooldown counter
-        /*
-         * Card layout?
-         */
-
+        
         public void enableFields(UsableArray usable)
         {
             for(int i = 0; i < btns.length; i++)
@@ -810,14 +802,11 @@ public class GameGUI extends JFrame implements ActionListener
 
                         cooldownFields[i].setText("\nCooldown remaining: " + n + " rounds");
                     }
-                    descFields[i].setEnabled(avail);
-                    useFields[i].setEnabled(avail);
                 }
                 else
                 {
                     holderLayouts[i].first(holderPanels[i]);
-                    descFields[i].setEnabled(avail);
-                    useFields[i].setEnabled(avail);
+
                 }
             }
         }
@@ -851,13 +840,13 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            Player p = Game.getInst().getPlayer();
+            Player p = game.getPlayer();
 
             setBtnLabels(p.getItemNames());
             setDesc(p.getItemDescs());
             setUseFields(p.getItemUses());
 
-            enableFields(Game.getInst().getPlayer().getItemArray());
+            enableFields(game.getPlayer().getItemArray());
 
             setVisible(true);
         }
@@ -866,7 +855,7 @@ public class GameGUI extends JFrame implements ActionListener
         {
             if(i >= 0)
             {
-                Completion c = Game.getInst().getPlayer().useItem(i);
+                Completion c = game.getPlayer().useItem(i);
                 if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
@@ -889,13 +878,13 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            Player p = Game.getInst().getPlayer();
-            setUseFields(Game.getInst().getPlayer().getManaCosts());
+            Player p = game.getPlayer();
+            setUseFields(game.getPlayer().getManaCosts());
 
             setBtnLabels(p.getMagicNames());
             setDesc(p.getMagicDescs());
 
-            enableFields(Game.getInst().getPlayer().getMagicArray());
+            enableFields(game.getPlayer().getMagicArray());
             setVisible(true);
         }
 
@@ -906,7 +895,7 @@ public class GameGUI extends JFrame implements ActionListener
 
             if(i >= 0)
             {
-                Completion c = Game.getInst().getPlayer().useMagic(i);
+                Completion c = game.getPlayer().useMagic(i);
                 if(c.actionCompleted)
                 {
                     canHaveSecond = c.canHaveSecond;
@@ -970,11 +959,11 @@ public class GameGUI extends JFrame implements ActionListener
         @Override
         public void setUp()
         {
-            setBtnLabels(Game.getInst().getRoomNames());
-            setDesc(Game.getInst().getRoomDescs());
+            setBtnLabels(game.getRoomNames());
+            setDesc(game.getRoomDescs());
             setVisible(true);
 
-            Game.getInst().nextRooms();
+            game.nextRooms();
         }
 
         @Override
@@ -1112,7 +1101,7 @@ public class GameGUI extends JFrame implements ActionListener
 
             if(i >= 0)
             {
-                Player p = Game.getInst().getPlayer();
+                Player p = game.getPlayer();
 
                 UsableArray a;
                 String message;
@@ -1153,7 +1142,7 @@ public class GameGUI extends JFrame implements ActionListener
 
         public void setUp()
         {
-            Player p = Game.getInst().getPlayer();
+            Player p = game.getPlayer();
 
             if(isItem)
             {
@@ -1297,7 +1286,7 @@ public class GameGUI extends JFrame implements ActionListener
             {
                 if(e.getSource() == yesBtn)
                 {
-                    Game.getInst().getPlayer().setWeapon(loot.getWeaponLoot());
+                    game.getPlayer().setWeapon(loot.getWeaponLoot());
                 }
 
                 closeWindow();
@@ -1306,8 +1295,8 @@ public class GameGUI extends JFrame implements ActionListener
 
             public void setUp(Weapon w)
             {
-                oldName.setText(Game.getInst().getWeaponName());
-                oldDesc.setText(Game.getInst().getWeaponDesc());
+                oldName.setText(game.getWeaponName());
+                oldDesc.setText(game.getWeaponDesc());
 
                 newName.setText(w.getName());
                 newDesc.setText(w.getDesc());
@@ -1351,7 +1340,7 @@ public class GameGUI extends JFrame implements ActionListener
             labelIcon.setVerticalTextPosition(JLabel.BOTTOM);
             labelIcon.setHorizontalTextPosition(JLabel.CENTER);
 
-            labelIcon.setFont(new Font("Lucida Calligraphy", Font.PLAIN, 20));
+            labelIcon.setFont(new Font("Sans Serif", Font.PLAIN, 20));
 
             startBtn = new JButton("New Game");
             quitBtn = new JButton("Quit");
